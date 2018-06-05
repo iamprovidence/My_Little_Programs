@@ -130,7 +130,7 @@ namespace SnippetCreation
             xmlWR.WriteStartElement("Code");
             xmlWR.WriteAttributeString("Language", "CSharp");
             
-            xmlWR.WriteValue(string.Concat("<![CDATA[\n", formText(), "\n]]>"));
+            xmlWR.WriteCData(formText());
 
             xmlWR.WriteEndElement();
         }
