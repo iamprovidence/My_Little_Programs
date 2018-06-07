@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,6 +10,7 @@ using System.Xml;
 using System.Windows.Forms;
 using System.Threading;
 using System.IO;
+using System.Reflection;
 
 namespace SnippetCreation
 {
@@ -22,6 +23,13 @@ namespace SnippetCreation
             public string Default;
 
             public string ID => id;
+        }
+        private void TreeView_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            foreach (TreeNode node in e.Node.Nodes) // для кожного дочірнього вузла
+            {
+                node.Checked = e.Node.Checked; // встановлюємо відповідний стан Checked
+            }
         }
         XmlWriter xmlWR;
         XmlReader xmlRE;
@@ -46,24 +54,56 @@ namespace SnippetCreation
             }
         }
         List<Literal> ll = new List<Literal>();
-        Thread t;
         public MainForm()
         {
             InitializeComponent();
-
-            NameSpaceCheckedListBox.Items.AddRange(File.ReadAllLines(@"c:\users\тарас\documents\visual studio 2015\Projects\SnippetCreation\SnippetCreation\Resources\namespace.txt"));
+            
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //t = new Thread(ChangeTextColor);
-            //t.Start();
-            //ChangeTextColor();
+            NamespaceTreeView.BeginUpdate();
+            
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            int rootIndex = 0;
+
+            foreach (Assembly assembly in assemblies)
+            {
+                NamespaceTreeView.Nodes.Add(assembly.GetName().Name);
+                string[] namespaces = assembly.GetTypes().Select(t => t.Namespace).Distinct().ToArray<string>();
+
+                for (int i = 0 ; i < namespaces.Length; ++i)
+                {
+                    if (String.IsNullOrWhiteSpace(namespaces[i])) continue;
+                    NamespaceTreeView.Nodes[rootIndex].Nodes.Add(namespaces[i]);
+                }
+                ++rootIndex;
+                
+            }
+            NamespaceTreeView.EndUpdate();
+
+            //NamespaceTreeView.ExpandAll(); // розгортаємо все дерево
+            NamespaceTreeView.AfterCheck += TreeView_AfterCheck;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // t.Abort();
             this.Close();
+        }
+        private async void InvalidBox(dynamic sender)
+        {
+            await Task.Factory.StartNew(async () =>
+            {
+                int BlueGreen = 180;
+                while (BlueGreen != 255)
+                {
+                    Invoke((Action)delegate
+                    {
+                        sender.BackColor = Color.FromArgb(255, BlueGreen, BlueGreen);
+                    });
+                    ++BlueGreen;
+                    await Task.Delay(25);
+                }
+            });
         }
         private void formSnippet(string xmlFileName)
         {
@@ -129,7 +169,7 @@ namespace SnippetCreation
         {
             xmlWR.WriteStartElement("Code");
             xmlWR.WriteAttributeString("Language", "CSharp");
-            
+
             xmlWR.WriteCData(formText());
 
             xmlWR.WriteEndElement();
@@ -177,23 +217,46 @@ namespace SnippetCreation
                 xmlWR.WriteEndElement();
             }
         }
+
+        private Tuple<List<string>, List<string>> CheckedRootInfo()
+        {
+            List<string> Assembly = new List<string>();
+            List<string> Namespace = new List<string>();
+
+            foreach (TreeNode root in NamespaceTreeView.Nodes)
+            {
+                if (root.Checked)
+                {
+                    Assembly.Add(root.Name);
+                }
+                
+                foreach (TreeNode child in root.Nodes)
+                {
+                    if (child.Checked)
+                    {
+                        Namespace.Add(child.Name);
+                    }
+                }
+            }
+            return Tuple.Create(Assembly, Namespace);
+        }
+
         private void WriteImport(XmlWriter xmlWR)
         {
-            if(NameSpaceCheckedListBox.CheckedItems.Count > 0)
+            Tuple<List<string>, List<string>> info = CheckedRootInfo();
+
+            if (info.Item1.Count + info.Item2.Count > 0) // кількість вибраних елементів 
             {
 
-                string[] NameSpaces = new string[NameSpaceCheckedListBox.CheckedItems.Count];
-                for (int i = 0; i < NameSpaceCheckedListBox.CheckedItems.Count; ++i)
-                {
-                    NameSpaces[i] = NameSpaceCheckedListBox.CheckedItems[i].ToString();
-                }
+                List<string> Assembly = info.Item1;
+                List<string> NameSpaces = info.Item2;
 
                 xmlWR.WriteStartElement("References");
-                for(int i = 0; i < NameSpaces.Length; ++i)
+                for (int i = 0; i < Assembly.Count; ++i)
                 {
                     xmlWR.WriteStartElement("Reference");
                     xmlWR.WriteStartElement("Assembly");
-                    xmlWR.WriteValue(NameSpaces[i] + ".dll");
+                    xmlWR.WriteValue(Assembly[i] + ".dll");
                     xmlWR.WriteEndElement();
                     xmlWR.WriteEndElement();
                 }
@@ -201,7 +264,7 @@ namespace SnippetCreation
 
 
                 xmlWR.WriteStartElement("Imports");
-                for (int i = 0; i < NameSpaces.Length; ++i)
+                for (int i = 0; i < NameSpaces.Count; ++i)
                 {
                     xmlWR.WriteStartElement("Import");
                     xmlWR.WriteStartElement("Namespace");
@@ -279,7 +342,19 @@ namespace SnippetCreation
 
         private void create_btn_Click(object sender, EventArgs e)
         {
-            if(saveFileDialog.ShowDialog() == DialogResult.OK)
+            bool isAllOk = true;
+            if(String.IsNullOrWhiteSpace(ShortcutTextBox.Text))
+            {
+                InvalidBox(ShortcutTextBox);
+                isAllOk &= false;
+            }
+            if (String.IsNullOrWhiteSpace(CodeRichTextBox.Text))
+            {
+                InvalidBox(CodeRichTextBox);
+                isAllOk &= false;
+            }
+
+            if (isAllOk && saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 formSnippet(saveFileDialog.FileName);
             }
