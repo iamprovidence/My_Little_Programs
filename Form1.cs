@@ -33,6 +33,9 @@ namespace SnippetCreation
         }
         XmlWriter xmlWR;
         XmlReader xmlRE;
+
+        string AssembliesFileRoot = @"C:\Users\Тарас\documents\visual studio 2015\Projects\SnippetCreation\SnippetCreation\Resources\A.dat";
+        string NameSpacesFileRoot = @"C:\Users\Тарас\documents\visual studio 2015\Projects\SnippetCreation\SnippetCreation\Resources\N.dat";
         private void ChangeTextColor()
         {
             while(true)
@@ -62,25 +65,28 @@ namespace SnippetCreation
         private void MainForm_Load(object sender, EventArgs e)
         {
             NamespaceTreeView.BeginUpdate();
-            
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            int rootIndex = 0;
 
-            foreach (Assembly assembly in assemblies)
+            using (BinaryReader ReadAssembly  = new BinaryReader(File.OpenRead(AssembliesFileRoot)),
+                                ReadNamespace = new BinaryReader(File.OpenRead(NameSpacesFileRoot)))
             {
-                NamespaceTreeView.Nodes.Add(assembly.GetName().Name);
-                string[] namespaces = assembly.GetTypes().Select(t => t.Namespace).Distinct().ToArray<string>();
+                int rootIndex = 0;
+                int AssemblyCount = ReadAssembly.ReadInt32();
 
-                for (int i = 0 ; i < namespaces.Length; ++i)
+                while (AssemblyCount-- != 0)
                 {
-                    if (String.IsNullOrWhiteSpace(namespaces[i])) continue;
-                    NamespaceTreeView.Nodes[rootIndex].Nodes.Add(namespaces[i]);
-                }
-                ++rootIndex;
-                
-            }
-            NamespaceTreeView.EndUpdate();
+                    NamespaceTreeView.Nodes.Add(ReadAssembly.ReadString());
+                    int NamespacesCount = ReadAssembly.ReadInt32();
 
+                    while (NamespacesCount-- != 0)
+                    { 
+                        NamespaceTreeView.Nodes[rootIndex].Nodes.Add(ReadNamespace.ReadString());
+                    }
+
+                    ++rootIndex;
+                }
+            }
+                        
+            NamespaceTreeView.EndUpdate();
             //NamespaceTreeView.ExpandAll(); // розгортаємо все дерево
             NamespaceTreeView.AfterCheck += TreeView_AfterCheck;
         }
@@ -89,21 +95,21 @@ namespace SnippetCreation
         {
             this.Close();
         }
+
         private async void InvalidBox(dynamic sender)
         {
-            await Task.Factory.StartNew(async () =>
+            if(sender.BackColor.ToArgb() != Color.White.ToArgb())
             {
-                int BlueGreen = 180;
-                while (BlueGreen != 255)
-                {
-                    Invoke((Action)delegate
-                    {
-                        sender.BackColor = Color.FromArgb(255, BlueGreen, BlueGreen);
-                    });
-                    ++BlueGreen;
-                    await Task.Delay(25);
-                }
-            });
+                return;
+            }
+
+            int BlueGreen = 180;
+            while (BlueGreen != 256)
+            {
+                sender.BackColor = Color.FromArgb(255, BlueGreen, BlueGreen);
+                ++BlueGreen;
+                await Task.Delay(25);
+            }
         }
         private void formSnippet(string xmlFileName)
         {
@@ -225,16 +231,13 @@ namespace SnippetCreation
 
             foreach (TreeNode root in NamespaceTreeView.Nodes)
             {
-                if (root.Checked)
-                {
-                    Assembly.Add(root.Name);
-                }
-                
                 foreach (TreeNode child in root.Nodes)
                 {
                     if (child.Checked)
                     {
-                        Namespace.Add(child.Name);
+                        string assemblyName = child.Parent.Text;
+                        if (!Assembly.Contains(assemblyName)) Assembly.Add(assemblyName);
+                        Namespace.Add(child.Text);
                     }
                 }
             }
@@ -243,6 +246,8 @@ namespace SnippetCreation
 
         private void WriteImport(XmlWriter xmlWR)
         {
+            // мультивідображення Dictionary<string, List<string>>;
+            // MultiMap Imports = new MultiMap();
             Tuple<List<string>, List<string>> info = CheckedRootInfo();
 
             if (info.Item1.Count + info.Item2.Count > 0) // кількість вибраних елементів 
@@ -290,14 +295,21 @@ namespace SnippetCreation
 
         private void Add_btn_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(CodeRichTextBox.SelectedText))
+            string selectedValue = CodeRichTextBox.SelectedText.Trim();
+            if (!string.IsNullOrWhiteSpace(selectedValue))
             {
+                
+                // якщо таке слово вже є
+                if (ListBox.NoMatches != LitetalListBox.FindStringExact(selectedValue))
+                {
+                    return;
+                }
 
                 ll.Add(new Literal()
                 {
-                    id = CodeRichTextBox.SelectedText,
-                    toolTip = CodeRichTextBox.SelectedText,
-                    Default = CodeRichTextBox.SelectedText
+                    id = selectedValue,
+                    toolTip = selectedValue,
+                    Default = selectedValue
                 });
 
                 LitetalListBox.DataSource = null;
@@ -305,20 +317,33 @@ namespace SnippetCreation
                 LitetalListBox.DisplayMember = "ID";
 
 
-                /*if (LitetalListBox.Items.Count > 0)
+                if (LitetalListBox.Items.Count > 0)
                 {
                     for (int i = 0; i < LitetalListBox.Items.Count; ++i)
                     {
                         string id = (LitetalListBox.Items[i] as Literal).ID;
-                        //while (CodeRichTextBox.Text.IndexOf(id) != -1)
+
+
+                        string[] str = CodeRichTextBox.Text.Split();
+                        List<int> indexis = new List<int>(5);
+                        int lengthSTR = 0;
+                        for (int j = 0; j < str.Length; ++j)
                         {
-                            CodeRichTextBox.Select(CodeRichTextBox.Text.IndexOf(id), id.Length);
+                            if (str[j].CompareTo(id) == 0)
+                            {
+                                indexis.Add(lengthSTR);
+                            }
+                            lengthSTR += str[j].Length + 1;
+                        }
+                        for (int j = 0; j < indexis.Count; ++j)
+                        {
+
+                            CodeRichTextBox.Select(indexis[j], id.Length);
                             CodeRichTextBox.SelectionColor = Color.Red;
-                            CodeRichTextBox.ForeColor = Color.Black;
                         }
 
                     }
-                }*/
+                }
             }
         }
 
@@ -358,6 +383,19 @@ namespace SnippetCreation
             {
                 formSnippet(saveFileDialog.FileName);
             }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                ReadSnippet(openFileDialog.FileName);
+            }
+        }
+        private void ReadSnippet(string filePath)
+        {
+            xmlRE = XmlReader.Create(filePath); 
+
         }
     }
 }
