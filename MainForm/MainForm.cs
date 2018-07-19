@@ -18,7 +18,7 @@ namespace SnippetCreation
         
 
         // METHODS
-        private async void InvalidBox(dynamic sender)
+        private async void InvalidBox(Control sender)
         {
             // якщо це білий колір, то ...
             if (sender.BackColor.ToArgb() == Color.White.ToArgb())
