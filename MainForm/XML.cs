@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
@@ -80,18 +81,20 @@ namespace SnippetCreation
         }
         private string FormText()
         {
-            string[] IDS = new string[LiteralList.Count];
-            for (int i = 0; i < LiteralList.Count; ++i)
-            {
-                IDS[i] = LiteralList[i].ID;
-            }
-            string text = CodeRichTextBox.Text;
+            string[] IDS = LiteralList.Select(literal => literal.ID).ToArray();
+            string[] text = CodeRichTextBox.Text.Split();
+
             for (int i = 0; i < IDS.Length; ++i)
             {
-                text = text.Replace(IDS[i], String.Concat('$', IDS[i], "$"));
+                for(int j = 0; j < text.Length; ++j)
+                {
+                    if(text[j] == IDS[i])
+                    {
+                        text[j] = String.Concat('$', IDS[i], '$');
+                    }
+                }
             }
-
-            return text;
+            return String.Join(separator: " ", value: text);
         }
         private MultiMap<string,string> CheckedRootInfo()
         {
