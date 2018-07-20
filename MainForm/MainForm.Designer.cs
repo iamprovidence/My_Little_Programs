@@ -1,4 +1,4 @@
-﻿namespace SnippetCreation
+namespace SnippetBuilder
 {
     partial class MainForm
     {
@@ -44,8 +44,6 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.create_btn = new System.Windows.Forms.Button();
@@ -53,37 +51,38 @@
             this.DllAndNamespaceTreeView = new System.Windows.Forms.TreeView();
             this.NamespaceLabel = new System.Windows.Forms.Label();
             this.CodeGroupBox = new System.Windows.Forms.GroupBox();
+            this.Add_btn = new System.Windows.Forms.PictureBox();
+            this.CodeRichTextBox = new System.Windows.Forms.RichTextBox();
             this.ScaleTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.InnerTableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.CodeRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.remove_btn = new System.Windows.Forms.PictureBox();
             this.ChangeELGroupBox = new System.Windows.Forms.GroupBox();
             this.literalColorPanel = new System.Windows.Forms.Panel();
+            this.remove_btn = new System.Windows.Forms.PictureBox();
+            this.LiteralListBox = new System.Windows.Forms.ListBox();
             this.DefaultLabel = new System.Windows.Forms.Label();
             this.ToolTipLabel = new System.Windows.Forms.Label();
             this.IDLabel = new System.Windows.Forms.Label();
             this.DefaultTextBox = new System.Windows.Forms.TextBox();
             this.ToolTipTextBox = new System.Windows.Forms.TextBox();
             this.IdTextBox = new System.Windows.Forms.TextBox();
-            this.LiteralListBox = new System.Windows.Forms.ListBox();
+            this.InnerTableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.InnerTableLayoutPanel21 = new System.Windows.Forms.TableLayoutPanel();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.InnerTableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.InnerTableLayoutPanel21 = new System.Windows.Forms.TableLayoutPanel();
-            this.Add_btn = new System.Windows.Forms.PictureBox();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.headerGroupBox.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.OptionGroupBox.SuspendLayout();
             this.CodeGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Add_btn)).BeginInit();
             this.ScaleTableLayoutPanel.SuspendLayout();
             this.InnerTableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.remove_btn)).BeginInit();
             this.ChangeELGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.remove_btn)).BeginInit();
             this.InnerTableLayoutPanel2.SuspendLayout();
             this.InnerTableLayoutPanel21.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Add_btn)).BeginInit();
             this.SuspendLayout();
             // 
             // headerGroupBox
@@ -197,7 +196,6 @@
             this.openToolStripMenuItem,
             this.toolStripSeparator,
             this.saveToolStripMenuItem,
-            this.saveAsToolStripMenuItem,
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -210,8 +208,9 @@
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "&New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -219,42 +218,24 @@
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(181, 6);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
-            this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.saveToolStripMenuItem.Text = "&Save";
-            // 
-            // saveAsToolStripMenuItem
-            // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.S)));
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.saveAsToolStripMenuItem.Text = "Save as";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            this.toolStripSeparator.Size = new System.Drawing.Size(149, 6);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(181, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -318,6 +299,32 @@
             this.CodeGroupBox.TabStop = false;
             this.CodeGroupBox.Text = "Code";
             // 
+            // Add_btn
+            // 
+            this.Add_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Add_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Add_btn.Image = global::SnippetCreation.Properties.Resources.red_plus_5121;
+            this.Add_btn.Location = new System.Drawing.Point(6, 18);
+            this.Add_btn.Name = "Add_btn";
+            this.Add_btn.Size = new System.Drawing.Size(20, 20);
+            this.Add_btn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Add_btn.TabIndex = 2;
+            this.Add_btn.TabStop = false;
+            this.toolTip.SetToolTip(this.Add_btn, "Add selected text to literal");
+            this.Add_btn.Click += new System.EventHandler(this.Add_btn_Click);
+            // 
+            // CodeRichTextBox
+            // 
+            this.CodeRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CodeRichTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.CodeRichTextBox.Location = new System.Drawing.Point(6, 44);
+            this.CodeRichTextBox.Name = "CodeRichTextBox";
+            this.CodeRichTextBox.Size = new System.Drawing.Size(341, 231);
+            this.CodeRichTextBox.TabIndex = 0;
+            this.CodeRichTextBox.Text = "";
+            // 
             // ScaleTableLayoutPanel
             // 
             this.ScaleTableLayoutPanel.ColumnCount = 2;
@@ -347,32 +354,6 @@
             this.InnerTableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.InnerTableLayoutPanel1.Size = new System.Drawing.Size(242, 337);
             this.InnerTableLayoutPanel1.TabIndex = 0;
-            // 
-            // CodeRichTextBox
-            // 
-            this.CodeRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CodeRichTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.CodeRichTextBox.Location = new System.Drawing.Point(6, 44);
-            this.CodeRichTextBox.Name = "CodeRichTextBox";
-            this.CodeRichTextBox.Size = new System.Drawing.Size(341, 231);
-            this.CodeRichTextBox.TabIndex = 0;
-            this.CodeRichTextBox.Text = "";
-            // 
-            // remove_btn
-            // 
-            this.remove_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.remove_btn.BackgroundImage = global::SnippetCreation.Properties.Resources.remove;
-            this.remove_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.remove_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.remove_btn.Location = new System.Drawing.Point(210, 23);
-            this.remove_btn.Name = "remove_btn";
-            this.remove_btn.Size = new System.Drawing.Size(20, 20);
-            this.remove_btn.TabIndex = 3;
-            this.remove_btn.TabStop = false;
-            this.toolTip.SetToolTip(this.remove_btn, "Remove literal");
-            this.remove_btn.Click += new System.EventHandler(this.Remove_btn_Click);
             // 
             // ChangeELGroupBox
             // 
@@ -404,6 +385,33 @@
             this.literalColorPanel.TabIndex = 7;
             this.toolTip.SetToolTip(this.literalColorPanel, "Set color to literal");
             this.literalColorPanel.Click += new System.EventHandler(this.literalColorPanel_Click);
+            // 
+            // remove_btn
+            // 
+            this.remove_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.remove_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.remove_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.remove_btn.Image = global::SnippetCreation.Properties.Resources.remove1;
+            this.remove_btn.Location = new System.Drawing.Point(210, 23);
+            this.remove_btn.Name = "remove_btn";
+            this.remove_btn.Size = new System.Drawing.Size(20, 20);
+            this.remove_btn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.remove_btn.TabIndex = 3;
+            this.remove_btn.TabStop = false;
+            this.toolTip.SetToolTip(this.remove_btn, "Remove literal");
+            this.remove_btn.Click += new System.EventHandler(this.Remove_btn_Click);
+            // 
+            // LiteralListBox
+            // 
+            this.LiteralListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LiteralListBox.FormattingEnabled = true;
+            this.LiteralListBox.Location = new System.Drawing.Point(6, 108);
+            this.LiteralListBox.Name = "LiteralListBox";
+            this.LiteralListBox.Size = new System.Drawing.Size(224, 56);
+            this.LiteralListBox.TabIndex = 0;
+            this.LiteralListBox.SelectedIndexChanged += new System.EventHandler(this.LitetalListBox_SelectedIndexChanged);
             // 
             // DefaultLabel
             // 
@@ -462,37 +470,6 @@
             this.IdTextBox.TabIndex = 1;
             this.IdTextBox.TextChanged += new System.EventHandler(this.IdTextBox_TextChanged);
             // 
-            // LiteralListBox
-            // 
-            this.LiteralListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LiteralListBox.FormattingEnabled = true;
-            this.LiteralListBox.Location = new System.Drawing.Point(6, 108);
-            this.LiteralListBox.Name = "LiteralListBox";
-            this.LiteralListBox.Size = new System.Drawing.Size(224, 56);
-            this.LiteralListBox.TabIndex = 0;
-            this.LiteralListBox.SelectedIndexChanged += new System.EventHandler(this.LitetalListBox_SelectedIndexChanged);
-            // 
-            // saveFileDialog
-            // 
-            this.saveFileDialog.Filter = "Snippet (*.snippet) | *.snippet";
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog";
-            this.openFileDialog.Filter = "Snippet (*.snippet)| *.snippet";
-            // 
-            // colorDialog
-            // 
-            this.colorDialog.Color = System.Drawing.Color.Red;
-            this.colorDialog.SolidColorOnly = true;
-            // 
-            // toolTip
-            // 
-            this.toolTip.AutomaticDelay = 1000;
-            this.toolTip.IsBalloon = true;
-            // 
             // InnerTableLayoutPanel2
             // 
             this.InnerTableLayoutPanel2.ColumnCount = 1;
@@ -523,18 +500,34 @@
             this.InnerTableLayoutPanel21.Size = new System.Drawing.Size(569, 287);
             this.InnerTableLayoutPanel21.TabIndex = 0;
             // 
-            // Add_btn
+            // saveFileDialog
             // 
-            this.Add_btn.BackgroundImage = global::SnippetCreation.Properties.Resources.red_plus_512;
-            this.Add_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Add_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Add_btn.Location = new System.Drawing.Point(6, 18);
-            this.Add_btn.Name = "Add_btn";
-            this.Add_btn.Size = new System.Drawing.Size(20, 20);
-            this.Add_btn.TabIndex = 2;
-            this.Add_btn.TabStop = false;
-            this.toolTip.SetToolTip(this.Add_btn, "Add selected text to literal");
-            this.Add_btn.Click += new System.EventHandler(this.Add_btn_Click);
+            this.saveFileDialog.Filter = "Snippet (*.snippet) | *.snippet";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "Snippet (*.snippet)| *.snippet";
+            // 
+            // colorDialog
+            // 
+            this.colorDialog.Color = System.Drawing.Color.Red;
+            this.colorDialog.SolidColorOnly = true;
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 1000;
+            this.toolTip.IsBalloon = true;
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
+            this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -559,14 +552,14 @@
             this.OptionGroupBox.ResumeLayout(false);
             this.OptionGroupBox.PerformLayout();
             this.CodeGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Add_btn)).EndInit();
             this.ScaleTableLayoutPanel.ResumeLayout(false);
             this.InnerTableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.remove_btn)).EndInit();
             this.ChangeELGroupBox.ResumeLayout(false);
             this.ChangeELGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.remove_btn)).EndInit();
             this.InnerTableLayoutPanel2.ResumeLayout(false);
             this.InnerTableLayoutPanel21.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Add_btn)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -580,7 +573,6 @@
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.Label ShortcutLabel;
@@ -610,13 +602,12 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.TableLayoutPanel ScaleTableLayoutPanel;
         private System.Windows.Forms.TableLayoutPanel InnerTableLayoutPanel1;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.Panel literalColorPanel;
         private System.Windows.Forms.ColorDialog colorDialog;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.TableLayoutPanel InnerTableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel InnerTableLayoutPanel21;
         private System.Windows.Forms.PictureBox Add_btn;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
     }
 }
-
