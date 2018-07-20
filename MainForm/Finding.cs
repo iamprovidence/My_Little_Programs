@@ -1,8 +1,8 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 
-namespace SnippetCreation
+namespace SnippetBuilder
 {
     // FINDING LITERAL IN TEXT
     public partial class MainForm
