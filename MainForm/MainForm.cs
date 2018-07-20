@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SnippetCreation
+namespace SnippetBuilder
 {
     public partial class MainForm : Form
     {
@@ -38,22 +38,34 @@ namespace SnippetCreation
             colorIndex = (colorIndex == ArrColor.Length - 1) ? 0 : colorIndex + 1;
             return ArrColor[colorIndex];
         }
-            // BTN CLICK
+        private void AddLiteral(string value)
+        {
+            if (!string.IsNullOrWhiteSpace(value) && // якщо це НЕ порожнє слово і ...
+                ListBox.NoMatches == LiteralListBox.FindStringExact(value))// ...такого слова немає в списку, то ...
+            {
+                // ... додаємо
+                LiteralList.Add(new Literal(defaultValueForEach: value, color: NextColor()));
+                LiteralListBox.Items.Add(value);
+            }
+        }
+        private void AddLiteral(Literal value)
+        {
+            if (!string.IsNullOrWhiteSpace(value.ID) && // якщо це НЕ порожнє слово і ...
+                ListBox.NoMatches == LiteralListBox.FindStringExact(value.ID))// ...такого слова немає в списку, то ...
+            {
+                // ... додаємо
+                LiteralList.Add(new Literal(value, color: NextColor()));
+                LiteralListBox.Items.Add(value.ID);
+            }
+        }
+        // BTN CLICK
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
         private void Add_btn_Click(object sender, EventArgs e)
         {
-            string selectedValue = CodeRichTextBox.SelectedText.Trim();
-
-            if (!string.IsNullOrWhiteSpace(selectedValue) && // якщо це НЕ порожнє слово і ...
-                ListBox.NoMatches == LiteralListBox.FindStringExact(selectedValue))// ...такого слова немає в списку, то ...
-            {
-                // ... додаємо
-                LiteralList.Add(new Literal(defaultValueForEach: selectedValue, color: NextColor()));
-                LiteralListBox.Items.Add(selectedValue);
-            }
+            AddLiteral(CodeRichTextBox.SelectedText.Trim());            
         }
         private void Remove_btn_Click(object sender, EventArgs e)
         {
@@ -90,6 +102,7 @@ namespace SnippetCreation
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                CleanUp();
                 ReadSnippet(openFileDialog.FileName);
             }
         }
@@ -139,6 +152,11 @@ namespace SnippetCreation
                     literalColorPanel.BackColor = LiteralList[LiteralListBox.SelectedIndex].Color;
                 }
             }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CleanUp();
         }
     }
 }
