@@ -1,23 +1,40 @@
-﻿using System;
+using System;
+using System.Linq;
 using System.IO;
 using System.Drawing;
+using System.Reflection;
+using System.Windows.Forms;
 
-namespace SnippetCreation
+namespace SnippetBuilder
 {
     public partial class MainForm
     {
         // FIELDS
         string AssembliesFileRoot;
         string NameSpacesFileRoot;
+        string madeWith;
         bool runFinding;
 
         System.Xml.XmlWriter xmlWriter;
-        System.Xml.XmlReader xmlReader;
 
         ListLiteral LiteralList;
 
         Color[] ArrColor;
         int colorIndex;
+
+        // PROPERTIES
+        public string AssemblyProduct
+        {
+            get
+            {
+                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+                if (attributes.Length == 0)
+                {
+                    return "";
+                }
+                return ((AssemblyProductAttribute)attributes[0]).Product;
+            }
+        }
 
         // CTORS
         public MainForm()
@@ -30,6 +47,7 @@ namespace SnippetCreation
             AssembliesFileRoot = AppDomain.CurrentDomain.BaseDirectory + "Resources\\A.dat";
             NameSpacesFileRoot = AppDomain.CurrentDomain.BaseDirectory + "Resources\\N.dat";
             runFinding = true;
+            madeWith = "Made with " + AssemblyProduct;
 
             LiteralList = new ListLiteral();
 
@@ -69,6 +87,26 @@ namespace SnippetCreation
         private void MainForm_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
         {
             runFinding = false;
+        }
+        private void CleanUp()
+        {
+            TitleTextBox.Clear();
+            AuthorTextBox.Clear();
+            DescTextBox.Clear();
+            ShortcutTextBox.Clear();
+
+            IdTextBox.Clear();
+            ToolTipTextBox.Clear();
+            DefaultTextBox.Clear();
+
+            CodeRichTextBox.Clear();
+            LiteralListBox.Items.Clear();
+            LiteralList.Clear();
+
+            foreach(TreeNode tn in DllAndNamespaceTreeView.Nodes)
+            {
+                tn.Checked = false;
+            }
         }
     }
 }
