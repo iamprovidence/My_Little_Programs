@@ -1,7 +1,7 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Collections.Generic;
 
-namespace SnippetCreation
+namespace SnippetBuilder
 {
     class ListLiteral : List<Literal>
     {
@@ -67,12 +67,28 @@ namespace SnippetCreation
             get
             {
                 List<TValue> list = new List<TValue>(valueCount);
-                foreach(SortedSet<TValue> set in basis.Values)
+                foreach (SortedSet<TValue> set in basis.Values)
                 {
                     list.AddRange(set);
                 }
                 return list.Distinct().ToList();
             }
+        }
+        public List<KeyValuePair<TKey, TValue>> Reflection
+        {
+            get
+            {
+                List<KeyValuePair<TKey, TValue>> list = new List<KeyValuePair<TKey, TValue>>(valueCount);
+                foreach(KeyValuePair<TKey, SortedSet<TValue>> node in basis)
+                {
+                    foreach (TValue value in node.Value)
+                    {
+                        list.Add(new KeyValuePair<TKey, TValue>(node.Key, value));
+                    }
+                }
+                return list;
+            }
+
         }
         // METHODS
         public bool ContainsValue(TValue item)
