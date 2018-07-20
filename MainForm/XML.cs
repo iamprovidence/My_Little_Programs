@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace SnippetCreation
+namespace SnippetBuilder
 {
     // XML 
     public partial class MainForm
@@ -15,6 +15,7 @@ namespace SnippetCreation
             xmlWriter = XmlWriter.Create(xmlFileName);
 
             xmlWriter.WriteStartDocument();
+            xmlWriter.WriteComment(madeWith);
 
             xmlWriter.WriteStartElement("CodeSnippets");
             xmlWriter.WriteStartElement("CodeSnippet");
@@ -108,7 +109,7 @@ namespace SnippetCreation
                     if (name.Checked && !multiMap.ContainsValue(name.Text))
                     {
                         // різні бібліотеки можуть містити однакові простори імен
-                        // у файл записуємо лише одмн раз простір імен
+                        // у файл записуємо лише один раз простір імен
                         multiMap[name.Parent.Text] = name.Text;
                     }
                 }
@@ -123,7 +124,7 @@ namespace SnippetCreation
             {
 
                 List<string> Assembly = info.Keys;
-                List<string> NameSpaces = info.Values;
+                List<KeyValuePair<string, string>> NameSpaces = info.Reflection;
 
                 xmlWriter.WriteStartElement("References");
                 for (int i = 0; i < Assembly.Count; ++i)
@@ -141,8 +142,9 @@ namespace SnippetCreation
                 for (int i = 0; i < NameSpaces.Count; ++i)
                 {
                     xmlWriter.WriteStartElement("Import");
+                    xmlWriter.WriteComment(NameSpaces[i].Key);
                     xmlWriter.WriteStartElement("Namespace");
-                    xmlWriter.WriteValue(NameSpaces[i]);
+                    xmlWriter.WriteValue(NameSpaces[i].Value);
                     xmlWriter.WriteEndElement();
                     xmlWriter.WriteEndElement();
                 }
@@ -182,7 +184,74 @@ namespace SnippetCreation
         // READ
         private void ReadSnippet(string filePath)
         {
-            xmlReader = XmlReader.Create(filePath);
+
+            //xmlReader = XmlReader.Create(filePath);
+            Dictionary<string, Control> net = new Dictionary<string, Control>();
+            net.Add("Title", TitleTextBox);
+            net.Add("Author", AuthorTextBox);
+            net.Add("Description", DescTextBox);
+            net.Add("Shortcut", ShortcutTextBox);
+            net.Add("CODE", CodeRichTextBox);
+
+
+            XmlTextReader xReader = new XmlTextReader(filePath);
+
+            while (xReader.Read())
+            {
+                Next:
+                switch (xReader.NodeType)
+                {
+                    #region DllAndNamespace
+                    case XmlNodeType.Comment:
+                        if (xReader.Value == madeWith) continue;
+
+                        foreach (TreeNode node in DllAndNamespaceTreeView.Nodes)
+                        {
+                            if (node.Text == xReader.Value)
+                            {
+
+                                xReader.Read(); xReader.Read();
+                                foreach (TreeNode child in node.Nodes)
+                                {
+                                    if (child.Text == xReader.Value)
+                                    {
+                                        child.Checked = true;
+                                        goto End;
+                                    }
+                                }
+                            }
+                        }
+
+                        End:
+                        break; 
+                    #endregion
+                    case XmlNodeType.Element:
+                        string name = xReader.Name;
+                        if (name == "Literal")
+                        {
+                            AddLiteral(Literal.XmlParse(xReader.ReadInnerXml()));
+                            goto Next;
+                        }
+                        if (net.ContainsKey(name))
+                        {
+                            xReader.Read();
+                            net[name].Text = xReader.Value;
+                        }
+                        break;
+                    case XmlNodeType.CDATA:
+                        string[] code = xReader.Value.Trim().Split();
+                        for (int i = 0; i < code.Length; ++i)
+                        {
+                            if (code[i] != String.Empty && code[i].First() == '$' && code[i].Last() == '$')
+                            {
+                                code[i] = code[i].Substring(1, code[i].Length - 2);
+                            }
+                        }
+                        net["CODE"].Text = System.String.Join(" ", code);
+                        break;
+                }
+            }
+
 
         }
     }
