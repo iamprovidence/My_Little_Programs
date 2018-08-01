@@ -1,0 +1,7 @@
+c:\users\тарас\documents\visual studio 2015\Projects\WordChanger\WordChanger\bin\Debug\WordChanger.exe.config
+C:\Users\Тарас\documents\visual studio 2015\Projects\WordChanger\WordChanger\obj\Debug\WordChanger.csprojResolveAssemblyReference.cache
+C:\Users\Тарас\documents\visual studio 2015\Projects\WordChanger\WordChanger\obj\Debug\WordChanger.MainForm.resources
+C:\Users\Тарас\documents\visual studio 2015\Projects\WordChanger\WordChanger\obj\Debug\WordChanger.Forms.AddRemoveVerbForm.resources
+C:\Users\Тарас\documents\visual studio 2015\Projects\WordChanger\WordChanger\obj\Debug\WordChanger.Properties.Resources.resources
+C:\Users\Тарас\documents\visual studio 2015\Projects\WordChanger\WordChanger\obj\Debug\WordChanger.UserControls.VerbDgv.resources
+C:\Users\Тарас\documents\visual studio 2015\Projects\WordChanger\WordChanger\obj\Debug\WordChanger.csproj.GenerateResource.Cache
