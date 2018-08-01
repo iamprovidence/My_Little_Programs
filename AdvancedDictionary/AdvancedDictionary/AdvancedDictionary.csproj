@@ -209,7 +209,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="book.ico" />
-    <Content Include="README.txt" />
     <Content Include="Resources\Icon\blue_arrow_left.png" />
     <Content Include="Resources\Icon\cross.ico" />
     <Content Include="Resources\Icon\book.ico" />
