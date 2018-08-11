@@ -1,0 +1,1810 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FancyControls</name>
+    </assembly>
+    <members>
+        <member name="T:FancyControls.AbstractControlDescriptionProvider`2">
+            <summary>
+            Provides supplemental metadata to the FancyControls.AbstractControlDescriptor.
+            </summary>
+            <typeparam name="TAbstract">
+            The type of abstract control or form.
+            </typeparam>
+            <typeparam name="TBase">
+            The type of base control for control with type of TAbstract.
+            </typeparam>
+        </member>
+        <member name="M:FancyControls.AbstractControlDescriptionProvider`2.#ctor">
+            <summary>
+            Initializes a new instance of the FancyControls.AbstractControlDescriptionProvider class.
+            </summary>
+        </member>
+        <member name="M:FancyControls.AbstractControlDescriptionProvider`2.GetReflectionType(System.Type,System.Object)">
+            <summary>
+            Performs normal reflection against the given object with the given type.
+            </summary>
+            <param name="objectType">
+            The type of object for which to retrieve the System.Reflection.IReflect.
+            </param>
+            <param name="instance">
+            An instance of the type. Can be null.
+            </param>
+            <returns>
+            The type of reflection for this objectType.
+            </returns>
+        </member>
+        <member name="M:FancyControls.AbstractControlDescriptionProvider`2.CreateInstance(System.IServiceProvider,System.Type,System.Type[],System.Object[])">
+            <summary>
+            Creates an object that can substitute for another data type.
+            </summary>
+            <param name="provider">
+            An optional service provider.
+            </param>
+            <param name="objectType">
+            The type of object to create. This parameter is never null.
+            </param>
+            <param name="argTypes">
+            An optional array of types that represent the parameter types to be passed to
+            the object's constructor. This array can be null or of zero length.
+            </param>
+            <param name="args">
+            An optional array of parameter values to pass to the object's constructor.
+            </param>
+            <returns>
+            The substitute System.Object.
+            </returns>
+        </member>
+        <member name="T:FancyControls.ListCollection`1">
+            <summary>
+            Represents the list collection of items in a FancyControls.
+            </summary>
+        </member>
+        <member name="M:FancyControls.ListCollection`1.#ctor">
+            <summary>
+            Initializes a new instance of namespace FancyControls.ListCollection.
+            </summary>
+        </member>
+        <member name="M:FancyControls.ListCollection`1.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the FancyControls.ListCollection class that
+            is empty and has the specified initial capacity.
+            </summary>
+            <param name="capacity">
+            The number of elements that the new list can initially store.
+            </param>
+            <exception cref="T:System.AssemblyLoadEventArgs">
+            Capacity is less than 0
+            </exception>
+        </member>
+        <member name="M:FancyControls.ListCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the FancyControls.ListCollection class that
+            contains elements copied from the specified collection and has sufficient capacity
+            to accommodate the number of elements copied.
+            </summary>
+            <param name="collection">
+            The collection whose elements are copied to the new list.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            Collection is null.
+            </exception>
+        </member>
+        <member name="T:FancyControls.IndexEventArgs">
+            <summary>
+            Represents the class that contain event data: index of item
+            </summary>
+        </member>
+        <member name="P:FancyControls.IndexEventArgs.Index">
+            <summary>
+            Gets an index of element.
+            </summary>
+        </member>
+        <member name="M:FancyControls.IndexEventArgs.#ctor(System.Int32)">
+            <summary>
+             Initializes a new instance of the FancyControls.IndexEventArgs class.
+            </summary>
+            <param name="index">
+            The index of element.
+            </param>
+        </member>
+        <member name="T:FancyControls.ValueEventArgs`1">
+            <summary>
+            Represents the class that contain event data: old and new values of properties.
+            </summary>
+            <typeparam name="T">
+            The element type of the property.
+            </typeparam>
+        </member>
+        <member name="P:FancyControls.ValueEventArgs`1.OldValue">
+            <summary>
+            Gets an old value of a property.
+            </summary>
+        </member>
+        <member name="P:FancyControls.ValueEventArgs`1.NewValue">
+            <summary>
+            Gets a new value of a property.
+            </summary>
+        </member>
+        <member name="M:FancyControls.ValueEventArgs`1.#ctor(`0,`0)">
+            <summary>
+            Initializes a new instance of the FancyControls.ValueEventArgs class.
+            </summary>
+            <param name="oldValue">
+            Sets an old value of a propery, that had been changed.
+            </param>
+            <param name="newValue">
+            Sets a new value of a property, that had been changed.
+            </param>
+        </member>
+        <member name="T:FancyControls.MoveableControl">
+            <summary>
+            Provide abstract class for control which elements can be moved.
+            </summary>
+        </member>
+        <member name="F:FancyControls.MoveableControl.hoverPixelAmount">
+            <summary>
+            The amount of pixels on which cotrol's elements will be moved when the mouse hover them. 
+            </summary>
+        </member>
+        <member name="F:FancyControls.MoveableControl.pushedPixelAmount">
+            <summary>
+            The amount of pixels on which cotrol's elements will be moved when the mouse pushed on them.
+            </summary>
+        </member>
+        <member name="F:FancyControls.MoveableControl.canMove">
+            <summary>
+            Is moving wonrk on control's element.
+            </summary>
+        </member>
+        <member name="P:FancyControls.MoveableControl.HoverPixelAmount">
+            <summary>
+            Gets or sets the amount of pixels on which cotrol' elements will be moved when the mouse hover them. 
+            </summary>
+        </member>
+        <member name="P:FancyControls.MoveableControl.PushedPixelAmount">
+            <summary>
+            Gets or sets the amount of pixels on which cotrol's elements will be moved when the mouse pushed on them. 
+            </summary>
+        </member>
+        <member name="P:FancyControls.MoveableControl.CanMoveElements">
+            <summary>
+            Gets or sets the value if control's elements can be moved.
+            </summary>
+        </member>
+        <member name="M:FancyControls.MoveableControl.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:FancyControls.MoveableControl.HoverPixelAmountChanged">
+            <summary>
+            Occurs when the value of FancyControls.MoveableControl.HoverPixelAmount property changes.
+            </summary>
+        </member>
+        <member name="F:FancyControls.MoveableControl.PushedPixelAmountChanged">
+            <summary>
+            Occurs when the value of FancyControls.MoveableControl.PushedPixelAmount property changes.
+            </summary>
+        </member>
+        <member name="F:FancyControls.MoveableControl.CanMoveElementsChanged">
+            <summary>
+            Occurs when the value of FancyControls.MoveableControl.CanMove property changes.
+            </summary>
+        </member>
+        <member name="M:FancyControls.MoveableControl.AnimateMoveControl(System.Windows.Forms.Control,System.Int32,System.Int32)">
+            <summary>
+            Move the control on X and Y axises if it is possible.
+            </summary>
+            <param name="control">
+            The control which will be moved.
+            </param>
+            <param name="offsetX">
+            The amount of pixels on which cotrol will be moved on X axis.
+            </param>
+            <param name="offsetY">
+            The amount of pixels on which cotrol will be moved on Y axis.
+            </param>
+        </member>
+        <member name="M:FancyControls.MoveableControl.OnPushedPixelAmountChanged(System.EventArgs)">
+            <summary>
+            Raises the FancyControls.MoveableControl.PushedPixelAmountChanged event.
+            </summary>
+            <param name="e">
+            A System.EventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.MoveableControl.OnHoverPixelAmountChanged(System.EventArgs)">
+            <summary>
+            Raises the FancyControls.MoveableControl.HoverPixelAmountChanged event.
+            </summary>
+            <param name="e">
+            A System.EventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.MoveableControl.OnCanMoveElementsChanged(System.EventArgs)">
+            <summary>
+            Raises the FancyControls.MoveableControl.CanMoveElementsChanged event.
+            </summary>
+            <param name="e">
+            A System.EventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="T:FancyControls.Counter">
+            <summary>
+            Represents a colored counter.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Counter.#ctor">
+            <summary>
+            Initializes a new instance of the FancyControls.Counter class.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Counter.Value">
+            <summary>
+            Gets or sets the current value of the counter.
+            </summary>
+            <returns>
+            The current value within the range  of the counter. The default id 0. 
+            </returns>
+            <exception cref="T:System.ArgumentException">
+            The value specified is greater than the value of the FancyControls.Counter.Maximum property.
+            -or- 
+            The value specified is less than the value of the FancyControls.Counter.Minimum property.
+            </exception>
+        </member>
+        <member name="P:FancyControls.Counter.Minimum">
+            <summary>
+            Gets or sets the minimum value of the range of the control.
+            </summary>
+            <returns>
+            The minimum value of the range. The default is 0.
+            </returns>
+            <exception cref="T:System.ArgumentException">
+            The value specified for the property is greater than the value of the FancyControls.Counter.Maximum property.
+            </exception>
+        </member>
+        <member name="P:FancyControls.Counter.Maximum">
+            <summary>
+            Gets or sets the maximum value of the range of the control.
+            </summary>
+            <returns>
+            The maximum value of the range. The default is 10.
+            </returns>
+            <exception cref="T:System.ArgumentException">
+            The value specified for the property is less than the value of the FancyControls.Counter.Minimum property.
+            </exception>
+        </member>
+        <member name="P:FancyControls.Counter.ChangeColorPerTick">
+            <summary>
+            Gets or sets the value will control change color per tick.
+            </summary>
+            <returns>
+            The value specified will control change color per click.
+            The default is true.
+            </returns>
+        </member>
+        <member name="P:FancyControls.Counter.ShowMaxValue">
+            <summary>
+            Gets or sets the value will control show the maximum value.
+            </summary>
+            <returns>
+            The value specified will control show the maximum value.
+            The default is true.
+            </returns>
+        </member>
+        <member name="P:FancyControls.Counter.Step">
+            <summary>
+            Gets or sets the amount by which a call to the FancyControls.Counter.Tick() method increases the current value of the counter.
+            </summary>
+            <returns>
+            The amount by which to increment the counter with each call to the FancyControls.Counter.Tick() method. 
+            The default is 1.
+            </returns>
+        </member>
+        <member name="P:FancyControls.Counter.Text">
+            <summary>
+            Overrides System.Windows.Forms.Control.Text.
+            </summary>
+            <returns>
+            The text associated with this control.
+            </returns>
+        </member>
+        <member name="P:FancyControls.Counter.Separator">
+            <summary>
+            Gets or sets the separator between value and the Maximum.
+            </summary>
+            <returns>
+            The separator between value and the Maximum.
+            The default is "/".
+            </returns>
+        </member>
+        <member name="P:FancyControls.Counter.Font">
+            <summary>
+            Gets or sets the font of the text displayed by the control.
+            </summary>
+            <returns>
+            The System.Drawing.Font to apply to the text displayed by the control. 
+            The default is the value of the System.Windows.Forms.Control.DefaultFont property.
+            </returns>
+        </member>
+        <member name="P:FancyControls.Counter.TextSize">
+            <summary>
+            Gets or sets text size.
+            </summary>
+            <returns>
+            Text size.
+            </returns>
+        </member>
+        <member name="P:FancyControls.Counter.ValueSize">
+            <summary>
+            Gets or sets value size.
+            </summary>
+            <returns>
+            Value size.
+            </returns>
+        </member>
+        <member name="P:FancyControls.Counter.CustomColors">
+            <summary>
+            Gets or sets the custom colors for the FancyControls.Counter control. 
+            </summary>
+            <returns>
+            A FancyControls.CustomColors array of colors that determines the colors to be used.
+            </returns> 
+        </member>
+        <member name="P:FancyControls.Counter.Palette">
+            <summary>
+            Gets or sets the palette for the FancyControls.Counter control. 
+            </summary>
+            <returns>
+            A FancyControls.ColorsPalette enumeration value that determines the palette to be used.
+            </returns> 
+        </member>
+        <member name="P:FancyControls.Counter.ForeColor">
+            <summary>
+            Gets or sets the foreground color of the control.
+            </summary>
+            <returns>
+            The foreground System.Drawing.Color of the control. The default is the value
+            of the System.Windows.Forms.Control.DefaultForeColor property.
+            </returns>
+        </member>
+        <member name="E:FancyControls.Counter.ValueChanged">
+            <summary>
+            Occurs when the value of the FancyControls.Counter.Value property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.MaximumChanged">
+            <summary>
+            Occurs when the value of the FancyControls.Counter.Maximum property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.MinimumChanged">
+            <summary>
+            Occurs when the value of the FancyControls.Counter.Minimum property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.StepChanged">
+            <summary>
+            Occurs when the value of the FancyControls.Counter.Step property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.TextChanged">
+            <summary>
+            Occurs when the value of the FancyControls.Counter.Text property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.SeparatorChanged">
+            <summary>
+            Occurs when the value of the FancyControls.Separator.Value property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.ValueSizeChanged">
+            <summary>
+            Occurs when the value of the FancyControls.Counter.ValueSize property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.TextSizeChanged">
+            <summary>
+            Occurs when the value of the FancyControls.Counter.TextSize property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.ChangeColorPerTickChanged">
+            <summary>
+            Occurs when the value of the FancyControls.Counter.ChangeColorPerClick property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.ShowMaxValueChanged">
+            <summary>
+            Occurs when the value of the FancyControls.Counter.ShowMaxValue property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.PaletteChanged">
+            <summary>
+            Occurs when the value of the FancyControls.Counter.Palette property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.CustomColorsChanged">
+            <summary>
+            Occurs when the value of the FancyControls.Counter.CustomColors property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.TickHappened">
+            <summary>
+            Occurs with each call to the FancyControls.Counter.Tick() method.
+            </summary>
+        </member>
+        <member name="E:FancyControls.Counter.Click">
+            <summary>
+            Occurs when the control is clicked.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Counter.Reset">
+            <summary>
+            Advances the current value of the countert to the value of  the FancyControls.Counter.Minimum property.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Counter.Tick">
+            <summary>
+            Advances the current value of the counter by the amount of the FancyControls.Counter.Step property.
+            </summary>
+            <exception cref = "T:System.ArgumentException" >
+            The new value specified is greater than the value of the FancyControls.Counter.Maximum property.
+            -or- 
+            The new value specified is less than the value of the FancyControls.Counter.Minimum property.
+            </exception>
+        </member>
+        <member name="M:FancyControls.Counter.Increment(System.Int32)">
+            <summary>
+            Advances the current value of the counter by the specified amount.
+            </summary>
+            <param name="value">
+            The amount by which to increment the counter's value.
+            </param>
+            <exception cref = "T:System.ArgumentException" >
+            The new value specified is greater than the value of the FancyControls.Counter.Maximum property.
+            -or- 
+            The new value specified is less than the value of the FancyControls.Counter.Minimum property.
+            </exception>
+        </member>
+        <member name="M:FancyControls.Counter.Percentage">
+            <summary>
+            Gets the value of FancyControls.Counter in percentages.
+            </summary>
+            <returns>
+            The value of FancyControls.Counter in percentages.
+            </returns>
+        </member>
+        <member name="M:FancyControls.Counter.CorrectValue">
+            <summary>
+            Rounds the value of the FancyControls.Counter.Value property to its nearest possible value if it is needed.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Counter.OnTick(System.EventArgs)">
+            <summary>
+            Raises the FancyControls.Counter.TickHappened event.
+            </summary>
+            <param name="e">
+            A System.EventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.Counter.OnValueChanged(FancyControls.ValueEventArgs{System.Int32})">
+            <summary>
+            Raises the FancyControls.Counter.ValueChanged event.
+            </summary>
+            <param name="e">
+            A FancyControls.ValueEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.Counter.OnMaximumChanged(FancyControls.ValueEventArgs{System.Int32})">
+            <summary>
+            Raises the FancyControls.Counter.OnMaximumChanged event.
+            </summary>
+            <param name="e">
+            A FancyControls.ValueEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.Counter.OnMinimumChanged(FancyControls.ValueEventArgs{System.Int32})">
+            <summary>
+            Raises the FancyControls.Counter.MinimumChanged event.
+            </summary>
+            <param name="e">
+            A FancyControls.ValueEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.Counter.OnStepChanged(FancyControls.ValueEventArgs{System.Int32})">
+            <summary>
+            Raises the FancyControls.Counter.ValueChanged event.
+            </summary>
+            <param name="e">
+            A FancyControls.ValueEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.Counter.OnTextChanged(FancyControls.ValueEventArgs{System.String})">
+            <summary>
+            Raises the FancyControls.Counter.ValueChanged event.
+            </summary>
+            <param name="e">
+            A FancyControls.ValueEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.Counter.OnSeparatorChanged(FancyControls.ValueEventArgs{System.String})">
+            <summary>
+            Raises the FancyControls.Counter.ValueChanged event.
+            </summary>
+            <param name="e">
+            A FancyControls.ValueEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.Counter.OnValueSizeChanged(FancyControls.ValueEventArgs{System.Single})">
+            <summary>
+            Raises the FancyControls.Counter.ValueChanged event.
+            </summary>
+            <param name="e">
+            A FancyControls.ValueEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.Counter.OnTextSizeChanged(FancyControls.ValueEventArgs{System.Single})">
+            <summary>
+            Raises the FancyControls.Counter.ValueChanged event.
+            </summary>
+            <param name="e">
+            A FancyControls.ValueEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.Counter.OnShowMaxValueChanged(System.EventArgs)">
+            <summary>
+            Raises the FancyControls.Counter.ValueChanged event.
+            </summary>
+            <param name="e">
+            A System.EventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.Counter.OnChangeColorPerTickChanged(System.EventArgs)">
+            <summary>
+            Raises the FancyControls.Counter.ChangeColorPerTickChanged event.
+            </summary>
+            <param name="e">
+            A System.EventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.Counter.OnPaletteChanged(System.EventArgs)">
+            <summary>
+            Raises the FancyControls.Counter.PaletteChanged event.
+            </summary>
+            <param name="e">
+            A System.EventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.Counter.OnCustomColorsChanged(System.EventArgs)">
+            <summary>
+            Raises the FancyControls.Counter.ValueChanged event.
+            </summary>
+            <param name="e">
+            A System.EventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="F:FancyControls.Counter.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Counter.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:FancyControls.Counter.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:FancyControls.ColorsPalette">
+            <summary>
+            Specifies a palette when setting a Palette property.
+            </summary>
+        </member>
+        <member name="F:FancyControls.ColorsPalette.None">
+            <summary>
+            No palette is used.
+            </summary>
+        </member>
+        <member name="F:FancyControls.ColorsPalette.Light">
+            <summary>
+            Palette utilizes light colors.
+            </summary>
+        </member>
+        <member name="F:FancyControls.ColorsPalette.Solid">
+            <summary>
+            Palette utilizes solid colors.
+            </summary>
+        </member>
+        <member name="F:FancyControls.ColorsPalette.Pastel">
+            <summary>
+            Palette utilizes pastel colors.
+            </summary>
+        </member>
+        <member name="F:FancyControls.ColorsPalette.Electric">
+            <summary>
+            Palette utilizes yellow and green.
+            </summary>
+        </member>
+        <member name="F:FancyControls.ColorsPalette.BlueGold">
+            <summary>
+            Palette utilizes blue and yellow.
+            </summary>
+        </member>
+        <member name="F:FancyControls.ColorsPalette.Vibrant">
+            <summary>
+            Palette utilizes vibrant colors.
+            </summary>
+        </member>
+        <member name="F:FancyControls.ColorsPalette.Tropic">
+            <summary>
+            Palette utilizes tropic colors.
+            </summary>
+        </member>
+        <member name="T:FancyControls.Data.Axis">
+            <summary>
+            Represent axis for FancyControls.Data.glGraph.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Data.Axis.#ctor(System.Windows.Forms.DataVisualization.Charting.Axis)">
+            <summary>
+            Initializes a new instance of the FancyControls.Data.Axis class.
+            </summary>
+            <param name="axis">
+            An axis to config.
+            </param>
+        </member>
+        <member name="P:FancyControls.Data.Axis.ArrowStyle">
+            <summary>
+            Gets or sets the arrow style of a axis.
+            </summary>
+            <returns>
+            An System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle enumeration value.
+            </returns>
+        </member>
+        <member name="P:FancyControls.Data.Axis.Color">
+            <summary>
+            Gets or sets the color of axis.
+            </summary>
+            <returns>
+            A System.Drawing.Color object that represents the color of axis.
+            </returns>
+        </member>
+        <member name="P:FancyControls.Data.Axis.Interval">
+            <summary>
+             Gets or sets the interval of an axis.
+            </summary>
+            <returns>
+             A double value that represents the interval of an axis. 
+             The default value is "Auto", which is represented by a value of zero (0).
+            </returns>
+        </member>
+        <member name="P:FancyControls.Data.Axis.IntervalAutoMode">
+            <summary>
+            Gets or sets a flag that determines if a fixed number of intervals is used on the axis,
+            or if the number of intervals depends on the axis size.
+            </summary>
+            <returns>
+            An System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode enumeration value. 
+            The default value is System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.FixedCount.
+            </returns>
+        </member>
+        <member name="P:FancyControls.Data.Axis.IntervalOffset">
+            <summary>
+            Gets or sets the interval offset of an axis.
+            </summary>
+            <returns>
+            A double value that represents the interval offset of an axis. 
+            The default value is "Auto", which is represented by a value of zero (0).
+            </returns>
+        </member>
+        <member name="P:FancyControls.Data.Axis.LineDashStyle">
+            <summary>
+            Gets or sets the line style of an axis.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Axis.LineWidth">
+            <summary>
+            Gets or sets the line width of an axis, in pixels.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Axis.Maximum">
+            <summary>
+            Gets or sets the maximum value of an axis.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Axis.Minimum">
+            <summary>
+            Gets or sets the minimum value of an axis.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Axis.GridLineWidth">
+            <summary>
+            Gets or sets grid line width in all axis.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Axis.GridLineColor">
+            <summary>
+            Gets or sets grid line color in all axis.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Axis.GridDashStyle">
+            <summary>
+            Gets or sets grid dash style in all axis.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Axis.TextOrientation">
+            <summary>
+            Gets or sets the orientation of the text in the axis title.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Axis.Title">
+            <summary>
+            Gets or sets the title of the axis.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Axis.TitleAlignment">
+            <summary>
+            Gets or sets the alignment of an axis title.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Axis.TitleFont">
+            <summary>
+            Gets or sets the title font properties of an axis.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Axis.TitleForeColor">
+            <summary>
+            Gets or sets the text color of the axis title.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Data.Axis.GetPosition(System.Double)">
+            <summary>
+            Converts an axis value to a relative position (0-100%). 
+            If an axis is logarithmic, the value is converted to a linear scale.
+            </summary>
+            <param name="axisValue">
+            The axis value.
+            </param>
+            <returns>
+            A double value that represents the relative position (0-100%).
+            </returns>
+        </member>
+        <member name="M:FancyControls.Data.Axis.PixelPositionToValue(System.Double)">
+            <summary>
+            Converts an absolute pixel position along an axis to an axis value. 
+            This method only works in paint events.
+            </summary>
+            <param name="position">
+            The pixel position.
+            </param>
+            <returns>
+            A double value that represents the axis value.
+            </returns>
+        </member>
+        <member name="M:FancyControls.Data.Axis.PositionToValue(System.Double)">
+            <summary>
+            Converts a relative coordinate along an axis to an axis value. 
+            This method only works in paint events.
+            </summary>
+            <param name="position">
+            The relative position (0-100%).
+            </param>
+            <returns>
+            A double value that represents the axis value.
+            </returns>
+        </member>
+        <member name="M:FancyControls.Data.Axis.RoundAxisValues">
+            <summary>
+            Automatically rounds axis values.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Data.Axis.ValueToPixelPosition(System.Double)">
+            <summary>
+            Converts an axis value to an absolute coordinate along an axis. 
+            Measured in pixels. 
+            This method only works in paint events.
+            </summary>
+            <param name="axisValue">
+            The axis value.
+            </param>
+            <returns>
+            A double value that represents the pixel position.
+            </returns>
+        </member>
+        <member name="M:FancyControls.Data.Axis.ValueToPosition(System.Double)">
+            <summary>
+            Converts an axis value to its relative position (0-100%). 
+            If an axis has a logarithmic scale, the value is converted to a linear scale. 
+            This method only works in paint events.
+            </summary>
+            <param name="axisValue">
+            The axis value.
+            </param>
+            <returns>
+            A double value that represents the relative position (0-100%).
+            </returns>
+        </member>
+        <member name="M:FancyControls.Data.Axis.AddLine(System.Double,System.Int32,System.Drawing.Color,System.Windows.Forms.DataVisualization.Charting.ChartDashStyle,System.String,System.Drawing.StringAlignment,System.Windows.Forms.DataVisualization.Charting.TextOrientation)">
+            <summary>
+            Add line on axis.
+            </summary>
+            <param name="position">
+            Position of the line.
+            </param>
+            <param name="width">
+            Width of the line.
+            </param>
+            <param name="color">
+            Color of the line.
+            </param>
+            <param name="style">
+            Style of line.
+            </param>
+            <param name="text">
+            Text of line.
+            </param>
+            <param name="textAlignment">
+            Text alignment of line.
+            </param>
+            <param name="textOrientation">
+            Text orientation of line.
+            </param>
+        </member>
+        <member name="T:FancyControls.Data.GraphType">
+            <summary>
+            Specifies a graph type for a FancyControls.Data.Graph.
+            </summary>
+        </member>
+        <member name="F:FancyControls.Data.GraphType.Point">
+            <summary>
+            Point graph type.
+            </summary>
+        </member>
+        <member name="F:FancyControls.Data.GraphType.Line">
+            <summary>
+            Line graph type.
+            </summary>
+        </member>
+        <member name="F:FancyControls.Data.GraphType.Spline">
+            <summary>
+            Spline graph type.
+            </summary>
+        </member>
+        <member name="F:FancyControls.Data.GraphType.Area">
+            <summary>
+            Area graph type.
+            </summary>
+        </member>
+        <member name="F:FancyControls.Data.GraphType.SplineArea">
+            <summary>
+            Spline area graph type.
+            </summary>
+        </member>
+        <member name="T:FancyControls.Data.glGraph">
+            <summary>
+            Represents a graph.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Data.glGraph.#ctor">
+            <summary>
+            Initialize a new instance of FancyControls.Data.glGraph class.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.glGraph.BackColor">
+            <summary>
+            Gets or sets the background color of FancyControls.Data.glGraph class.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.glGraph.LegendTitle">
+            <summary>
+            Gets or sets the text of the legend title.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.glGraph.AxisX">
+            <summary>
+            Gets an X axis.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.glGraph.AxisY">
+            <summary>
+            Gets an Y axis.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Data.glGraph.ShowGraphs(FancyControls.Data.Graph[])">
+            <summary>
+            Shows array of graphs.
+            </summary>
+            <param name="graphs">
+            The array of instance of FancyControls.Data.Graph class.
+            </param>
+        </member>
+        <member name="F:FancyControls.Data.glGraph.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Data.glGraph.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:FancyControls.Data.glGraph.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:FancyControls.Data.Graph">
+            <summary>
+            Represent graph for FancyControls.Data.glGraph.
+            </summary>
+        </member>
+        <member name="T:FancyControls.Data.Graph.Point">
+            <summary>
+            Represent point of FancyControls.Data.Graph.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Graph.Point.X">
+            <summary>
+            Gets the value of a point on X axis.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Graph.Point.Y">
+            <summary>
+            Gets the value of a point on Y axis.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Data.Graph.Point.#ctor(System.Double,System.Double)">
+            <summary>
+            Initialize a new instance of FancyControls.Data.Graph.Point.
+            </summary>
+            <param name="X">
+            Sets the value of a point on X axis.
+            </param>
+            <param name="Y">
+            Sets the value of a point on Y axis.
+            </param>
+        </member>
+        <member name="M:FancyControls.Data.Graph.#ctor(System.String,FancyControls.Data.GraphType)">
+            <summary>
+            Initialize a new instance of FancyControls.Data.Graph.
+            </summary>
+            <param name="name">
+            Sets the name of the graph.
+            </param>
+            <param name="type">
+            Sets the graph type.
+            </param>
+        </member>
+        <member name="P:FancyControls.Data.Graph.IsShownPointValue">
+            <summary>
+            Gets or sets whether or not show point value in tooltip.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Graph.Points">
+            <summary>
+            Gets unmodified array of graph point.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Graph.LineColor">
+            <summary>
+            Gets or sets graph line color.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Graph.LineWidth">
+            <summary>
+            Gets or sets graph line width.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Graph.IsVisibleInLegend">
+            <summary>
+            Gets or sets a flag that indicated whether the graph is shown in the legend.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Graph.LegendToolTip">
+            <summary>
+            Gets or sets tooltip for legend.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Graph.LineDashStyle">
+            <summary>
+            Gets or sets graph line style.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Graph.Name">
+            <summary>
+            Gets or sets graph name.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Data.Graph.AddPoint(System.Double,System.Double,FancyControls.Data.Marker,FancyControls.Data.Label)">
+            <summary>
+            Adds point to graph's point collection.
+            </summary>
+            <remarks>
+            For the purpose of set only label or marker use named parameters.
+            </remarks>
+            <example>
+            <code>
+            .AddPoint(2, 3);
+            .AddPoint(2, 3, marker: new FancyControls.Data.Marker(){});
+            .AddPoint(2, 3, label: new FancyControls.Data.Label(){});
+            </code>
+            </example>
+            <param name="x">
+            An X value of the point.
+            </param>
+            <param name="y">
+            An Y value of the point.
+            </param>
+            <param name="marker">
+            Determine special view for point.
+            An instance of FancyControls.Data.Marker class.
+            </param>
+            <param name="label">
+            Determine special label for point.
+            An instance of FancyControls.Data.Label class.
+            </param>
+            <returns>
+            Returns an instance of this graph after point was added.
+            </returns>
+        </member>
+        <member name="M:FancyControls.Data.Graph.AddPoints(System.Double[],System.Double[],FancyControls.Data.Markers,FancyControls.Data.Label)">
+            <summary>
+            Adds points to graph's point collection.
+            </summary>
+            <remarks>
+            For the purpose of set only label or marker use named parameters.
+            </remarks>
+            <example>
+            <code>
+            .AddPoints(new double[2] { -2.3, +2.3 }, new double[2] { 2.3, -2.3 });
+            .AddPoints(new double[2] { -2.3, +2.3 }, new double[2] { 2.3, -2.3 }, marker: new FancyControls.Data.Marker(){});
+            .AddPoints(new double[2] { -2.3, +2.3 }, new double[2] { 2.3, -2.3 }, label: new FancyControls.Data.Label(){});
+            </code>
+            </example>
+            <param name="x">
+            An array of X values of the points.
+            </param>
+            <param name="y">
+            An array of Y values of the points.
+            </param>
+            <param name="markers">
+            Determine special view for point.
+            An instance of FancyControls.Data.Markers class.
+            </param>
+            <param name="label">
+            Determine special label for point.
+            An instance of FancyControls.Data.Label class.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            The arrays have different length.
+            -or- 
+            The array of X values have the same value.
+            </exception>
+            <returns>
+            Returns an instance of this graph after points were added.
+            </returns>
+        </member>
+        <member name="M:FancyControls.Data.Graph.AddFunction(System.Func{System.Double,System.Double},System.Double,System.Double,System.Double,FancyControls.Data.Markers,FancyControls.Data.Label)">
+            <summary>
+            Adds points to a graph's point collection depending on input parameters.
+            </summary>
+            <remarks>
+            For the purpose of set only label or marker use named parameters.
+            </remarks>
+            <example>
+            <code>
+            .AddFunction(Math.Sin, -Math.PI, Math.PI, Math.PI / 10.0)
+            .AddFunction(Math.Cos, -10, 10, markers: new Markers(){})
+            .AddFunction(Math.Sqrt, 0, 16, 0.1, label: new Label(){})
+            </code>
+            </example>
+            <param name="f">
+            A function that reflects the value of the X axis on the Y axis.
+            </param>
+            <param name="startX">
+            The start of input parameters for function on X axis.
+            </param>
+            <param name="endX">
+            The end of input parameters for function on X axis.
+            </param>
+            <param name="interval">
+            The interval between dots on X axis.
+            </param>
+            <param name="markers">
+            Determine special view for point.
+            An instance of FancyControls.Data.Markers class. 
+            </param>
+            <param name="label">
+            Determine special label for point.
+            An instance of FancyControls.Data.Label class.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            The startX parameter is greater than endX parameter.
+            -or- 
+            The endX parameter is less than startX parameter.
+            -or- 
+            The interval is less than zero.
+            </exception>
+            <returns>
+            Returns an instance of this graph after points were added.
+            </returns>
+        </member>
+        <member name="T:FancyControls.Data.Label">
+            <summary>
+            Represent label for FancyControls.Data.Graph.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Data.Label.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the FancyControls.Data.Label class.
+            </summary>
+            <param name="showValue">
+            Determine if label show point position.
+            </param>
+        </member>
+        <member name="M:FancyControls.Data.Label.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the FancyControls.Data.Label class.
+            </summary>
+            <param name="text">
+            Sets the text of the data point label.
+            </param>
+        </member>
+        <member name="M:FancyControls.Data.Label.#ctor(System.String,System.Int32,System.Drawing.Color,System.Drawing.Color,System.Windows.Forms.DataVisualization.Charting.ChartDashStyle,System.Int32,System.Drawing.Color,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the FancyControls.Data.Label class.
+            </summary>
+            <param name="text">
+            Sets the text of the data point label.
+            </param>
+            <param name="angle">
+            Sets the angle of the data point label.
+            </param>
+            <param name="backColor">
+            Sets the background color of the data point label.
+            </param>
+            <param name="borderColor">
+            Sets the border color of the data point label.
+            </param>
+            <param name="borderDashStyle">
+            Sets the border style of the label.
+            </param>
+            <param name="borderWidth">
+            Sets the border width of the label.
+            </param>
+            <param name="foreColor">
+            Sets the text color of the label.
+            </param>
+            <param name="format">
+            Sets the format of the data point label.
+            </param>
+            <param name="toolTip">
+            Sets the tooltip for the data point label.
+            </param>
+        </member>
+        <member name="P:FancyControls.Data.Label.Text">
+            <summary>
+            Gets or sets the text of the data point label.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Label.Angle">
+            <summary>
+            Gets or sets the angle of the data point label.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Label.BackColor">
+            <summary>
+            Gets or sets the background color of the data point label.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Label.BorderColor">
+            <summary>
+            Gets or sets the border color of the data point label.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Label.BorderDashStyle">
+            <summary>
+            Gets or sets the border style of the label.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Label.BorderWidth">
+            <summary>
+            Gets or sets the border width of the label.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Label.ForeColor">
+            <summary>
+            Gets or sets the text color of the label.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Label.Format">
+            <summary>
+            Gets or sets the format of the data point label.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Label.ToolTip">
+            <summary>
+            Gets or sets the tooltip for the data point label.
+            </summary>
+        </member>
+        <member name="T:FancyControls.Data.Marker">
+            <summary>
+            Represent marker for FancyControls.Data.Graph.
+            </summary>
+        </member>
+        <member name="F:FancyControls.Data.Marker.color">
+            <summary>
+            Gets or sets the marker color.
+            </summary>
+        </member>
+        <member name="F:FancyControls.Data.Marker.borderColor">
+            <summary>
+            Gets or sets the marker border color.
+            </summary>
+        </member>
+        <member name="F:FancyControls.Data.Marker.borderWidth">
+            <summary>
+            Gets or sets the marker border width.
+            </summary>
+        </member>
+        <member name="F:FancyControls.Data.Marker.image">
+            <summary>
+            Gets or sets the marker image.
+            </summary>
+        </member>
+        <member name="F:FancyControls.Data.Marker.imageTransparentColor">
+            <summary>
+            Gets or sets the marker image transparent color.
+            </summary>
+        </member>
+        <member name="F:FancyControls.Data.Marker.size">
+            <summary>
+            Gets or sets the marker size.
+            </summary>
+        </member>
+        <member name="F:FancyControls.Data.Marker.style">
+            <summary>
+            Gets or sets the marker style.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Marker.Color">
+            <summary>
+            Gets or sets the marker color.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Marker.BorderColor">
+            <summary>
+            Gets or sets the marker border color.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Marker.BorderWidth">
+            <summary>
+            Gets or sets the marker border width.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Marker.Image">
+            <summary>
+            Gets or sets the marker image.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Marker.ImageTransparentColor">
+            <summary>
+            Gets or sets the marker image transparent color.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Marker.Size">
+            <summary>
+            Gets or sets the marker size.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Data.Marker.Style">
+            <summary>
+            Gets or sets the marker style.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Data.Marker.#ctor(System.Windows.Forms.DataVisualization.Charting.MarkerStyle,System.Drawing.Color,System.Int32)">
+            <summary>
+            Initializes a new instance of the FancyControls.Data.Marker class.
+            </summary>
+            <param name="color">
+            Sets marker color.
+            </param>
+            <param name="size">
+            Sets marker size.
+            </param>
+            <param name="style">
+            Sets marker style.
+            </param>
+        </member>
+        <member name="M:FancyControls.Data.Marker.#ctor(System.Windows.Forms.DataVisualization.Charting.MarkerStyle,System.Drawing.Color,System.Int32,System.Drawing.Color,System.Int32,System.String,System.Drawing.Color)">
+            <summary>
+            Initializes a new instance of the FancyControls.Data.Marker class.
+            </summary>
+            <param name="color">
+            Sets marker color.
+            </param>
+            <param name="size">
+            Sets marker size.
+            </param>
+            <param name="style">
+            Sets marker style.
+            </param>
+            <param name="borderColor">
+            Sets marker border color.
+            </param>
+            <param name="borderWidth">
+            Sets marker bordor width.
+            </param>
+            <param name="image">
+            Sets marker image.
+            </param>
+            <param name="imageTranparentColor">
+            Sets marker image transparent color.
+            </param>
+        </member>
+        <member name="T:FancyControls.Data.Markers">
+            <summary>
+            Represent markers for FancyControls.Data.Graph.
+            </summary>
+        </member>
+        <member name="M:FancyControls.Data.Markers.#ctor(System.Windows.Forms.DataVisualization.Charting.MarkerStyle,System.Drawing.Color,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the FancyControls.Data.Markers class.
+            </summary>
+            <param name="color">
+            Sets markers color.
+            </param>
+            <param name="size">
+            Sets markers size.
+            </param>
+            <param name="style">
+            Sets markers style.
+            </param>
+            <param name="step">
+            Sets markers step.
+            10 step equal to value of 1.
+            </param>
+        </member>
+        <member name="M:FancyControls.Data.Markers.#ctor(System.Windows.Forms.DataVisualization.Charting.MarkerStyle,System.Drawing.Color,System.Int32,System.Drawing.Color,System.Int32,System.String,System.Drawing.Color,System.Int32)">
+            <summary>
+            Initializes a new instance of the FancyControls.Data.Markers class.
+            </summary>
+            <param name="color">
+            Sets markers color.
+            </param>
+            <param name="size">
+            Sets markers size.
+            </param>
+            <param name="style">
+            Sets markers style.
+            </param>
+            <param name="step">
+            Sets markers step.
+            10 step equal to value of 1.
+            </param>
+            <param name="borderColor">
+            Sets markers border color.
+            </param>
+            <param name="borderWidth">
+            Sets markers border width.
+            </param>
+            <param name="image">
+            Sets markers image.
+            </param>
+            <param name="imageTranparentColor">
+            Sets markers image transparent color.
+            </param>
+        </member>
+        <member name="P:FancyControls.Data.Markers.Step">
+            <summary>
+            Gets or sets markers step.
+            10 step equal to value of 1.
+            </summary>
+        </member>
+        <member name="T:FancyControls.ISelectorControl">
+            <summary>
+             Represents an interface for selector controls.
+            </summary>
+        </member>
+        <member name="M:FancyControls.ISelectorControl.SelectAt(System.Int32)">
+            <summary>
+            Select an item at specified index.
+            </summary>
+            <param name="index">
+            An index of an item which should be selected.
+            </param>
+        </member>
+        <member name="M:FancyControls.ISelectorControl.UnselectAt(System.Int32)">
+            <summary>
+            Unselect an item at specified index.
+            </summary>
+            <param name="index">
+            An index of an item which should be unselected.
+            </param>
+        </member>
+        <member name="E:FancyControls.ISelectorControl.ItemSelected">
+            <summary>
+            Occurs when the item at specified index is selected.
+            </summary>
+        </member>
+        <member name="E:FancyControls.ISelectorControl.ItemUnselected">
+            <summary>
+            Occurs when the item at specified index is unselected.
+            </summary>
+        </member>
+        <member name="T:FancyControls.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:FancyControls.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:FancyControls.SelectorBox">
+            <summary>
+            Represents a selector which contain unselected items in System.Windows.Forms.ComboBox.
+            </summary>
+        </member>
+        <member name="M:FancyControls.SelectorBox.#ctor">
+            <summary>
+            Initializes a new instance of the FancyControls.SelectorBox class.
+            </summary>
+        </member>
+        <member name="M:FancyControls.SelectorBox.#ctor(System.Object[])">
+            <summary>
+            Initializes a new instance of the FancyControls.SelectorBox class.
+            </summary>
+            <param name="unselectedItems">
+            An array of unselected items.
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorBox.#ctor(System.Object[],System.Object[])">
+            <summary>
+            Initializes a new instance of the FancyControls.SelectorBox class.
+            </summary>
+            <param name="unselectedItems">
+            An array of unselected items.
+            </param>
+            <param name="selectedItems">
+            An array of selected items.
+            </param>
+        </member>
+        <member name="P:FancyControls.SelectorBox.AddImage">
+            <summary>
+            Gets or sets image on Add button.
+            </summary>
+        </member>
+        <member name="P:FancyControls.SelectorBox.RemoveImage">
+            <summary>
+            Gets or sets image on Remove button.
+            </summary>
+        </member>
+        <member name="P:FancyControls.SelectorBox.UnselectedIndex">
+            <summary>
+            Gets selected index.
+            </summary>
+        </member>
+        <member name="P:FancyControls.SelectorBox.SelectedIndices">
+            <summary>
+            Gets a collection of unselected indices which can be modified.
+            </summary>
+        </member>
+        <member name="P:FancyControls.SelectorBox.UnselectedItems">
+            <summary>
+            Gets a collection of unselected items which can be modified.
+            </summary>
+        </member>
+        <member name="P:FancyControls.SelectorBox.SelectedItems">
+            <summary>
+            Gets a collection of selected items which can be modified.
+            </summary>
+        </member>
+        <member name="M:FancyControls.SelectorBox.SelectAt(System.Int32)">
+            <summary>
+            Select an item at specified index.
+            </summary>
+            <param name="index">
+            An index of an item which should be selected.
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorBox.UnselectAt(System.Int32)">
+            <summary>
+            Unelect an item at specified index.
+            </summary>
+            <param name="index">
+            An index of an item which should be unselected.
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorBox.UnselectAt(System.Int32[])">
+            <summary>
+            Unselect items for a specified array of indices
+            </summary>
+            <param name="indices">
+            The array of indices which items should be unselected. 
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorBox.Clean">
+            <summary>
+            Does not clear, it moves all items from selected to unselected.
+            </summary>
+        </member>
+        <member name="M:FancyControls.SelectorBox.Clear">
+            <summary>
+            Removes all items from the control.
+            </summary>
+        </member>
+        <member name="E:FancyControls.SelectorBox.AddImageChanged">
+            <summary>
+            Occurs when the value of the FancyControls.SelectorBox.AddImage property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.SelectorBox.RemoveImageChanged">
+            <summary>
+            Occurs when the value of the FancyControls.SelectorBox.RemoveImage property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.SelectorBox.ItemSelected">
+            <summary>
+            Occurs when the item at specified index is selected.
+            </summary>
+        </member>
+        <member name="E:FancyControls.SelectorBox.ItemUnselected">
+            <summary>
+            Occurs when the item at specified index is unselected.
+            </summary>
+        </member>
+        <member name="M:FancyControls.SelectorBox.OnAddImageChanged(System.EventArgs)">
+            <summary>
+            Raises the FancyControls.SelectorBox.AddImageChanged event.
+            </summary>
+            <param name="e">
+            A System.EventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorBox.OnRemoveImageChanged(System.EventArgs)">
+            <summary>
+            Raises the FancyControls.SelectorBox.RemoveImageChanged event.
+            </summary>
+            <param name="e">
+            A System.EventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorBox.OnItemSelected(FancyControls.IndexEventArgs)">
+            <summary>
+            Raises the FancyControls.SelectorBox.ItemSelected event.
+            </summary>
+            <param name="e">
+            A FancyControls.IndexEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorBox.OnItemUnselected(FancyControls.IndexEventArgs)">
+            <summary>
+            Raises the FancyControls.SelectorBox.ItemUnselected event.
+            </summary>
+            <param name="e">
+            A FancyControls.IndexEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="F:FancyControls.SelectorBox.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:FancyControls.SelectorBox.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:FancyControls.SelectorBox.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:FancyControls.SelectorList">
+            <summary>
+            Represents a selector which contain unselected items in System.Windows.Forms.ListBox.
+            </summary>
+        </member>
+        <member name="M:FancyControls.SelectorList.#ctor">
+            <summary>
+            Initializes a new instance of the FancyControls.SelectorBox class.
+            </summary>
+        </member>
+        <member name="M:FancyControls.SelectorList.#ctor(System.Object[])">
+            <summary>
+            Initializes a new instance of the FancyControls.SelectorList class.
+            </summary>
+            <param name="unselectedItems">
+            An array of unselected items.
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorList.#ctor(System.Object[],System.Object[])">
+            <summary>
+            Initializes a new instance of the FancyControls.SelectorList class.
+            </summary>
+            <param name="unselectedItems">
+            An array of unselected items.
+            </param>
+            <param name="selectedItems">
+            An array of selected items.
+            </param>
+        </member>
+        <member name="P:FancyControls.SelectorList.Text">
+            <summary>
+            Overrides System.Windows.Forms.Control.Text.
+            </summary>
+            <returns>
+            The text associated with this control.
+            </returns>
+        </member>
+        <member name="P:FancyControls.SelectorList.MiddleAreaWidth">
+            <summary>
+            Gets or sets width of middle area in pixels.
+            </summary>
+        </member>
+        <member name="P:FancyControls.SelectorList.MiddleAreaMargin">
+            <summary>
+            Gets or sets width of middle area margin in pixels.
+            </summary>
+        </member>
+        <member name="P:FancyControls.SelectorList.SelectImage">
+            <summary>
+            Gets or sets image on Select button.
+            </summary>
+        </member>
+        <member name="P:FancyControls.SelectorList.UnselectImage">
+            <summary>
+            Gets or sets image on Unselect button.
+            </summary>
+        </member>
+        <member name="P:FancyControls.SelectorList.SelectedIndices">
+            <summary>
+            Gets a collection of selected indices which can be modified.
+            </summary>
+        </member>
+        <member name="P:FancyControls.SelectorList.UnselectedIndices">
+            <summary>
+            Gets a collection of unselected indices which can be modified.
+            </summary>
+        </member>
+        <member name="P:FancyControls.SelectorList.UnselectedItems">
+            <summary>
+            Gets a collection of unselected items which can be modified.
+            </summary>
+        </member>
+        <member name="P:FancyControls.SelectorList.SelectedItems">
+            <summary>
+            Gets a collection of selected items which can be modified.
+            </summary>
+        </member>
+        <member name="M:FancyControls.SelectorList.SelectAt(System.Int32)">
+            <summary>
+            Select an item at specified index.
+            </summary>
+            <param name="index">
+            An index of an item which should be selected.
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorList.SelectAt(System.Int32[])">
+            <summary>
+            Select items for a specified array of indices
+            </summary>
+            <param name="indices">
+            The array of indices which items should be selected. 
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorList.UnselectAt(System.Int32)">
+            <summary>
+            Unselect an item at specified index.
+            </summary>
+            <param name="index">
+            An index of an item which should be unselected.
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorList.UnselectAt(System.Int32[])">
+            <summary>
+            Unselect items for a specified array of indices
+            </summary>
+            <param name="indices">
+            The array of indices which items should be unselected. 
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorList.Clean">
+            <summary>
+            Does not clear, it moves all items from selected to unselected.
+            </summary>
+        </member>
+        <member name="M:FancyControls.SelectorList.Clear">
+            <summary>
+            Removes all items from the control.
+            </summary>
+        </member>
+        <member name="E:FancyControls.SelectorList.SelectImageChanged">
+            <summary>
+            Occurs when the value of the FancyControls.SelectorList.SelectImage property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.SelectorList.UnselectImageChanged">
+            <summary>
+            Occurs when the value of the FancyControls.SelectorList.UnselectImage property changes.
+            </summary>
+        </member>
+        <member name="E:FancyControls.SelectorList.ItemSelected">
+            <summary>
+            Occurs when the item at specified index is selected.
+            </summary>
+        </member>
+        <member name="E:FancyControls.SelectorList.ItemUnselected">
+            <summary>
+            Occurs when the item at specified index is unselected.
+            </summary>
+        </member>
+        <member name="M:FancyControls.SelectorList.OnSelectImageChanged(System.EventArgs)">
+            <summary>
+            Raises the FancyControls.SelectorList.SelectImageChanged event.
+            </summary>
+            <param name="e">
+            A System.EventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorList.OnUnselectImageChanged(System.EventArgs)">
+            <summary>
+            Raises the FancyControls.SelectorList.UnselectImageChanged event.
+            </summary>
+            <param name="e">
+            A System.EventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorList.OnItemSelected(FancyControls.IndexEventArgs)">
+            <summary>
+            Raises the FancyControls.SelectorList.ItemSelected event.
+            </summary>
+            <param name="e">
+            A FancyControls.IndexEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:FancyControls.SelectorList.OnItemUnselected(FancyControls.IndexEventArgs)">
+            <summary>
+            Raises the FancyControls.SelectorList.ItemUnselected event.
+            </summary>
+            <param name="e">
+            A FancyControls.IndexEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="F:FancyControls.SelectorList.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:FancyControls.SelectorList.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:FancyControls.SelectorList.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+    </members>
+</doc>

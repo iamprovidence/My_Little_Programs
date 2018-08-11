@@ -1,0 +1,12 @@
+c:\users\тарас\documents\visual studio 2015\Projects\FancyControls\FancyControls\obj\Debug\FancyControls.Properties.Resources.resources
+c:\users\тарас\documents\visual studio 2015\Projects\FancyControls\FancyControls\obj\Debug\FancyControls.SelectorBox.resources
+c:\users\тарас\documents\visual studio 2015\Projects\FancyControls\FancyControls\obj\Debug\FancyControls.csproj.GenerateResource.Cache
+c:\users\тарас\documents\visual studio 2015\Projects\FancyControls\FancyControls\obj\Debug\FancyControls.dll
+c:\users\тарас\documents\visual studio 2015\Projects\FancyControls\FancyControls\obj\Debug\FancyControls.pdb
+c:\users\тарас\documents\visual studio 2015\Projects\FancyControls\FancyControls\bin\Debug\FancyControls.dll
+c:\users\тарас\documents\visual studio 2015\Projects\FancyControls\FancyControls\bin\Debug\FancyControls.pdb
+c:\users\тарас\documents\visual studio 2015\Projects\FancyControls\FancyControls\obj\Debug\FancyControls.SelectorList.resources
+C:\Users\Тарас\documents\visual studio 2015\Projects\FancyControls\FancyControls\obj\Debug\FancyControls.Counter.resources
+C:\Users\Тарас\documents\visual studio 2015\Projects\FancyControls\FancyControls\bin\Debug\FancyControls.XML
+C:\Users\Тарас\documents\visual studio 2015\Projects\FancyControls\FancyControls\obj\Debug\FancyControls.csprojResolveAssemblyReference.cache
+C:\Users\Тарас\documents\visual studio 2015\Projects\FancyControls\FancyControls\obj\Debug\FancyControls.Data.GlGraph.resources
