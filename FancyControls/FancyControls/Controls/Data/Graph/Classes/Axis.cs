@@ -12,13 +12,13 @@ namespace FancyControls.Data
         // FIELDS
         System.Windows.Forms.DataVisualization.Charting.Axis axis;
         // CONSTRUCTORS
-        /// <summary>
-        /// Initializes a new instance of the FancyControls.Data.Axis class.
-        /// </summary>
-        /// <param name="axis">
-        /// An axis to config.
-        /// </param>
-        public Axis(System.Windows.Forms.DataVisualization.Charting.Axis axis)
+        // <summary>
+        // Initializes a new instance of the FancyControls.Data.Axis class.
+        // </summary>
+        // <param name="axis">
+        // An axis to config.
+        // </param>
+        internal Axis(System.Windows.Forms.DataVisualization.Charting.Axis axis)
         {
             this.axis = axis;
 
@@ -368,7 +368,7 @@ namespace FancyControls.Data
         /// </returns>
         public double ValueToPixelPosition(double axisValue)
         {
-            return ValueToPixelPosition(axisValue);
+            return axis.ValueToPixelPosition(axisValue);
         }
 
         /// <summary>
