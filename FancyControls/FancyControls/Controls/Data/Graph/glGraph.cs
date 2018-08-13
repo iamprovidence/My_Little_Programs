@@ -1,5 +1,6 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace FancyControls.Data
 {
@@ -19,7 +20,41 @@ namespace FancyControls.Data
 
             axisX = new Axis(this.graphArea.ChartAreas["CoordinateSystem"].AxisX);
             axisY = new Axis(this.graphArea.ChartAreas["CoordinateSystem"].AxisY);
+
+            this.graphArea.PostPaint += GraphArea_PostPaint;
         }
+        // drawing axis title near arrows
+        private void GraphArea_PostPaint(object sender, ChartPaintEventArgs e)
+        {
+            if (e.ChartElement is Chart && (axisX.TitleAlignment == TitleAlignment.NearAxisArrow || axisY.TitleAlignment == TitleAlignment.NearAxisArrow))
+            {
+                Chart chart = (Chart)e.ChartElement;
+
+                Graphics g = e.ChartGraphics.Graphics;
+
+                Font drawFont = new Font("Verdana", 8);
+                SolidBrush drawBrush = new SolidBrush(Color.Black);
+                float x, y;
+                // X AXIS
+                if (axisX.TitleAlignment == TitleAlignment.NearAxisArrow)
+                {
+                    x = chart.Width - 90 - g.MeasureString(axisX.TextToDisplay, drawFont).Width;
+                    y = (float)AxisY.ValueToPixelPosition(0) - 20;
+                    g.DrawString(axisX.TextToDisplay, drawFont, drawBrush, x, y);
+                }
+                // Y AXIS
+                if(axisY.TitleAlignment == TitleAlignment.NearAxisArrow)
+                {
+                    x = (float)AxisX.ValueToPixelPosition(0);
+                    y = chart.Location.X;
+                    g.DrawString(axisY.TextToDisplay, drawFont, drawBrush, x, y);
+                }                    
+
+                drawFont.Dispose();
+                drawBrush.Dispose();
+            }
+        }
+
         // PROPERTIES
         /// <summary>
         /// Gets or sets the background color of FancyControls.Data.glGraph class.
