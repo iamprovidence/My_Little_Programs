@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -11,7 +11,10 @@ namespace FancyControls.Data
     {
         // FIELDS
         System.Windows.Forms.DataVisualization.Charting.Axis axis;
+        TitleAlignment titleAlignment;
+        string text;
         // CONSTRUCTORS
+
         // <summary>
         // Initializes a new instance of the FancyControls.Data.Axis class.
         // </summary>
@@ -21,6 +24,8 @@ namespace FancyControls.Data
         internal Axis(System.Windows.Forms.DataVisualization.Charting.Axis axis)
         {
             this.axis = axis;
+            this.text = null;
+            this.titleAlignment = (TitleAlignment)axis.TitleAlignment;
 
             this.ArrowStyle = AxisArrowStyle.Lines;
             this.axis.Crossing = 0;
@@ -28,6 +33,18 @@ namespace FancyControls.Data
         }
         
         // PROPERTIES
+
+        internal string TextToDisplay
+        {
+            get
+            {
+                if (titleAlignment == TitleAlignment.NearAxisArrow)
+                {
+                    return text;
+                }
+                return axis.Title;
+            }
+        }
         /// <summary>
         /// Gets or sets the arrow style of a axis.
         /// </summary>
@@ -250,22 +267,39 @@ namespace FancyControls.Data
             }
             set
             {
-                axis.Title = value;
+                if(titleAlignment == TitleAlignment.NearAxisArrow)
+                {
+                    text = value;
+                }
+                else axis.Title = value;
             }
         }
 
         /// <summary>
         /// Gets or sets the alignment of an axis title.
         /// </summary>
-        public StringAlignment TitleAlignment
+        public TitleAlignment TitleAlignment
         {
             get
             {
-                return axis.TitleAlignment;
+
+                return this.titleAlignment;
             }
             set
             {
-                axis.TitleAlignment = value;
+                this.titleAlignment = value;
+
+                if (value == TitleAlignment.NearAxisArrow)
+                {
+                    this.text = axis.Title;
+                    axis.Title = "";
+                }
+                else
+                {
+                    axis.Title = string.IsNullOrWhiteSpace(text) ? axis.Title : text;
+                    text = null;
+                    axis.TitleAlignment = (StringAlignment)value;
+                }
             }
         }
 
