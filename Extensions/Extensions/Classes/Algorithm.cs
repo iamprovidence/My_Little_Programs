@@ -18,12 +18,12 @@ namespace Extensions
         /// <returns>The instance of IEnumerable filled with generated values of certain size.</returns>
         public static IEnumerable<T> GenerateN<T>(int count, Func<T> generator)
         {
-            List<T> list = new List<T>(count);
+            T[] array = new T[count];
             for (int i = 0; i < count; ++i)
             {
-                list.Add(generator());
+                array[i] = generator();
             }
-            return list.AsEnumerable<T>();
+            return array.AsEnumerable<T>();
         }
     }
 }
