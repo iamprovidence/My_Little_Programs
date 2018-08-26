@@ -25,5 +25,17 @@ namespace Extensions
             }
             return array.AsEnumerable<T>();
         }
+        /// <summary>
+        /// Swap the values of two variables.
+        /// </summary>
+        /// <typeparam name="T">The type of variables.</typeparam>
+        /// <param name="item1">The first variable.</param>
+        /// <param name="item2">The second variable.</param>
+        public static void Swap<T>(ref T item1, ref T item2)
+        {
+            T temp = item1;
+            item1 = item2;
+            item2 = temp;
+        }
     }
 }
