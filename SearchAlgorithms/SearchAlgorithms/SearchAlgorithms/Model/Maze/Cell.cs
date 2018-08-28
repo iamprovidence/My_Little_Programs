@@ -9,7 +9,7 @@ namespace SearchAlgorithms.Model.Maze
     class Cell : IComparable<Cell>
     {
         // FIELDS
-        CellIndices indices;
+        private CellIndices indices;
         private float x;
         private float y;
         private CellType type;
