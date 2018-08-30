@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -107,12 +107,11 @@ namespace SearchAlgorithms
             }
             catch (ThreadAbortException)
             {
-                try
-                {
-                    maze.ResetMaze();
-                }
-                catch (NullReferenceException) { }// if maze cleaned, all cell equal to Null, happened when user change Generator
-                mazePnl.Invalidate();
+                // ignore
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
         }
         // FORM EVENT
@@ -180,7 +179,11 @@ namespace SearchAlgorithms
             if (algorithmLb.SelectedIndex != -1)
             {
                 // activate algorithm
-                algorithm = (ISearchable)Activator.CreateInstance(algorithms[algorithmLb.SelectedIndex], new object[] { maze, (byte)delayUpDown.Value });
+                algorithm = (ISearchable)Activator.CreateInstance(
+                    algorithms[algorithmLb.SelectedIndex], new object[] { maze, (byte)delayUpDown.Value });
+
+                maze.ResetMaze();
+                mazePnl.Invalidate();
                 Run();
             }
         }
