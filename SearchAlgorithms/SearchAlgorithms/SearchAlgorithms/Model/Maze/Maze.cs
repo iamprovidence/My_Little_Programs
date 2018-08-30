@@ -19,7 +19,7 @@ namespace SearchAlgorithms.Model.Maze
         private int height;
         private Cell start;
         private Cell end;
-        IGeneratable generator;
+        private IGeneratable generator;
 
         private bool disposedValue;
         private Bitmap bitmap;
