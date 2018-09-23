@@ -119,5 +119,12 @@ namespace FancyControls.Data
                 this.graphArea.Series.Add(g.GetGraphConfig);
             }
         }
+        /// <summary>
+        /// Deleting all graphs.
+        /// </summary>
+        public void Clear()
+        {
+            this.graphArea.Series.Clear();
+        }
     }
 }
