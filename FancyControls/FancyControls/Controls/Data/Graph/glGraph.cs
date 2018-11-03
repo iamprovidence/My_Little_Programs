@@ -22,6 +22,11 @@ namespace FancyControls.Data
             axisY = new Axis(this.graphArea.ChartAreas["CoordinateSystem"].AxisY);
 
             this.graphArea.PostPaint += GraphArea_PostPaint;
+
+            this.AxisX.TitleAlignment = TitleAlignment.NearAxisArrow;
+            this.AxisX.Title = "X";
+            this.AxisY.TitleAlignment = TitleAlignment.NearAxisArrow;
+            this.AxisY.Title = "Y";
         }
         // drawing axis title near arrows
         private void GraphArea_PostPaint(object sender, ChartPaintEventArgs e)
