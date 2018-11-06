@@ -13,7 +13,7 @@ namespace Extensions
         /// <typeparam name="ControlType">The type of the control that should be applied by the action.</typeparam>
         /// <param name="control">The instance of <see cref="System.Windows.Forms.Control"/> that has been extended.</param>
         /// <param name="action">The action that shall be applied to all the elements.</param>
-        public static void ForEachControl<ControlType>(Control control, System.Action<ControlType> action) where ControlType : Control
+        public static void ForEachControl<ControlType>(this Control control, System.Action<ControlType> action) where ControlType : Control
         {
             if (!control.HasChildren && control is ControlType)
             {
