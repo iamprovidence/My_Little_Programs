@@ -1,2 +1,2 @@
-# my-little-programs
-here i post a little programs of mine
+# My little Programs
+here I post a little programs of mine
