@@ -83,8 +83,6 @@ namespace SearchAlgorithms.Model.Maze
         /// <summary>
         /// Calculate distance between two cells in 8 dimensions.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
         /// <param name="A">First instance of <see cref="SearchAlgorithms.Model.Maze.Cell"/> class.</param>
         /// <param name="B">Second instance of <see cref="SearchAlgorithms.Model.Maze.Cell"/> class.</param>
         /// <returns>Distance between two cells in 8 dimensions.</returns>
@@ -95,8 +93,6 @@ namespace SearchAlgorithms.Model.Maze
         /// <summary>
         /// Calculate distance between two cells in 4 dimensions.
         /// </summary>
-        /// <param name="A"></param>
-        /// <param name="B"></param>
         /// <param name="A">First instance of <see cref="SearchAlgorithms.Model.Maze.Cell"/> class.</param>
         /// <param name="B">Second instance of <see cref="SearchAlgorithms.Model.Maze.Cell"/> class.</param>
         /// <returns>Distance between two cells in 4 dimensions.</returns>
