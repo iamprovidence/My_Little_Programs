@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WriterTrainer.View
+namespace WriterTrainer.View.Window.User.Controls
 {
     /// <summary>
-    /// Interaction logic for Registration.xaml
+    /// Interaction logic for TasNotDoneControl.xaml
     /// </summary>
-    public partial class Registration : Window
+    public partial class TasNotDoneControl : UserControl
     {
-        public Registration()
+        public TasNotDoneControl()
         {
             InitializeComponent();
         }
