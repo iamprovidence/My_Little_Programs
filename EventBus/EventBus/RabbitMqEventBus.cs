@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace EventBus
 {
-	public sealed class RabbitMQBus : IEventBus
+	public sealed class RabbitMqEventBus : IEventBus
 	{
 		private readonly Dictionary<string, List<Type>> _handlers;
 
 		private readonly IMediator _mediator;
 		private readonly IServiceScopeFactory _serviceScopeFactory;
 
-		public RabbitMQBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory)
+		public RabbitMqEventBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory)
 		{
 			_mediator = mediator;
 			_serviceScopeFactory = serviceScopeFactory;
@@ -105,8 +105,8 @@ namespace EventBus
 
 					var eventType = Type.GetType(eventName);
 					var @event = JsonConvert.DeserializeObject(message, eventType);
-					var conreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
-					var method = conreteType.GetMethod(nameof(IEventHandler<IEvent>.Handle));
+					var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
+					var method = concreteType.GetMethod(nameof(IEventHandler<IEvent>.Handle));
 
 					await (Task)method.Invoke(handler, new object[] { @event });
 				}
