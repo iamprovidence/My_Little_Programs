@@ -1,5 +1,4 @@
 ﻿using EventBus.Abstract;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -15,13 +14,10 @@ namespace EventBus
 	public sealed class RabbitMqEventBus : IEventBus
 	{
 		private readonly Dictionary<string, List<Type>> _handlers;
-
-		private readonly IMediator _mediator;
 		private readonly IServiceScopeFactory _serviceScopeFactory;
 
-		public RabbitMqEventBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory)
+		public RabbitMqEventBus(IServiceScopeFactory serviceScopeFactory)
 		{
-			_mediator = mediator;
 			_serviceScopeFactory = serviceScopeFactory;
 			_handlers = new Dictionary<string, List<Type>>();
 		}
