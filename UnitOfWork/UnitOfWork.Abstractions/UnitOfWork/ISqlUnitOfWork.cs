@@ -13,12 +13,12 @@ namespace UnitOfWork.Abstractions.UnitOfWork
 		void Update<TEntity>(TEntity entityToUpdate)
 			where TEntity : class, IEntity;
 
-		Task LoadReference<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> include)
+		Task LoadAsync<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> include)
 			where TEntity : class, IEntity
-			where TProperty : class;
+			where TProperty : class, IEntity;
 
-		public Task LoadCollection<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, IEnumerable<TProperty>>> include)
+		Task LoadAsync<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, IEnumerable<TProperty>>> include)
 			where TEntity : class, IEntity
-			where TProperty : class;
+			where TProperty : class, IEntity;
 	}
 }

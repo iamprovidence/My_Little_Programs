@@ -89,16 +89,16 @@ namespace UnitOfWork.Abstractions.UnitOfWork
 			return _dbContext.SaveChangesAsync();
 		}
 
-		public Task LoadCollection<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, IEnumerable<TProperty>>> include)
+		public Task LoadAsync<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, IEnumerable<TProperty>>> include)
 			where TEntity : class, IEntity
-			where TProperty : class
+			where TProperty : class, IEntity
 		{
 			return _dbContext.Entry(entity).Collection(include).LoadAsync();
 		}
 
-		public Task LoadReference<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> include)
+		public Task LoadAsync<TEntity, TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> include)
 			where TEntity : class, IEntity
-			where TProperty : class
+			where TProperty : class, IEntity
 		{
 			return _dbContext.Entry(entity).Reference(include).LoadAsync();
 		}

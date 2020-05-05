@@ -73,8 +73,11 @@ namespace UnitOfWork.Example
 			Console.WriteLine("Specification");
 			ISpecification<User> ageSpecification = new UserAgeSpecifications(age: 20);
 			ISpecification<User> nameSpecification = new UserNameSpecifications(name: "U2");
-			IEnumerable<User> specificationResult = await sqlUnitOfWork.Get<IUserRepository>().Find(ageSpecification && nameSpecification);
-			Print(specificationResult);
+			IEnumerable<User> specificationResult1 = await sqlUnitOfWork.Get<IUserRepository>().Find(ageSpecification && nameSpecification);
+			Print(specificationResult1);
+			Console.WriteLine();
+			IEnumerable<User> specificationResult2 = await sqlUnitOfWork.Get<IUserRepository>().Find(ageSpecification || nameSpecification);
+			Print(specificationResult2);
 
 			Console.ReadLine();
 		}
