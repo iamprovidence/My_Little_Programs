@@ -25,7 +25,7 @@ namespace EventBus
 			var eventName = typeof(T).Name;
 			var handlerType = typeof(TH);
 
-			if (!_handlers.Contains(handlerType))
+			if (_handlers.Contains(handlerType))
 			{
 				throw new ArgumentException($"Handler Type {handlerType.Name} already is registered for '{eventName}'", nameof(handlerType));
 			}
