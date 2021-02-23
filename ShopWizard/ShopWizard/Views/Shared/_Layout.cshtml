@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>ShopWizard</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+	<div style="width: 800px; margin: 0 auto;">
+		<main role="main">
+			@RenderBody()
+		</main>
+	</div>
+
+	<script>
+		function submitCommand(command) {
+			const form = document.getElementById('mainForm');
+			form.action = '/' + command;
+			form.submit();
+		}
+	</script>
+</body>
+</html>

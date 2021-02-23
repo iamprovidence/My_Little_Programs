@@ -1,0 +1,8 @@
+﻿@model IFlowContext
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+	<br />
+	<span style="color: red;">@Model.ErrorMessage</span>
+	<br />
+}

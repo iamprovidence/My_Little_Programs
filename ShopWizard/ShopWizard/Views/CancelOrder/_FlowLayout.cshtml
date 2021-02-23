@@ -1,0 +1,13 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form id="mainForm" asp-controller="CancelOrder" method="post">
+
+	<input type="hidden" name="FlowState" value="@JsonConvert.SerializeObject(Model.FlowContext)" />
+
+	@RenderBody()
+
+	<partial name="_FlowError" model="@Model.FlowContext" />
+
+</form>

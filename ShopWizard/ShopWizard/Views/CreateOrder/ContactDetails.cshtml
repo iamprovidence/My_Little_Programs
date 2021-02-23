@@ -1,0 +1,10 @@
+@model ContactDetailsViewModel
+
+<h1>Contact Details</h1>
+
+<label for="Email">Email</label>
+<input type="email" asp-for="Email" value="@Model.Email" />
+<br /><br />
+
+<button onclick="submitCommand('@CreateOrderCommandType.GoToProductSelection');">Back</button>
+<button onclick="submitCommand('@CreateOrderCommandType.SubmitContactDetails');">Next</button>

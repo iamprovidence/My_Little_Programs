@@ -1,0 +1,9 @@
+@model EnterOrderCodeViewModel
+
+<h1>Enter order code</h1>
+
+<label for="Email">Code</label>
+<input type="text" asp-for="OrderCode" value="@Model.OrderCode" />
+<br /><br />
+
+<button onclick="submitCommand('@CancelOrderCommandType.SubmitOrderCode');">Submit</button>

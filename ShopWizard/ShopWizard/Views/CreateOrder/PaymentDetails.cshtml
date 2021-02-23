@@ -1,0 +1,12 @@
+@model PaymentDetailsViewModel
+
+<h1>Payment Details</h1>
+
+<input type="radio" asp-for="PaymentMethod" value="@PaymentMethod.Cash" />Cash
+<br />
+<input type="radio" asp-for="PaymentMethod" value="@PaymentMethod.CreditCard" />CreditCard
+<br />
+<br />
+
+<button onclick="submitCommand('@CreateOrderCommandType.GoToContactDetails');">Back</button>
+<button onclick="submitCommand('@CreateOrderCommandType.SubmitPaymentDetails');">Complete</button>

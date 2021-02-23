@@ -1,0 +1,13 @@
+@model SummaryPageViewModel
+
+<h1>Summary</h1>
+
+<div>Product:<span>@Model.FlowContext.Product</span></div>
+<div>Email:<span>@Model.FlowContext.Email</span></div>
+<div>Payment:<span>@Model.FlowContext.PaymentMethod</span></div>
+
+<br />
+
+<div>Order code:<span>@Model.OrderCode</span></div>
+
+<a asp-controller="Home" asp-action="Index">Home</a>

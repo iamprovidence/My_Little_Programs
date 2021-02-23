@@ -1,0 +1,13 @@
+@model ProductSelectionViewModel
+
+<h1>Product Selection</h1>
+
+<input type="radio" asp-for="Product" value="@ProductType.Toy" />Toy
+<br />
+<input type="radio" asp-for="Product" value="@ProductType.Cloth" />Cloth
+<br />
+<input type="radio" asp-for="Product" value="@ProductType.Meal" />Meal
+<br />
+<br />
+
+<button onclick="submitCommand('@CreateOrderCommandType.SubmitProductSelection');">Next</button>

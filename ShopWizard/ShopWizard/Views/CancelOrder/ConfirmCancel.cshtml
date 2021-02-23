@@ -1,0 +1,11 @@
+@model ConfirmCancelViewModel
+
+<h1>Confirm Cancel</h1>
+
+<input type="radio" asp-for="ShouldCancelOrder" value="true" />Yes
+<br />
+<input type="radio" asp-for="ShouldCancelOrder" value="false" />No
+<br />
+<br />
+
+<button onclick="submitCommand('@CancelOrderCommandType.SubmitOrderCancelation');">Submit</button>
