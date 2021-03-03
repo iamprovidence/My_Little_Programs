@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace FlowStage
 {
+	// IOutputPort could be passed as argument for ProcessCommand
+	
 	// FlowStages use IOutputPortFactory
 	public class FlowService<TFlowStage, TFlowContext> : IFlowService<TFlowContext>
 		where TFlowStage : IFlowStage<TFlowContext>
