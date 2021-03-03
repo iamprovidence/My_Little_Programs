@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 namespace ShopWizard.Controllers
 {
 	// TODO: redirect to get for back button in browser
+	// output with redirect to GET with context in cookie?
+	// trigger event to render view instead of IOutputPort?
 	public class CreateOrderController : FlowControllerBase<CreateOrderFlowContext>, ICreateOrderOutputPort
 	{
 		public CreateOrderController(CreateOrderFlowService flowService, IOutputPortFactory outputPortFactory)
