@@ -1,3 +1,3 @@
 # WebApplication
 
-This is an example of web app application
+This is an example of web app architecture

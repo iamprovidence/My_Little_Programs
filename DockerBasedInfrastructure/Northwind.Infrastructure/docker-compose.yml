@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  northwind.sqlserver:
+    image: northwind_sqlserver
+    build:
+      context: ../../
+      dockerfile: DockerBasedInfrastructure/Northwind.SqlServer/Dockerfile
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "5533:1433"
+
+  northwind.dbprocessor:
+    image: northwind_dbprocessor
+    build:
+      context: ../../
+      dockerfile: DockerBasedInfrastructure/Northwind.DbProcessor/Dockerfile
+    depends_on:
+      - northwind.sqlserver
+    environment:
+      - runModes=listChanges,applyMigration
+      - connectionStrings__NorthwindDbConnection=Server=northwind.sqlserver;Database=Northwind.Db;User Id=sa;Password=Pass@word
