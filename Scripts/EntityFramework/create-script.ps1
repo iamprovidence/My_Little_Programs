@@ -10,4 +10,4 @@ Write-Output "To:"
 $lastMigrationName
 
 Write-Output "Start"
-dotnet ef migrations script $previousMigrationName $lastMigrationName --output Migrations/$lastMigrationName.sql --startup-project ../../Project.csproj --context DbContext
+dotnet ef migrations script $previousMigrationName $lastMigrationName --output $dir/$lastMigrationName.sql --startup-project ../../Project.csproj --context DbContext
