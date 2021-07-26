@@ -10,4 +10,4 @@ Write-Output "To:"
 $lastMigrationName
 
 Write-Output "Start"
-dotnet ef migrations script $previousMigrationName $lastMigrationName --output Infrastructure/Persistence/Migrations/$lastMigrationName.sql --startup-project ../Northwind.Api/Northwind.Api.csproj --context NorthwindDbContext
+dotnet ef migrations script $previousMigrationName $lastMigrationName --output $dir/$lastMigrationName.sql --startup-project ../Northwind.Api/Northwind.Api.csproj --context NorthwindDbContext
