@@ -34,9 +34,10 @@ namespace EfCore.MockLib.Mock
 		{
 			var containsMethodInfo = typeof(string)
 				.GetMethod(nameof(string.Contains), new[] { typeof(string), typeof(StringComparison) });
-
-			// instance.Contains(searchCondition, StringComparison.InvariantCultureIgnoreCase)
-			return Expression.Call(instance, containsMethodInfo, searchCondition, Expression.Constant(StringComparison.InvariantCultureIgnoreCase));
+			var instanceExpression = Expression.Coalesce(instance, Expression.Constant(string.Empty));
+ 
+			// (instance ?? string.Empty).Contains(searchCondition, StringComparison.InvariantCultureIgnoreCase)  		
+			return Expression.Call(instanceExpression, containsMethodInfo, searchCondition, Expression.Constant(StringComparison.InvariantCultureIgnoreCase));
 		}
 	}
 }
