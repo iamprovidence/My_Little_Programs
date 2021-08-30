@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Microsoft.ApplicationInsights" Version="2.17.0" />
+	<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.15" />
+	<PackageReference Include="MsgPack.Cli" Version="1.0.1" />
+	<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+	<PackageReference Include="StackExchange.Redis.StrongName" Version="1.2.6" />
+	<PackageReference Include="AspNetCore.HealthChecks.Redis" Version="2.2.1" />
+	<PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DaCache.Abstractions\DaCache.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
