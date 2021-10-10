@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\CQRS\Saga.Application.CQRS\Saga.Application.CQRS.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\Saga.Application.EventBus\Saga.Application.EventBus.csproj" />
+  </ItemGroup>
+
+</Project>

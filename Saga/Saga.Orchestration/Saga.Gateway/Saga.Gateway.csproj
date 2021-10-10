@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Appccelerate.StateMachine" Version="5.1.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Modules\Messages\Messages.Application.Contracts\Messages.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Modules\Orders\Orders.Application.Contracts\Orders.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Modules\Products\Products.Application.Contracts\Products.Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

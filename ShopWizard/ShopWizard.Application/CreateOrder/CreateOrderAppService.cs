@@ -1,5 +1,4 @@
-﻿using ShopWizard.Application.CancelOrder.Interfaces;
-using ShopWizard.Application.CreateOrder.Commands;
+﻿using ShopWizard.Application.CreateOrder.Commands;
 using ShopWizard.Application.CreateOrder.Interfaces;
 using ShopWizard.Application.CreateOrder.ViewModels;
 using System;
@@ -7,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace ShopWizard.Application.CreateOrder
 {
+	// TODO: separate Presenter class for each stage
 	public class CreateOrderAppService : ICreateOrderAppService
 	{
 		#region ContactDetails
+		// TODO: remove command
 		public Task<ContactDetailsViewModel> GetContactDetailsPage(CreateOrderFlowContext context, SubmitContactDetailsCommand command)
 		{
 			var viewModel = new ContactDetailsViewModel

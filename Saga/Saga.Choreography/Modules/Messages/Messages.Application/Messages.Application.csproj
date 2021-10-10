@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\Saga.Application.EventBus\Saga.Application.EventBus.csproj" />
+    <ProjectReference Include="..\..\Orders\Orders.Application.Contracts\Orders.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\Products\Products.Application.Contracts\Products.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Messages.Application.Contracts\Messages.Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
