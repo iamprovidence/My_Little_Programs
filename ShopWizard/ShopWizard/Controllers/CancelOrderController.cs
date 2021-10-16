@@ -1,54 +1,66 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FlowStage.Interfaces;
+using FlowStage.Models;
+using Microsoft.AspNetCore.Mvc;
 using ShopWizard.Application.CancelOrder;
-using ShopWizard.Application.CancelOrder.Commands;
-using ShopWizard.Application.CancelOrder.Enums;
-using ShopWizard.Application.CancelOrder.Interfaces;
-using ShopWizard.Application.CancelOrder.ViewModels;
+using ShopWizard.Application.CancelOrder.Stages.CancelOrderComplete;
+using ShopWizard.Application.CancelOrder.Stages.CancelOrderComplete.ViewModels;
+using ShopWizard.Application.CancelOrder.Stages.ConfirmCancel;
+using ShopWizard.Application.CancelOrder.Stages.ConfirmCancel.Commands;
+using ShopWizard.Application.CancelOrder.Stages.ConfirmCancel.ViewModels;
+using ShopWizard.Application.CancelOrder.Stages.EnterOrderCode;
+using ShopWizard.Application.CancelOrder.Stages.EnterOrderCode.Commands;
+using ShopWizard.Application.CancelOrder.Stages.EnterOrderCode.ViewModels;
 using ShopWizard.Controllers.Abstract;
 using System.Threading.Tasks;
 
 namespace ShopWizard.Controllers
 {
-	public class CancelOrderController : FlowControllerBase<CancelOrderFlowContext>, ICancelOrderOutputPort
+	public class CancelOrderController : FlowControllerBase<CancelOrderFlowContext>
 	{
-		public CancelOrderController(CancelOrderFlowService flowService)
-			: base(flowService) { }
+		protected override FlowStageIdentifier InitialStage => FlowStageIdentifier.From<EnterOrderCodeFlowStage>();
 
-		public Task<IActionResult> Index()
+		public CancelOrderController(IFlowStageOrchestrator flowOrchestrator, IFlowStagePresenterOrchestrator presenterOrchestrator)
+			: base(flowOrchestrator, presenterOrchestrator) { }
+
+		#region Enter order code
+		[HttpGet]
+		[Route(nameof(EnterOrderCodeFlowStage))]
+		public Task<IActionResult> ShowEnterOrderCode()
 		{
-			return ProcessCommand(null, new GoToEnterOrderCodeCommand());
+			return ShowView<EnterOrderCodeViewModel>();
 		}
 
-		[HttpPost(nameof(CancelOrderCommandType.SubmitOrderCode))]
-		public Task<IActionResult> SubmitOrderCode(string flowState, SubmitOrderCodeCommand command)
+		[HttpPost]
+		[Route(nameof(SubmitOrderCodeCommand))]
+		public Task<IActionResult> SubmitOrderCode(SubmitOrderCodeCommand command)
 		{
-			return ProcessCommand(flowState, command);
+			return ProcessCommand(command);
+		}
+		#endregion
+
+		#region Confirm cancel
+		[HttpGet]
+		[Route(nameof(ConfirmCancelFlowStage))]
+		public Task<IActionResult> ShowConfirmCancel()
+		{
+			return ShowView<ConfirmCancelViewModel>();
 		}
 
-		[HttpPost(nameof(CancelOrderCommandType.SubmitOrderCancelation))]
-		public Task<IActionResult> SubmitOrderCancelation(string flowState, SubmitCancelOrderCommand command)
+		[HttpPost]
+		[Route(nameof(SubmitCancelOrderCommand))]
+		public Task<IActionResult> SubmitOrderCancelation(SubmitCancelOrderCommand command)
 		{
-			return ProcessCommand(flowState, command);
+			return ProcessCommand(command);
 		}
+		#endregion
 
-		public void EnterOrderCode(EnterOrderCodeViewModel viewModel)
+		#region Summary
+		[HttpGet]
+		[Route(nameof(CancelOrderCompleteFlowStage))]
+		public Task<IActionResult> ShowSummary()
 		{
-			Return(View("EnterOrderCode", viewModel));
+			return ShowView<CancelOrderCompleteViewModel>();
 		}
-
-		public void Home()
-		{
-			Return(RedirectToAction(actionName: nameof(HomeController.Index), controllerName: nameof(HomeController).Replace("Controller", string.Empty)));
-		}
-
-		public void ConfirmCancel(ConfirmCancelViewModel viewModel)
-		{
-			Return(View("ConfirmCancel", viewModel));
-		}
-
-		public void Summary(SummaryViewModel viewModel)
-		{
-			Return(View("Summary", viewModel));
-		}
+		#endregion
 	}
 }

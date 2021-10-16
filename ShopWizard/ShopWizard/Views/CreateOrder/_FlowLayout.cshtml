@@ -2,10 +2,7 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <form id="mainForm" asp-controller="CreateOrder" method="post">
-
-	<input type="hidden" name="FlowState" value="@JsonConvert.SerializeObject(Model.FlowContext)" />
 
 	@RenderBody()
 

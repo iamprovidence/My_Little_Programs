@@ -1,22 +1,11 @@
-using FlowStage;
-using FlowStage.Abstractions.Interfaces;
+using FlowStage.Interfaces;
+using FlowStage.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using ShopWizard.Application.CancelOrder;
-using ShopWizard.Application.CancelOrder.Interfaces;
-using ShopWizard.Application.CancelOrder.Stages;
-using ShopWizard.Application.CreateOrder;
-using ShopWizard.Application.CreateOrder.Interfaces;
-using ShopWizard.Application.CreateOrder.Stages;
-using ShopWizard.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using ShopWizard.Application;
 
 namespace ShopWizard
 {
@@ -32,8 +21,7 @@ namespace ShopWizard
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services
-				.AddControllersWithViews()
-				.AddControllersAsServices(ServiceLifetime.Scoped);
+				.AddControllersWithViews();
 
 			services.AddApplicationServices(Configuration);
 		}
@@ -68,45 +56,20 @@ namespace ShopWizard
 	{
 		public static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
 		{
-			services.AddScoped<IOutputPortFactory, OutputPortFactory>();
+			services.AddScoped<IFlowStageOrchestrator, FlowStageOrchestrator>();
+			services.AddScoped<IFlowStagePresenterOrchestrator, FlowStagePresenterOrchestrator>();
 
-			services.AddScoped<CreateOrderFlowService>();
+			services.Scan(scan => scan
+				.FromAssemblyOf<IAssemblyMarker>()
+				.AddClasses(c => c.AssignableTo<IFlowStage>())
+				.AsImplementedInterfaces()
+				.WithScopedLifetime());
 
-			services.AddScoped<ICreateOrderFlowStage, ProductSelectionFlowStage>();
-			services.AddScoped<ICreateOrderFlowStage, ContactDetailsFlowStage>();
-			services.AddScoped<ICreateOrderFlowStage, PaymentDetailsFlowStage>();
-
-			services.AddScoped<ICreateOrderAppService, CreateOrderAppService>();
-
-
-			services.AddScoped<CancelOrderFlowService>(sp =>
-			{
-				var stages = new Lazy<IEnumerable<ICancelOrderFlowStage>>(() => sp.GetRequiredService<IEnumerable<ICancelOrderFlowStage>>());
-
-				return new CancelOrderFlowService(stages);
-			});
-
-			services.AddScoped<ICancelOrderOutputPort>(sp => sp.GetRequiredService<CancelOrderController>());
-
-			services.AddScoped<ICancelOrderFlowStage, EnterOrderCodeFlowStage>();
-			services.AddScoped<ICancelOrderFlowStage, ConfirmCancelFlowStage>();
-
-			services.AddScoped<ICancelOrderAppService, CancelOrderAppService>();
-		}
-
-		public static IMvcBuilder AddControllersAsServices(this IMvcBuilder builder, ServiceLifetime lifetime)
-		{
-			var feature = new ControllerFeature();
-			builder.PartManager.PopulateFeature(feature);
-
-			foreach (var controller in feature.Controllers.Select(c => c.AsType()))
-			{
-				builder.Services.Add(ServiceDescriptor.Describe(controller, controller, lifetime));
-			}
-
-			builder.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
-
-			return builder;
+			services.Scan(scan => scan
+				.FromAssemblyOf<IAssemblyMarker>()
+				.AddClasses(c => c.AssignableTo<IFlowStagePresenter>())
+				.AsImplementedInterfaces()
+				.WithScopedLifetime());
 		}
 	}
 }

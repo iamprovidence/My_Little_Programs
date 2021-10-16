@@ -1,0 +1,14 @@
+@model CancelOrderCompleteViewModel
+
+<h1>Complete</h1>
+
+@if (Model.DidSucceed)
+{
+	<p>Succeeded</p>
+}
+else
+{
+	<p>Failed</p>
+}
+
+<a asp-controller="Home" asp-action="Index">Home</a>

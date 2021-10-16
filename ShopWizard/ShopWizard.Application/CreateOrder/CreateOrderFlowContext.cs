@@ -1,5 +1,5 @@
-﻿using FlowStage.Abstractions.Interfaces;
-using ShopWizard.Application.CreateOrder.Enums;
+﻿using FlowStage.Interfaces;
+using FlowStage.Models;
 using ShopWizard.Domain.Enums;
 using System.Runtime.Serialization;
 
@@ -9,7 +9,7 @@ namespace ShopWizard.Application.CreateOrder
 	public class CreateOrderFlowContext : IFlowContext, IFlowContextChangeable
 	{
 		[DataMember]
-		public string StageName { get; private set; }
+		public FlowStageIdentifier CurrentStage { get; private set; }
 
 		[DataMember]
 		public string ErrorMessage { get; set; }
@@ -23,20 +23,14 @@ namespace ShopWizard.Application.CreateOrder
 		[DataMember]
 		public PaymentMethod? PaymentMethod { get; set; }
 
-		public CreateOrderFlowContext()
-		{
-			StageName = CreateOrderFlowStageType.ProductSelection.ToString();
-		}
-
-
 		void IFlowContextChangeable.Reset()
 		{
 			ErrorMessage = null;
 		}
 
-		void IFlowContextChangeable.SetStage(string newStage)
+		void IFlowContextChangeable.SetCurrentStage(FlowStageIdentifier newStage)
 		{
-			StageName = newStage;
+			CurrentStage = newStage;
 		}
 	}
 }

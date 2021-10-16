@@ -1,79 +1,99 @@
-﻿using FlowStage.Abstractions.Interfaces;
+﻿using FlowStage.Interfaces;
+using FlowStage.Models;
 using Microsoft.AspNetCore.Mvc;
 using ShopWizard.Application.CreateOrder;
-using ShopWizard.Application.CreateOrder.Commands;
-using ShopWizard.Application.CreateOrder.Enums;
-using ShopWizard.Application.CreateOrder.Interfaces;
-using ShopWizard.Application.CreateOrder.ViewModels;
+using ShopWizard.Application.CreateOrder.Stages.ContactDetails;
+using ShopWizard.Application.CreateOrder.Stages.ContactDetails.Commands;
+using ShopWizard.Application.CreateOrder.Stages.ContactDetails.ViewModels;
+using ShopWizard.Application.CreateOrder.Stages.PaymentDetails;
+using ShopWizard.Application.CreateOrder.Stages.PaymentDetails.Commands;
+using ShopWizard.Application.CreateOrder.Stages.PaymentDetails.ViewModels;
+using ShopWizard.Application.CreateOrder.Stages.ProductSelection;
+using ShopWizard.Application.CreateOrder.Stages.ProductSelection.Commands;
+using ShopWizard.Application.CreateOrder.Stages.ProductSelection.ViewModels;
+using ShopWizard.Application.CreateOrder.Stages.Summary;
+using ShopWizard.Application.CreateOrder.Stages.Summary.ViewModels;
 using ShopWizard.Controllers.Abstract;
 using System.Threading.Tasks;
 
 namespace ShopWizard.Controllers
 {
-	// TODO: redirect to get for back button in browser
-	// output with redirect to GET with context in cookie?
-	// trigger event to render view instead of IOutputPort?
-	public class CreateOrderController : FlowControllerBase<CreateOrderFlowContext>, ICreateOrderOutputPort
+	public class CreateOrderController : FlowControllerBase<CreateOrderFlowContext>
 	{
-		public CreateOrderController(CreateOrderFlowService flowService, IOutputPortFactory outputPortFactory)
-			: base(flowService)
+		protected override FlowStageIdentifier InitialStage => FlowStageIdentifier.From<ProductSelectionFlowStage>();
+
+		public CreateOrderController(IFlowStageOrchestrator flowOrchestrator, IFlowStagePresenterOrchestrator presenterOrchestrator)
+			: base(flowOrchestrator, presenterOrchestrator) { }
+
+		#region Product selection
+		[HttpGet]
+		[Route(nameof(ProductSelectionFlowStage))]
+		public Task<IActionResult> ShowProductSelection()
 		{
-			outputPortFactory.Register<ICreateOrderOutputPort>(this);
+			return ShowView<ProductSelectionViewModel>();
 		}
 
-		public Task<IActionResult> Index()
+		[HttpPost]
+		[Route(nameof(SubmitProductSelectionCommand))]
+		public Task<IActionResult> SubmitProductSelection(SubmitProductSelectionCommand command)
 		{
-			return ProcessCommand(null, new GoToProductSelectionCommand());
+			return ProcessCommand(command);
+		}
+		#endregion
+
+		#region Contact details
+		[HttpGet]
+		[Route(nameof(ContactDetailsFlowStage))]
+		public Task<IActionResult> ShowContactDetails()
+		{
+			return ShowView<ContactDetailsViewModel>();
 		}
 
-		[HttpPost(nameof(CreateOrderCommandType.SubmitProductSelection))]
-		public Task<IActionResult> SubmitProductSelection(string flowState, SubmitProductSelectionCommand command)
+		[HttpPost]
+		[Route(nameof(GoToProductSelectionCommand))]
+		public Task<IActionResult> GoToProductSelection()
 		{
-			return ProcessCommand(flowState, command);
+			return ProcessCommand(new GoToProductSelectionCommand());
 		}
 
-		[HttpPost(nameof(CreateOrderCommandType.SubmitContactDetails))]
-		public Task<IActionResult> SubmitContactDetails(string flowState, SubmitContactDetailsCommand command)
+		[HttpPost]
+		[Route(nameof(SubmitContactDetailsCommand))]
+		public Task<IActionResult> SubmitContactDetails(SubmitContactDetailsCommand command)
 		{
-			return ProcessCommand(flowState, command);
+			return ProcessCommand(command);
+		}
+		#endregion
+
+		#region Payment details
+		[HttpGet]
+		[Route(nameof(PaymentDetailsFlowStage))]
+		public Task<IActionResult> ShowPaymentDetails()
+		{
+			return ShowView<PaymentDetailsViewModel>();
 		}
 
-		[HttpPost(nameof(CreateOrderCommandType.SubmitPaymentDetails))]
-		public Task<IActionResult> SubmitPaymentDetails(string flowState, SubmitPaymentDetailsCommand command)
+		[HttpPost]
+		[Route(nameof(GoToContactDetailsCommand))]
+		public Task<IActionResult> GoToContactDetails()
 		{
-			return ProcessCommand(flowState, command);
+			return ProcessCommand(new GoToContactDetailsCommand());
 		}
 
-		[HttpPost(nameof(CreateOrderCommandType.GoToProductSelection))]
-		public Task<IActionResult> GoToProductSelection(string flowState)
+		[HttpPost]
+		[Route(nameof(SubmitPaymentDetailsCommand))]
+		public Task<IActionResult> SubmitPaymentDetails(SubmitPaymentDetailsCommand command)
 		{
-			return ProcessCommand(flowState, new GoToProductSelectionCommand());
+			return ProcessCommand(command);
 		}
+		#endregion
 
-		[HttpPost(nameof(CreateOrderCommandType.GoToContactDetails))]
-		public Task<IActionResult> GoToContactDetails(string flowState)
+		#region Summary
+		[HttpGet]
+		[Route(nameof(SummaryFlowStage))]
+		public Task<IActionResult> ShowSummary()
 		{
-			return ProcessCommand(flowState, new GoToContactDetailsCommand());
+			return ShowView<SummaryViewModel>();
 		}
-
-		public void ContactDetails(ContactDetailsViewModel viewModel)
-		{
-			Return(View("ContactDetails", viewModel));
-		}
-
-		public void Payment(PaymentDetailsViewModel viewModel)
-		{
-			Return(View("PaymentDetails", viewModel));
-		}
-
-		public void ProductSelection(ProductSelectionViewModel viewModel)
-		{
-			Return(View("ProductSelection", viewModel));
-		}
-
-		public void Summary(SummaryPageViewModel viewModel)
-		{
-			Return(View("Summary", viewModel));
-		}
+		#endregion
 	}
 }

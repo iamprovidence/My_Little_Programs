@@ -1,5 +1,5 @@
-﻿using FlowStage.Abstractions.Interfaces;
-using ShopWizard.Application.CancelOrder.Enums;
+﻿using FlowStage.Interfaces;
+using FlowStage.Models;
 using System.Runtime.Serialization;
 
 namespace ShopWizard.Application.CancelOrder
@@ -8,7 +8,7 @@ namespace ShopWizard.Application.CancelOrder
 	public class CancelOrderFlowContext : IFlowContext, IFlowContextChangeable
 	{
 		[DataMember]
-		public string StageName { get; private set; }
+		public FlowStageIdentifier CurrentStage { get; private set; }
 
 		[DataMember]
 		public string ErrorMessage { get; set; }
@@ -16,20 +16,17 @@ namespace ShopWizard.Application.CancelOrder
 		[DataMember]
 		public string OrderCode { get; set; }
 
-		
-		public CancelOrderFlowContext()
-		{
-			StageName = CancelOrderFlowStageType.EnderOrderCode.ToString();
-		}
+		[DataMember]
+		public bool DidSucceed { get; set; }
 
 		void IFlowContextChangeable.Reset()
 		{
 			ErrorMessage = null;
 		}
 
-		void IFlowContextChangeable.SetStage(string newStage)
+		void IFlowContextChangeable.SetCurrentStage(FlowStageIdentifier newStage)
 		{
-			StageName = newStage;
+			CurrentStage = newStage;
 		}
 	}
 }

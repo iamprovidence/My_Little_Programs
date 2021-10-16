@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FlowStage.Abstractions\FlowStage.Abstractions.csproj" />
     <ProjectReference Include="..\FlowStage\FlowStage.csproj" />
     <ProjectReference Include="..\ShopWizard.Domain\ShopWizard.Domain.csproj" />
   </ItemGroup>
