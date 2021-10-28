@@ -111,6 +111,7 @@ namespace Saga.Gateway.Orders
 
 			await _stateMachine.Start();
 			await _stateMachine.Fire(Event.CreateOrder);
+			await _stateMachine.Stop();
 
 			return await _taskResult.Task;
 		}
