@@ -19,7 +19,7 @@ class WakeUpInTheMorningState : IBotState
 
 	public IBotState Handle(string update, IOutputPort outputPort)
 	{
-		if (update == Option1) return new InitiaState();
+		if (update == Option1) return new InitialState();
 
 		return this;
 	}

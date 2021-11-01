@@ -20,8 +20,8 @@ app.MapPost("/", async (http) =>
 {
 	var botUpdate = await GetBotUpdate(http);
 	var currentBotState = GetCurrentBotState(http, botUpdate);
-	var newBotState = await HandleUpdate(http, currentBotState, botUpdate);
-	UpdateSession(http, newBotState);
+	await HandleUpdate(http, currentBotState, botUpdate);
+	UpdateSession(http, currentBotState);
 	
 	async Task<Update> GetBotUpdate(HttpContext http)
 	{
@@ -36,17 +36,15 @@ app.MapPost("/", async (http) =>
 		var sessionService = http.RequestServices.GetRequiredService<IMemoryCache>();
 		var sessionId = botUpdate.Message?.Chat?.Id ?? botUpdate.MyChatMember.Chat.Id;
 
-		var botState = sessionService.GetOrCreate<IBotState>(sessionId, cacheEntry =>
+		return sessionService.GetOrCreate(sessionId, cacheEntry =>
 		{
 			cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(SessionTimeoutInMinutes);
 
-			return new InitiaState();
+			return new BandersnatchBot();
 		});
-
-		return new BandersnatchBot(botState);
 	}
 
-	async Task<IBotState> HandleUpdate(HttpContext http, BandersnatchBot currentBotState, Update botUpdate)
+	async Task HandleUpdate(HttpContext http, BandersnatchBot currentBotState, Update botUpdate)
 	{
 		var telegramOutputPort = new TelegramOutputPort(new TelegramBotClient(GetBotToken(http)), botUpdate);
 		var consoleOutputPort = new ConsoleOutputPort();
@@ -55,15 +53,15 @@ app.MapPost("/", async (http) =>
 		var userInput = botUpdate.Message?.Text ?? string.Empty;
 		Console.WriteLine("Користувач ввів: ", userInput);
 
-		return await currentBotState.Handle(userInput, combinedOutputPort);
+		await currentBotState.Handle(userInput, combinedOutputPort);
 	}
 
-	void UpdateSession(HttpContext http, IBotState newBotState)
+	void UpdateSession(HttpContext http, BandersnatchBot currentBotState)
 	{
 		var sessionService = http.RequestServices.GetRequiredService<IMemoryCache>();
 		var sessionId = botUpdate.Message?.Chat?.Id ?? botUpdate.MyChatMember.Chat.Id;
 
-		sessionService.Set(sessionId, newBotState);
+		sessionService.Set(sessionId, currentBotState);
 	}
 });
 

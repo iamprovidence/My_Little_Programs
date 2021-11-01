@@ -4,12 +4,12 @@ class BandersnatchBot
 {
 	private readonly IBotState _state;
 
-	public BandersnatchBot(IBotState state)
+	public BandersnatchBot()
 	{
-		_state = state;
+		_state = new InitialState();
 	}
 
-	public async Task<IBotState> Handle(string update, IOutputPort outputPort)
+	public async Task Handle(string update, IOutputPort outputPort)
 	{
 		var newBotState = _state.Handle(update, outputPort);
 
@@ -18,7 +18,5 @@ class BandersnatchBot
 
 		var newOptions = newBotState.GetOptions();
 		await outputPort.ShowOptions(newOptions);
-
-		return newBotState;
 	}
 }

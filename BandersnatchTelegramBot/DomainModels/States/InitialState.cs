@@ -1,6 +1,6 @@
 ﻿namespace BandersnatchTelegramBot.DomainModels.States;
 
-class InitiaState : IBotState
+class InitialState : IBotState
 {
 	private readonly string Option1 = "Дзвінок";
 	private readonly string Option2 = "Портрети";
