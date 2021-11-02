@@ -7,7 +7,7 @@ var app = builder.Build();
 
 app.MapGet("/", async (http) =>
 {
-	var token = GetBotToken(http);
+	var token = http.RequestServices.GetRequiredService<IConfiguration>().GetValue<string>("TelegramBot:Token");
 
 	var result = string.IsNullOrWhiteSpace(token) ?
 		"Bot is not configured. Specify Token." :
@@ -46,12 +46,14 @@ app.MapPost("/", async (http) =>
 
 	async Task HandleUpdate(HttpContext http, BandersnatchBot currentBotState, Update botUpdate)
 	{
-		var telegramOutputPort = new TelegramOutputPort(new TelegramBotClient(GetBotToken(http)), botUpdate);
+		var token = http.RequestServices.GetRequiredService<IConfiguration>().GetValue<string>("TelegramBot:Token");
+		
+		var telegramOutputPort = new TelegramOutputPort(new TelegramBotClient(token), botUpdate);
 		var consoleOutputPort = new ConsoleOutputPort();
 		var combinedOutputPort = new CombinedOutputPort(telegramOutputPort, consoleOutputPort);
 
 		var userInput = botUpdate.Message?.Text ?? string.Empty;
-		Console.WriteLine("Êîðèñòóâà÷ ââ³â: ", userInput);
+		Console.WriteLine("ÃŠÃ®Ã°Ã¨Ã±Ã²Ã³Ã¢Ã Ã· Ã¢Ã¢Â³Ã¢: ", userInput);
 
 		await currentBotState.Handle(userInput, combinedOutputPort);
 	}
@@ -66,8 +68,3 @@ app.MapPost("/", async (http) =>
 });
 
 app.Run();
-
-static string GetBotToken(HttpContext http)
-{
-	return http.RequestServices.GetRequiredService<IConfiguration>().GetValue<string>("TelegramBot:Token");
-}
