@@ -18,5 +18,7 @@ class BandersnatchBot
 
 		var newOptions = newBotState.GetOptions();
 		await outputPort.ShowOptions(newOptions);
+		
+		_state = newBotState;
 	}
 }
