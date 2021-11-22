@@ -14,8 +14,6 @@ namespace ShopWizard.Application.CancelOrder.Stages.CancelOrderComplete
 			// Termination state
 			return command switch
 			{
-				SubmitProductSelectionCommand submitCommand => DoProcessing(context, submitCommand),
-
 				_ => throw new UnsupportedCommandException(),
 			};
 		}
