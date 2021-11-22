@@ -12,7 +12,10 @@ namespace ShopWizard.Application.CreateOrder.Stages.Summary
 		public Task<FlowStageIdentifier> ProcessCommand(CreateOrderFlowContext context, IFlowCommand command)
 		{
 			// Termination state
-			throw new UnsupportedCommandException();
+			return command switch
+			{
+				_ => throw new UnsupportedCommandException(),
+			};
 		}
 	}
 }
