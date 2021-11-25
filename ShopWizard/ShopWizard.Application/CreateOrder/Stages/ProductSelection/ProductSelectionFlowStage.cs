@@ -36,6 +36,8 @@ namespace ShopWizard.Application.CreateOrder.Stages.ProductSelection
 				return FlowStageIdentifier.From<ProductSelectionFlowStage>();
 			}
 
+			// Logic here
+			
 			// Commit changes
 			context.Product = command.Product;
 
