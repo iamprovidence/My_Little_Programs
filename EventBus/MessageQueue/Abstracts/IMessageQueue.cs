@@ -8,7 +8,7 @@ namespace MessageQueue.Abstracts
 	{
 		Task Send<T>(string connectionStringKey, string queueName, T message);
 
-		// await foreach (var message in _service.Read<T>().WithCancellation(cancellationToken))
-		Task<IAsyncEnumerable<T>> Read<T>(string connectionStringKey, string queueName, TimeSpan readInterval);
+		// await foreach (var message in _service.Read<T>(connectionStringKey, queueName).WithCancellation(cancellationToken))
+		IAsyncEnumerable<T> Read<T>(string connectionStringKey, string queueName, TimeSpan readInterval);
 	}
 }

@@ -4,6 +4,7 @@ using Microsoft.Azure.Storage.Queue;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,41 +42,34 @@ namespace MessageQueue
 			}
 		}
 
-		private readonly object _lockObject = new object();
-		private readonly IDictionary<string, CloudQueueClient> _queueClients = new Dictionary<string, CloudQueueClient>();
-
 		private readonly IConfiguration _configuration;
+		private readonly ConcurrentDictionary<string, CloudQueue> _queues;
 
 		public AzureMessageQueue(IConfiguration configuration)
 		{
 			_configuration = configuration;
+			_queues = new ConcurrentDictionary<string, CloudQueue>();
 		}
 
 		public async Task Send<T>(string connectionStringKey, string queueName, T message)
 		{
-			var queueClient = GetOrCreateQueueClient(connectionStringKey);
-
-			var queue = queueClient.GetQueueReference(queueName);
-			await queue.CreateIfNotExistsAsync();
+			var queue = GetOrCreateQueue(connectionStringKey, queueName);
 
 			var messageJson = JsonConvert.SerializeObject(message);
 			var queueMessage = new CloudQueueMessage(messageJson);
 			await queue.AddMessageAsync(queueMessage);
 		}
 
-		public async Task<IAsyncEnumerable<T>> Read<T>(string connectionStringKey, string queueName, TimeSpan readInterval)
+		public IAsyncEnumerable<T> Read<T>(string connectionStringKey, string queueName, TimeSpan readInterval)
 		{
-			var queueClient = GetOrCreateQueueClient(connectionStringKey);
-
-			var queue = queueClient.GetQueueReference(queueName);
-			await queue.CreateIfNotExistsAsync();
+			var queue = GetOrCreateQueue(connectionStringKey, queueName);
 
 			return new AzureQueueAsyncEnumerator<T>(queue, readInterval);
 		}
 
-		private CloudQueueClient GetOrCreateQueueClient(string connectionStringKey)
+		private CloudQueue GetOrCreateQueue(string connectionStringKey, string queueName)
 		{
-			if (!_queueClients.ContainsKey(connectionStringKey))
+			return _queues.GetOrAdd($"{connectionStringKey}~{queueName}", (key) =>
 			{
 				var connectionStringValue = _configuration.GetConnectionString(connectionStringKey);
 
@@ -84,15 +78,14 @@ namespace MessageQueue
 					throw new InvalidOperationException("Connection string is not configured");
 				}
 
-				lock (_lockObject)
-				{
-					var storageAccount = CloudStorageAccount.Parse(connectionStringValue);
-					var queueClient = storageAccount.CreateCloudQueueClient();
-					_queueClients.Add(connectionStringKey, queueClient);
-				}
-			}
+				var storageAccount = CloudStorageAccount.Parse(connectionStringValue);
+				var queueClient = storageAccount.CreateCloudQueueClient();
 
-			return _queueClients[connectionStringKey];
+				var queue = queueClient.GetQueueReference(queueName);
+				queue.CreateIfNotExists();
+
+				return queue;
+			});
 		}
 	}
 }
