@@ -12,7 +12,33 @@ namespace EfCore.MockLib.Mock
 	{
 		public static Mock<IDbContext> BuildDbContextMock()
 		{
-			return new Mock<IDbContext>();
+			var dbContextMock = new Mock<IDbContext>();
+
+			MockAllDbSetsAsEmpty(dbContextMock);
+
+			return dbContextMock;
+
+			static void MockAllDbSetsAsEmpty(Mock<IDbContext> dbContextMock)
+			{
+				var dbSetProperties = typeof(IDbContext)
+					.GetProperties()
+					.Where(p => p.PropertyType.GetGenericTypeDefinition() == typeof(IQueryable<>));
+
+				foreach (var propertyInfo in dbSetProperties)
+				{
+					var dbContextType = typeof(IDbContext);
+					var parameter = Expression.Parameter(dbContextType);
+					var property = Expression.Property(parameter, propertyInfo);
+					var funcType = typeof(Func<,>).MakeGenericType(dbContextType, propertyInfo.PropertyType);
+					// Expression<Func<IDbContext, IQueryable<T>>>
+					var action = Expression.Lambda(funcType, property, parameter);
+
+					typeof(DbContextMockExtensions)
+					   .GetMethod(nameof(DbContextMockExtensions.MockDbSetAsEmpty))
+					   .MakeGenericMethod(propertyInfo.PropertyType.GetGenericArguments().First())
+					   .Invoke(null, new object[] { dbContextMock, action });
+				}
+			}
 		}
 	}
 
