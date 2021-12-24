@@ -35,7 +35,7 @@ namespace EfCore.MockLib.Mock
 
 					typeof(DbContextMockExtensions)
 					   .GetMethod(nameof(DbContextMockExtensions.MockDbSetAsEmpty))
-					   .MakeGenericMethod(propertyInfo.PropertyType.GetGenericArguments().First())
+					   .MakeGenericMethod(propertyInfo.PropertyType.GetGenericArguments().Single())
 					   .Invoke(null, new object[] { dbContextMock, action });
 				}
 			}
