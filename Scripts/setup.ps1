@@ -4,6 +4,9 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/in
 $Packages = @(
     '7zip',
     'winrar',
+    
+    'ccleaner',
+    'chocolateygui',
 
     'googlechrome',
     'adblockpluschrome',
