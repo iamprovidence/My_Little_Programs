@@ -11,7 +11,7 @@ $Packages = @(
     'notepadplusplus',
     'vscode',
     'visualstudio-installer',
-    'visualstudio2021community',
+    'visualstudio2022community',
 
     'skype',
     'microsoft-teams',
