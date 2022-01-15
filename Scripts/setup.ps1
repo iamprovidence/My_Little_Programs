@@ -7,6 +7,7 @@ $Packages = @(
     
     'ccleaner',
     'chocolateygui',
+    'lightshot',
 
     'googlechrome',
     'adblockpluschrome',
