@@ -15,6 +15,11 @@ namespace WebApplication.API
 				.ConfigureWebHostDefaults(webBuilder =>
 				{
 					webBuilder.UseStartup<Startup>();
+				})
+				.UseDefaultServiceProvider(options => 
+				{
+					options.ValidateOnBuild = true;
+					options.ValidateScopes = true;
 				});
 	}
 }

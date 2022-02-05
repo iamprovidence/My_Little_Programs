@@ -18,16 +18,22 @@ namespace WebApplication.Infrastructure.ApiClient.Http.Services
 			_httpClient = httpClient;
 		}
 
+		#region TodoItem
+		private string GetTodoItemBaseUrl(string url)
+		{
+			return $"api/todo-items/{url}";
+		}
+
 		public async Task<TodoItemViewModel> GetTodoItem(int todoItemId, CancellationToken cancellationToken = default)
 		{
-			var url = $"api/todo-items/{todoItemId}";
+			var url = GetTodoItemBaseUrl(todoItemId.ToString());
 
 			var response = await _httpClient.GetAsync(url, cancellationToken);
 			var responseData = await ReadContentAs<TodoItemViewModel>(response, cancellationToken);
 
 			return responseData;
-
 		}
+		#endregion
 
 		private async Task<T> ReadContentAs<T>(HttpResponseMessage httpResponse, CancellationToken cancellationToken = default)
 		{
