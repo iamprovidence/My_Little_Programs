@@ -1,0 +1,1 @@
+﻿CommandFactory.Create(args).Execute();
