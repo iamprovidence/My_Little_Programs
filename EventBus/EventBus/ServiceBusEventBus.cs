@@ -1,8 +1,7 @@
-﻿using EventBus.Abstract;
+﻿using Azure.Messaging.ServiceBus;
+using EventBus.Abstract;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,30 +10,60 @@ using System.Threading.Tasks;
 
 namespace EventBus
 {
-	public sealed class RabbitMqEventBus : IEventBus
+	public class ServiceBusEventBus : IEventBus
 	{
-		private readonly Dictionary<string, List<Type>> _handlers;
-		private readonly IServiceScopeFactory _serviceScopeFactory;
+		private static readonly string TopicName = "secret-topic";
 
-		public RabbitMqEventBus(IServiceScopeFactory serviceScopeFactory)
+		private readonly ServiceBusSender _sender;
+		private readonly ServiceBusProcessor _processor;
+
+		private readonly IServiceScopeFactory _serviceScopeFactory;
+		private readonly Dictionary<string, List<Type>> _handlers;
+
+		public ServiceBusEventBus(IServiceScopeFactory serviceScopeFactory)
 		{
+			var serviceBusClient = new ServiceBusClient("localhost");
+
+			_sender = serviceBusClient.CreateSender(TopicName);
+			_processor = serviceBusClient.CreateProcessor(TopicName);
+
 			_serviceScopeFactory = serviceScopeFactory;
 			_handlers = new Dictionary<string, List<Type>>();
+
+			RegisterMessageHandler();
+		}
+
+		private void RegisterMessageHandler()
+		{
+			_processor.ProcessMessageAsync += async (args) =>
+			{
+				var eventName = args.Message.Subject;
+				var messageData = args.Message.Body.ToString();
+
+				// Complete the message so that it is not received again.
+				await ProcessEvent(eventName, messageData);
+
+				await args.CompleteMessageAsync(args.Message);
+
+			};
+
+			_processor.StartProcessingAsync().Wait();
 		}
 
 		public void Publish<T>(T @event) where T : IEvent
 		{
-			var factory = new ConnectionFactory() { HostName = "localhost" };
-			using (var connection = factory.CreateConnection())
-			using (var channel = connection.CreateModel())
-			{
-				var eventName = @event.GetType().Name;
-				var message = JsonConvert.SerializeObject(@event);
-				var body = Encoding.UTF8.GetBytes(message);
+			var eventName = @event.GetType().Name;
+			var jsonMessage = JsonConvert.SerializeObject(@event);
+			var body = Encoding.UTF8.GetBytes(jsonMessage);
 
-				channel.QueueDeclare(queue: eventName, durable: false, exclusive: false, autoDelete: false, arguments: null);
-				channel.BasicPublish(exchange: "", routingKey: eventName, basicProperties: null, body);
-			}
+			var message = new ServiceBusMessage
+			{
+				MessageId = Guid.NewGuid().ToString(),
+				Body = new BinaryData(body),
+				Subject = eventName,
+			};
+
+			_sender.SendMessageAsync(message).Wait();
 		}
 
 		public void Subscribe<T, TH>()
@@ -55,37 +84,6 @@ namespace EventBus
 			}
 
 			_handlers[eventName].Add(handlerType);
-
-			StartBasicConsume<T>();
-		}
-
-		private void StartBasicConsume<T>() where T : IEvent
-		{
-			var factory = new ConnectionFactory()
-			{
-				HostName = "localhost",
-				DispatchConsumersAsync = true
-			};
-
-			var connection = factory.CreateConnection();
-			var channel = connection.CreateModel();
-
-			var eventName = typeof(T).Name;
-
-			channel.QueueDeclare(queue: eventName, durable: false, exclusive: false, autoDelete: false, arguments: null);
-
-			var consumer = new AsyncEventingBasicConsumer(channel);
-			consumer.Received += Consumer_Received;
-
-			channel.BasicConsume(queue: eventName, autoAck: true, consumer);
-		}
-
-		private async Task Consumer_Received(object sender, BasicDeliverEventArgs e)
-		{
-			var eventName = e.RoutingKey;
-			var message = Encoding.UTF8.GetString(e.Body.ToArray());
-
-			await ProcessEvent(eventName, message).ConfigureAwait(false);
 		}
 
 		private async Task ProcessEvent(string eventName, string message)
