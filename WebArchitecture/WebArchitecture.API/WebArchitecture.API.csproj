@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebArchitecture.Application.UseCases\WebArchitecture.Application.UseCases.csproj" />
+    <ProjectReference Include="..\WebArchitecture.Infrastructure.OpenApi.Swagger\WebArchitecture.Infrastructure.OpenApi.Swagger.csproj" />
+	<ProjectReference Include="..\WebArchitecture.Infrastructure.Persistence.MsSql\WebArchitecture.Infrastructure.Persistence.MsSql.csproj" />
+	<ProjectReference Include="..\WebArchitecture.Infrastructure.Identity.GithubApi\WebArchitecture.Infrastructure.Identity.GitHubApi.csproj" />
+	<ProjectReference Include="..\WebArchitecture.Infrastructure.ApiClient.Http\WebArchitecture.Infrastructure.ApiClient.Http.csproj" />
+  </ItemGroup>
+
+</Project>
