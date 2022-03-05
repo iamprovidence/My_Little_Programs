@@ -1,0 +1,9 @@
+﻿{
+  // This file was automatically added to your project
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "Custom StyleCop"
+    }
+  }
+}
