@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
 		<StylePackageName>Custom.StyleCop</StylePackageName>
-		<StylePackageVersion>99.0.0-dev20220303102854</StylePackageVersion>
+		<StylePackageVersion>1.1.1</StylePackageVersion>
 	</PropertyGroup>
 	<PropertyGroup>
 		<CodeAnalysisRuleSetLocation Condition=" '$(NuGetPackageRoot)' != '' ">$(NuGetPackageRoot)$(StylePackageName.ToLower())\$(StylePackageVersion)</CodeAnalysisRuleSetLocation>
