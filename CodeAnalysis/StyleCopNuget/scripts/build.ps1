@@ -1,5 +1,12 @@
 ﻿$ErrorActionPreference = 'Stop'
 
+$outputPath = 'nupkgs'
+
+if (-not (Test-Path $outputPath))
+{
+	Set-Location ..
+}
+
 Write-Host -ForegroundColor Green "$('-'*6) Start building nuget $('-'*6)"
 
 if ($args.count -lt 1) {
@@ -7,8 +14,6 @@ if ($args.count -lt 1) {
 } else {
 	$version = $args[0]
 }
-
-$outputPath = 'nupkgs'
 
 if (Test-Path $outputPath) {
 	Write-Host 'Clearing output path'

@@ -1,5 +1,11 @@
-﻿$analyzerProjects = Get-ChildItem -Path '../CustomAnalyzers/*/*.CodeFixes/*.csproj'
-$outputPath = "analyzers"
+﻿$outputPath = "analyzers"
+
+if (-not (Test-Path $outputPath))
+{
+	Set-Location ..
+}
+
+$analyzerProjects = Get-ChildItem -Path '../CustomAnalyzers/*/*.CodeFixes/*.csproj'
 
 foreach ($project in $analyzerProjects)
 {
