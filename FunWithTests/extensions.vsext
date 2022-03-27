@@ -1,0 +1,12 @@
+{
+  "id": "0848d96d-c404-42e6-a62c-0b331c42bf18",
+  "name": "My Visual Studio extensions",
+  "description": "A collection of my Visual Studio extensions",
+  "version": "1.0",
+  "extensions": [
+    {
+      "name": "SpecFlow for Visual Studio 2022",
+      "vsixId": "SpecFlow.VisualStudio.2022.3c1441cb-29e4-49a6-b430-c98205b95236"
+    }
+  ]
+}

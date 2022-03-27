@@ -1,0 +1,32 @@
+﻿@model IdentityServer.Models.LoginModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+</head>
+
+<body>
+    <div style="margin: auto; width: 800px; text-align: center;">
+        
+        @{
+            if (ViewContext.ModelState.IsValid == false)
+            {
+                <p>Field are required</p>
+            }
+        }
+
+        <form class="form-element" asp-action="Login" method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            <input asp-for="UserName" type="login" placeholder="Login" autofocus>
+            <br />
+            <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+            <br />
+
+            <button type="submit" class="btn btn-info btn-block margin-top-10">SIGN IN</button>
+        </form>
+    </div>
+</body>
+</html> 
