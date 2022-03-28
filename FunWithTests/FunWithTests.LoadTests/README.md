@@ -22,7 +22,7 @@ You typically want to stress test an API or website to:
 * determine if your system will recover without manual intervention after the stress test is over.
 
 <p align="center">
-    <img alt="Stress test" src="https://raw.githubusercontent.com/iamprovidence/WebAppTests/master/docs/images/load-testing/stress-test.png" />
+    <img alt="Stress test" src="https://raw.githubusercontent.com/iamprovidence/FunWithTests/master/FunWithTests.LoadTests/docs/images/load-testing/stress-test.png" />
 </p>
 
 ### Spike testing
@@ -35,7 +35,7 @@ You want to execute a spike test to:
 * determine if your system will recover once the traffic has subsided.
 
 <p align="center">
-    <img alt="Spike test" src="https://raw.githubusercontent.com/iamprovidence/WebAppTests/master/docs/images/load-testing/spike-test.png" />
+    <img alt="Spike test" src="https://raw.githubusercontent.com/iamprovidence/FunWithTests/master/FunWithTests.LoadTests/docs/images/load-testing/spike-test.png" />
 </p>
 
 ### Load testing
@@ -50,7 +50,7 @@ You should run Load Test to:
 * make sure you are continuously meeting the performance standards as you make changes to your system (code and infrastructure).
 
 <p align="center">
-    <img alt="Load test" src="https://raw.githubusercontent.com/iamprovidence/WebAppTests/master/docs/images/load-testing/load-test.png" />
+    <img alt="Load test" src="https://raw.githubusercontent.com/iamprovidence/FunWithTests/master/FunWithTests.LoadTests/docs/images/load-testing/load-test.png" />
 </p>
 
 ### Soak testing
@@ -67,5 +67,5 @@ You typically run this test to:
 * make sure the external services you depend on don't stop working after a certain amount of requests are executed.
 
 <p align="center">
-    <img alt="Soak test" src="https://raw.githubusercontent.com/iamprovidence/WebAppTests/master/docs/images/load-testing/soak-test.png" />
+    <img alt="Soak test" src="https://raw.githubusercontent.com/iamprovidence/FunWithTests/master/FunWithTests.LoadTests/docs/images/load-testing/soak-test.png" />
 </p>

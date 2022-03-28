@@ -1,4 +1,5 @@
-﻿Feature: Available order types
+﻿@OrderType
+Feature: Available order types
 
 Scenario: Order type has correct discount
 	Given Order types should have correct discount

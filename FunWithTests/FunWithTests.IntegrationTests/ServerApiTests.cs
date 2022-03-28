@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using Ductus.FluentDocker.Builders;
 using FluentAssertions;
 using FunWithTests.IntegrationTests.Helpers;
+using Microsoft.AspNetCore.Mvc.Testing;
+using WireMock.RequestBuilders;
+using WireMock.ResponseBuilders;
+using WireMock.Server;
 using Xunit;
 
 namespace FunWithTests.IntegrationTests
@@ -29,13 +33,14 @@ namespace FunWithTests.IntegrationTests
         public async Task Docker_Get_Ping_ShouldSucceed()
         {
             // Arrange
-            var composeFile = GetDockerComposeFilePath("docker-compose.yml");
+            var composeFile = FileHelper.ReverseGetFile("docker-compose.yml");
 
             using var docker = new Builder()
                 .UseContainer()
                 .UseCompose()
                 .FromFile(composeFile)
                 .RemoveOrphans()
+                // .WaitForHttp(...)
                 .Build()
                 .Start();
 
@@ -48,21 +53,43 @@ namespace FunWithTests.IntegrationTests
             result.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        private string GetDockerComposeFilePath(string fileName)
+        [Fact]
+        public async Task InMemory_Get_Ping_ShouldSucceed()
         {
-            var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
+            // Arrange
+            using var appFactory = new WebApplicationFactory<Startup>();
+            using var client = appFactory.CreateClient();
 
-            while (directory != null && !directory.GetFiles(fileName).Any())
-            {
-                directory = directory.Parent;
-            }
+            // Act
+            var result1 = await client.GetAsync("/api/server/ping");
+            var result2 = await client.GetAsync("http://localhost:5000/api/server/ping");
 
-            if (directory == null)
-            {
-                throw new FileNotFoundException("Could not find docker compose file");
-            }
+            // Assert
+            result1.StatusCode.Should().Be(HttpStatusCode.OK);
+            result2.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
 
-            return Path.Combine(directory.FullName, fileName);
+        [Fact]
+        public async Task ExternalServer_Get_Ping_ShouldSucceed()
+        {
+            // Arrange
+            using var wireMock = WireMockServer.Start();
+
+            wireMock
+                .Given(Request.Create().UsingGet().WithPath("/api/server/ping"))
+                .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK).WithBodyAsJson(new
+                {
+                    State = "Running...",
+                }));
+
+            using var client = HttpClientFactory.Create();
+            client.BaseAddress = new Uri(wireMock.Urls.First());
+
+            // Act
+            var result = await client.GetAsync("/api/server/ping");
+
+            // Assert
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }

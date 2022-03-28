@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Domain;
 using FluentAssertions;
@@ -6,6 +7,7 @@ using Xunit;
 
 namespace FunWithTests.UnitTests
 {
+    [ExcludeFromCodeCoverage]
     public class MoqOrderPriceCalculatorTests
     {
         [Fact]
