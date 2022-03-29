@@ -1,0 +1,4 @@
+﻿{
+  Amount: 120.0,
+  Currency: EUR
+}
