@@ -42,7 +42,7 @@ namespace FunWithTests.IntegrationTests.Helpers
 
                 TaskCompletionSource<string> taskCompletionSource = await SubscribeToTokenResponse(chromeDriver);
 
-                await SubmitScadaAuthorization(chromeDriver);
+                await SubmitAuthAuthorization(chromeDriver);
 
                 return await taskCompletionSource.Task;
             });
@@ -91,7 +91,7 @@ namespace FunWithTests.IntegrationTests.Helpers
                 return taskCompletionSource;
             }
 
-            async Task SubmitScadaAuthorization(ChromeDriver chromeDriver)
+            async Task SubmitAuthAuthorization(ChromeDriver chromeDriver)
             {
                 chromeDriver.SwitchTo().Window(chromeDriver.WindowHandles.Last());
                 await Task.Delay(500);
