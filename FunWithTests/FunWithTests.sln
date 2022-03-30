@@ -20,8 +20,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunWithTests.UnitTests", "F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mocha", "Mocha\Mocha.csproj", "{796D27E6-DE2A-4386-AC74-83FBC012D4B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{6FCACA68-7F0A-4F01-A3B3-C166801A59E8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunWithTests.BehaviorTests", "FunWithTests.BehaviorTests\FunWithTests.BehaviorTests.csproj", "{CBA3279C-BD6D-472E-9ADF-6C4CF97058FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunWithTests.UiTests", "FunWithTests.UiTests\FunWithTests.UiTests.csproj", "{41636FD3-8E8F-4AA7-A72C-4F624931C2B4}"
@@ -36,9 +34,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunWithTests.PerformanceTes
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "FunWithTests.LoadTests", "FunWithTests.LoadTests\FunWithTests.LoadTests.njsproj", "{0BADAF19-93A3-4CE3-942B-D7A1F920CBB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunWithTests.StressTests", "FunWithTests.StressTests\FunWithTests.StressTests.csproj", "{6282EF18-A449-4D6E-A4B5-4D03C70FE981}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunWithTests.StressTests", "FunWithTests.StressTests\FunWithTests.StressTests.csproj", "{6282EF18-A449-4D6E-A4B5-4D03C70FE981}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunWithTests.SnapshotTests", "FunWithTests.SnapshotTests\FunWithTests.SnapshotTests.csproj", "{0350ADD8-13C0-430B-A40A-541CC3C02428}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunWithTests.SnapshotTests", "FunWithTests.SnapshotTests\FunWithTests.SnapshotTests.csproj", "{0350ADD8-13C0-430B-A40A-541CC3C02428}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunWithTests.Mocha", "FunWithTests.Mocha\FunWithTests.Mocha.csproj", "{7A2A2C48-02FA-4051-870F-EC0B5699A2A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,10 +70,6 @@ Global
 		{796D27E6-DE2A-4386-AC74-83FBC012D4B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{796D27E6-DE2A-4386-AC74-83FBC012D4B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{796D27E6-DE2A-4386-AC74-83FBC012D4B7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6FCACA68-7F0A-4F01-A3B3-C166801A59E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FCACA68-7F0A-4F01-A3B3-C166801A59E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FCACA68-7F0A-4F01-A3B3-C166801A59E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FCACA68-7F0A-4F01-A3B3-C166801A59E8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CBA3279C-BD6D-472E-9ADF-6C4CF97058FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CBA3279C-BD6D-472E-9ADF-6C4CF97058FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBA3279C-BD6D-472E-9ADF-6C4CF97058FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -98,6 +94,10 @@ Global
 		{0350ADD8-13C0-430B-A40A-541CC3C02428}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0350ADD8-13C0-430B-A40A-541CC3C02428}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0350ADD8-13C0-430B-A40A-541CC3C02428}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A2A2C48-02FA-4051-870F-EC0B5699A2A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A2A2C48-02FA-4051-870F-EC0B5699A2A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A2A2C48-02FA-4051-870F-EC0B5699A2A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A2A2C48-02FA-4051-870F-EC0B5699A2A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,7 +107,6 @@ Global
 		{4D438BF8-09FD-4675-8204-6C1AA5F89272} = {10847C76-73CA-4B1C-9515-A2BB0C9FDD88}
 		{4B8522B2-3001-4DD6-91FA-51C05CE87C66} = {10847C76-73CA-4B1C-9515-A2BB0C9FDD88}
 		{796D27E6-DE2A-4386-AC74-83FBC012D4B7} = {10847C76-73CA-4B1C-9515-A2BB0C9FDD88}
-		{6FCACA68-7F0A-4F01-A3B3-C166801A59E8} = {10847C76-73CA-4B1C-9515-A2BB0C9FDD88}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {15BC5E7B-4878-4E70-870E-92FC3286932B}
