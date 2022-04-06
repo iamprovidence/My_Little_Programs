@@ -21,6 +21,7 @@ namespace WebArchitecture.API.Controllers
 
 		[HttpGet("{todoItemId}")]
 		[ProducesResponseType(typeof(WebAppResult<TodoItemViewModel>), (int)HttpStatusCode.OK)]
+		// [ProducesResponseType(typeof(WebAppResult<TodoItemViewModel>), StatusCodes.Status200OK)]
 		public Task<TodoItemViewModel> GetTodoItem(int todoItemId, CancellationToken cancellationToken)
 		{
 			var request = new GetTodoItemQuery()
