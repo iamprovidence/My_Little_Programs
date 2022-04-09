@@ -36,7 +36,7 @@ namespace FunWithSerilog.Controllers
             // optimized memory allocation, since format is performed when LogLevel enabled
             _logger.Information($"Hello world {1 + 1}");
             _logger.Information("Hello world {0}", 1 + 1);
-            _logger.Log(LogEventLevel.Information, $"Hello world {2}");
+            _logger.Log(LogEventLevel.Information, $"Hello world {1 + 1}");
             _logger.InterpolatedInformation($"Hello world {1 + 1}");
 
             var arr = new[] { 1, 2, 3 };
