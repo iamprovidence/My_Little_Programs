@@ -49,7 +49,7 @@ namespace FunWithSerilog.Services
             }
 
             _arguments.Add(value);
-            _builder.Append($"{{@{name}}}");
+            _builder.Append("{{name}}");
         }
 
         public (string, object?[]) GetTemplateAndArguments() => (_builder.ToString(), _arguments.ToArray());
