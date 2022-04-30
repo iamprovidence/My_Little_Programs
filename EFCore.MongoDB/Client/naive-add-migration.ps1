@@ -26,12 +26,12 @@ namespace Client.Infrastructure.Migrations
     {
         protected override void Up()
         {
-            throw new NotImplementedException(`"Down migrations are not supported`");
+            throw new NotImplementedException(`"Up migration are not implemented`");
         }
 
         protected override void Down()
         {
-            throw new NotImplementedException(`"Down migrations are not supported`");
+            throw new NotImplementedException(`"Down migration are not supported`");
         }
     }
 }"
