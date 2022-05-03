@@ -1,0 +1,34 @@
+on:
+  workflow_call:
+    inputs:
+      dotnet-version:
+        required: true
+        type: string
+      publish-path:
+        required: true
+        type: string
+        
+jobs:
+  behavior-tests:
+  
+    runs-on: ubuntu-latest
+  
+    steps:  
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+
+    - name: Download artifact
+      uses: actions/download-artifact@v1.0.0
+      with:
+        name: ${{ inputs.publish-path }}
+      
+    - name: Unzip artifact
+      run: unzip ${{ inputs.publish-path }}/${{ inputs.publish-path }}.zip
+
+    - name: Run tests
+      run: cd ${{ inputs.publish-path }} && dotnet test FunWithTests.BehaviorTests.dll --no-build

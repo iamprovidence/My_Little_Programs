@@ -1,0 +1,57 @@
+# Multiple jobs example
+name: .NET
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 5.0.x
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Publish
+      run: dotnet publish --no-build --output publish-result
+      
+    - name: Create zip
+      run: zip publish-result.zip publish-result/* -r
+      
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: publish-result
+        path: publish-result.zip
+        retention-days: 1
+  
+  unit-tests:
+    needs: build
+    uses: ./.github/workflows/dotnet.unit-test.yaml
+    with:
+      dotnet-version: 5.0.x
+      publish-path: publish-result
+        
+  behavior-tests:
+    needs: build
+    uses: ./.github/workflows/dotnet.behavior-test.yaml
+    with:
+      dotnet-version: 5.0.x
+      publish-path: publish-result
+     
+
