@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net5.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<ApplicationIcon>Resources\Icons\icon.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Diver.Application\Diver.Application.csproj" />
+		<ProjectReference Include="..\Diver.Infrastructure\Diver.Infrastructure.csproj" />
+		<ProjectReference Include="..\Diver.Application\Diver.Application.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Resources\*\*.*" />
+		<Resource Include="Resources\*\*.*" />
+	</ItemGroup>
+
+</Project>
