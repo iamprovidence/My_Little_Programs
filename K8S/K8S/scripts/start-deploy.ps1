@@ -26,8 +26,8 @@ do
 	Write-Host ($deployment | Out-String)
 
 	$deploymentRunningStatuses = $deployment | 
-        ForEach-Object { $PSItem.Split(' ',[System.StringSplitOptions]::RemoveEmptyEntries)[1] } | 
-        ForEach-Object { [System.Convert]::ToBoolean($PSItem) }
+		ForEach-Object { $PSItem.Split(' ',[System.StringSplitOptions]::RemoveEmptyEntries)[1] } | 
+		ForEach-Object { [System.Convert]::ToBoolean($PSItem) }
 	
 } while ($deploymentRunningStatuses -contains $false)
 
