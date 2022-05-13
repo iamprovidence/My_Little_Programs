@@ -1,6 +1,6 @@
 {
   "commands": {
-    "start-rabbit-mq": {
+    "setup-local": {
       "fileName": "powershell.exe",
       "workingDirectory": ".",
       "arguments": "-ExecutionPolicy Bypass -NonInteractive -File setup-local.ps1"
