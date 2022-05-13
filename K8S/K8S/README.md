@@ -1,5 +1,5 @@
 # Kubernetes Architecture
 
 <p align="center">
-  <image src="./K8B.png" />
+  <image src="./K8S.png" />
 </p>
