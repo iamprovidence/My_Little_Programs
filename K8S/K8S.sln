@@ -1,0 +1,87 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketApi", "TicketApi\TicketApi.csproj", "{7587559F-FBF4-40FF-9032-70772985D217}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DisplayTextWorker", "DisplayTextWorker\DisplayTextWorker.csproj", "{DE6F66D3-042F-4E9E-8B30-F37301E6E4B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{FF37CCD6-AC1D-44E9-94EB-3322E95C88BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus", "EventBus\EventBus.csproj", "{BBC9C454-7698-4633-A1D8-1C34964FF65B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K8S", "K8S", "{9FDE045B-6F0F-4AD8-965F-EEAA89741127}"
+	ProjectSection(SolutionItems) = preProject
+		K8S\README.md = K8S\README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketApi.Contracts", "TicketApi.Contracts\TicketApi.Contracts.csproj", "{BCEEF32A-5BF1-409C-83C1-4A5A0FA49586}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{1497D329-D941-488F-B83B-24FA97362A4F}"
+	ProjectSection(SolutionItems) = preProject
+		commands.json = commands.json
+		setup-local.ps1 = setup-local.ps1
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{1287BF69-DA31-492E-9B63-1ED16F8397E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{E2510B50-7335-474C-9A7A-56D86EC72E08}"
+	ProjectSection(SolutionItems) = preProject
+		K8S\scripts\get-info.ps1 = K8S\scripts\get-info.ps1
+		K8S\scripts\setup-deploy.ps1 = K8S\scripts\setup-deploy.ps1
+		K8S\scripts\start-deploy.ps1 = K8S\scripts\start-deploy.ps1
+		K8S\scripts\stop-deploy.ps1 = K8S\scripts\stop-deploy.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deployment", "deployment", "{34B60B2E-CCD4-4352-8470-0BDE660586E7}"
+	ProjectSection(SolutionItems) = preProject
+		K8S\deployment\display-text-worker-deploy.yaml = K8S\deployment\display-text-worker-deploy.yaml
+		K8S\deployment\ms-sql-deploy.yaml = K8S\deployment\ms-sql-deploy.yaml
+		K8S\deployment\persistent-volume-claim.yaml = K8S\deployment\persistent-volume-claim.yaml
+		K8S\deployment\rabbit-mq-deploy.yaml = K8S\deployment\rabbit-mq-deploy.yaml
+		K8S\deployment\ticket-api-deploy.yaml = K8S\deployment\ticket-api-deploy.yaml
+		K8S\deployment\ticket-api-node-port-service.yaml = K8S\deployment\ticket-api-node-port-service.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7587559F-FBF4-40FF-9032-70772985D217}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7587559F-FBF4-40FF-9032-70772985D217}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7587559F-FBF4-40FF-9032-70772985D217}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7587559F-FBF4-40FF-9032-70772985D217}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE6F66D3-042F-4E9E-8B30-F37301E6E4B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE6F66D3-042F-4E9E-8B30-F37301E6E4B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE6F66D3-042F-4E9E-8B30-F37301E6E4B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE6F66D3-042F-4E9E-8B30-F37301E6E4B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBC9C454-7698-4633-A1D8-1C34964FF65B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBC9C454-7698-4633-A1D8-1C34964FF65B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBC9C454-7698-4633-A1D8-1C34964FF65B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBC9C454-7698-4633-A1D8-1C34964FF65B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCEEF32A-5BF1-409C-83C1-4A5A0FA49586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCEEF32A-5BF1-409C-83C1-4A5A0FA49586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCEEF32A-5BF1-409C-83C1-4A5A0FA49586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCEEF32A-5BF1-409C-83C1-4A5A0FA49586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1287BF69-DA31-492E-9B63-1ED16F8397E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1287BF69-DA31-492E-9B63-1ED16F8397E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1287BF69-DA31-492E-9B63-1ED16F8397E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1287BF69-DA31-492E-9B63-1ED16F8397E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BBC9C454-7698-4633-A1D8-1C34964FF65B} = {FF37CCD6-AC1D-44E9-94EB-3322E95C88BA}
+		{BCEEF32A-5BF1-409C-83C1-4A5A0FA49586} = {FF37CCD6-AC1D-44E9-94EB-3322E95C88BA}
+		{1287BF69-DA31-492E-9B63-1ED16F8397E5} = {FF37CCD6-AC1D-44E9-94EB-3322E95C88BA}
+		{E2510B50-7335-474C-9A7A-56D86EC72E08} = {9FDE045B-6F0F-4AD8-965F-EEAA89741127}
+		{34B60B2E-CCD4-4352-8470-0BDE660586E7} = {9FDE045B-6F0F-4AD8-965F-EEAA89741127}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B4521F2E-C5A2-497A-A889-A04C88D7B6EE}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,15 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "DisplayTextWorker.Infrastructure.Protos";
+
+message UpdateDisplayTextGrpcDto {
+	int32 TicketId = 1;
+	int32 LanguageCode = 2;
+	string DisplayText = 3;
+}
+
+service TicketGrpc {
+	rpc UpdateDisplayText (UpdateDisplayTextGrpcDto) returns (google.protobuf.Empty);
+}

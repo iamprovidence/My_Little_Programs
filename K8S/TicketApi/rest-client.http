@@ -1,0 +1,10 @@
+﻿# https://marketplace.visualstudio.com/items?itemName=MadsKristensen.RestClient
+
+GET http://localhost:5000/api/tickets/
+
+POST http://localhost:5000/api/tickets/
+{
+    "type": 0,
+    "number": "abc",
+    "code": "1234"
+}

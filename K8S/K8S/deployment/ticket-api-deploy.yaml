@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticket-api-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ticket-api
+  template:
+    metadata:
+      labels:
+        app: ticket-api
+    spec:
+      containers:
+        - name: ticket-api
+          image: local/ticket-api:kube
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticket-api-cluster-ip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: ticket-api
+  ports:
+    - name: ticket-http-api
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: ticket-grpc-api
+      protocol: TCP
+      port: 650
+      targetPort: 650

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: display-text-worker-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: display-text-worker
+  template:
+    metadata:
+      labels:
+        app: display-text-worker
+    spec:
+      containers:
+        - name: display-text-worker
+          image: local/display-text-worker:kube
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: display-text-worker-cluster-ip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: display-text-worker
+  ports:
+    - name: ticket-api
+      protocol: TCP
+      port: 80
+      targetPort: 80
