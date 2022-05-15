@@ -4,6 +4,6 @@ namespace Diver.Common
 {
     internal interface IContentPresenter
     {
-        public void SetContent(UserControl userControl);
+        void SetContent(UserControl userControl);
     }
 }
