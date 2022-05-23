@@ -20,6 +20,11 @@ IHost host = Host.CreateDefaultBuilder(args)
 
         services.AddHttpClient(TicketApiClient.HttpClientName);
 
+        // services.AddGrpcClient<TicketApiClient>((services, options) =>
+        // {
+        //     options.Address = new Uri("");
+        // }).AddInterceptor<GrpcExceptionInterceptor>();
+        
         services.AddRabbitMqEventBus(hostContext.Configuration);
         services.AddScoped<TicketCreatedEventHandler>();
 
