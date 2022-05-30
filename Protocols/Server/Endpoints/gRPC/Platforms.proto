@@ -1,0 +1,61 @@
+﻿syntax = "proto3";
+
+// GetPlatforms
+message GetPlatformsGrpcRequest
+{
+}
+
+message PlatformItemGrpcResponse
+{
+	int32 Id = 1;
+	string Name = 2;
+}
+
+message PlatformsGrpcResponse {
+    repeated PlatformItemGrpcResponse Items = 1;
+}
+
+// GetCommands
+message GetCommandsGrpcRequest
+{
+}
+
+message CommandItemGrpcResponse
+{
+    int32 Id = 1;
+    string Help = 2;
+    string CommandLine = 3;
+    int32 PlatformId = 4;
+}
+
+message CommandsGrpcResponse {
+    repeated CommandItemGrpcResponse Items = 1;
+}
+
+// AddPlatform
+message AddPlatformGrpcRequest {
+    string Name = 1;
+}
+
+message AddPlatformGrpcResponse {
+	int32 Id = 1;
+	string Name = 2;
+}
+
+// PlatformAddedEvent
+message SubscribeToPlatformAddedGrpcStream
+{
+}
+
+message PlatformAddedGrpcEvent
+{
+	int32 Id = 1;
+	string Name = 2;
+}
+
+service PlatformGrpc {
+	rpc GetPlatforms (GetPlatformsGrpcRequest) returns (PlatformsGrpcResponse);
+	rpc GetCommands (GetCommandsGrpcRequest) returns (CommandsGrpcResponse);
+	rpc AddPlatform (AddPlatformGrpcRequest) returns (AddPlatformGrpcResponse);
+	rpc SubscribeToAddPlatform (SubscribeToPlatformAddedGrpcStream) returns (stream PlatformAddedGrpcEvent);
+}
