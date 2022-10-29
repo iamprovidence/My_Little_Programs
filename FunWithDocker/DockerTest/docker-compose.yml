@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  counter:
+    build: .
+    environment:
+      FilePath: "/var/lib/counter/data/file.txt"
+    volumes:
+        - ./data/:/var/lib/counter/data/
