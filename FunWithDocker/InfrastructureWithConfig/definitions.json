@@ -1,0 +1,71 @@
+{
+	"rabbit_version": "3.8.9",
+	"rabbitmq_version": "3.8.9",
+	"product_name": "RabbitMQ",
+	"product_version": "3.8.9",
+	"users": [
+		{
+			"name": "admin",
+			"password_hash": "kI3GCmuz7tp9wJQo4CwKdfoH8j4jGNyVlii5XN/a7VRhnWh5",
+			"hashing_algorithm": "rabbit_password_hashing_sha256",
+			"tags": "administrator"
+		}
+	],
+	"vhosts": [
+		{
+			"name": "/"
+		}
+	],
+	"permissions": [
+		{
+			"user": "admin",
+			"vhost": "/",
+			"configure": ".*",
+			"write": ".*",
+			"read": ".*"
+		}
+	],
+	"topic_permissions": [],
+	"parameters": [],
+	"global_parameters": [
+		{
+			"name": "cluster_name",
+			"value": "rabbit-cluster"
+		},
+		{
+			"name": "internal_cluster_id",
+			"value": "rabbitmq-cluster-id-U_NoOoVFE2vYXHsiRIEQgA"
+		}
+	],
+	"policies": [],
+	"queues": [
+		{
+			"name": "EmailSender_Queue",
+			"vhost": "/",
+			"durable": true,
+			"auto_delete": false,
+			"arguments": {}
+		}
+	],
+	"exchanges": [
+		{
+			"name": "SendEmail_Exchange",
+			"vhost": "/",
+			"type": "direct",
+			"durable": true,
+			"auto_delete": false,
+			"internal": false,
+			"arguments": {}
+		}
+	],
+	"bindings": [
+		{
+			"source": "SendEmail_Exchange",
+			"vhost": "/",
+			"destination": "EmailSender_Queue",
+			"destination_type": "queue",
+			"routing_key": "",
+			"arguments": {}
+		}
+	]
+}

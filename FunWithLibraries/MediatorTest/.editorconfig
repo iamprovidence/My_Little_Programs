@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# MSG0005: MediatorGenerator message warning
+dotnet_diagnostic.MSG0005.severity = error

@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+
+    cassandra:
+        image: cassandra:latest
+        container_name: cassandra
+        ports:
+            - "7000:7000"
+            - "9042:9042"
+        volumes:
+            - ./cassandra_data:/var/lib/cassandra
+            
+    rabbitmq:
+        image: rabbitmq:3.8.9-management
+        volumes:
+            - ./data:/var/lib/rabbitmq:rw
+            - ./definitions.json:/opt/definitions.json:ro
+            - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+        ports:
+            - "15672:15672"
+            - "5672:5672"
