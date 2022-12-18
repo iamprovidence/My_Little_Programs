@@ -31,6 +31,7 @@ namespace FunWithSerilog
                             NumberOfShards = 2,
                             NumberOfReplicas = 1,
                         })
+                        .WriteTo.Seq("http://localhost:5341")
                         .ReadFrom.Configuration(hostingContext.Configuration);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
