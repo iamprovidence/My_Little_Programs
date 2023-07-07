@@ -6,6 +6,12 @@ using Serilog.Events;
 
 namespace FunWithSerilog.Controllers
 {
+    class User
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+    
     [ApiController]
     [Route("serilog-logger")]
     public class SerilogLoggerController
@@ -42,7 +48,15 @@ namespace FunWithSerilog.Controllers
             var arr = new[] { 1, 2, 3 };
             Log.Information("Message {Data}", arr); // [1, 2, 3]
             Log.Information("Message {$Data}", arr); // "System.Int32[]"
+            
+            var entity = new { Id = 1, Name = "John" };
+            Log.Information("Message {Data}", entity); // { Id = 1, Name = John }
+            Log.Information("Message {@Data}", entity); // {"Id": 1, "Name": "John"}
 
+            var user = new User { Id = 1, Name = "John" };
+            Log.Information("Message {Data}", entity); // FunWithSerilog.Controllers.User
+            Log.Information("Message {@Data}", entity); // {"Id": 1, "Name": "John", "$type": "User"}
+            
             // Standard ILogger interface
             var logger = Microsoft.Extensions.Logging.LoggerFactory.Create(config =>
             {
