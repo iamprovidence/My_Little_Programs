@@ -64,7 +64,7 @@ namespace FunWithTests.Configurations
                 c.OAuthClientId(SwaggerClientId);
                 c.OAuthScopes(ServerScope);
 
-                c.SwaggerEndpoint("v1.0/swagger.json", "EcuGateway API");
+                c.SwaggerEndpoint("v1.0/swagger.json", "FunWithTests API");
             });
 
             return app;
