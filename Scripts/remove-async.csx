@@ -3,7 +3,9 @@
 // - Slow: loads the entire solution, then for each method builds/updates references one at a time.
 // - Could be parallelized but isn't — sorry ^^
 // - Does NOT rename files or classes that have "Async" in their name.
+// - Does NOT rename properties that have "Async" in their name.
 // - Does NOT rename regions, comments, or string literals that reference "Async" method names.
+// - If both sync and async versions exist, it may still attempt the rename, breaking the build and leading to inconsistent behavior afterward.
 #r "nuget: Microsoft.Build.Locator, 1.7.8"
 #r "nuget: Microsoft.CodeAnalysis.CSharp, 5.3.0"
 #r "nuget: Microsoft.CodeAnalysis.CSharp.Workspaces, 5.3.0"
