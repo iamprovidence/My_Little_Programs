@@ -1,8 +1,8 @@
 # GrapghQl
 
-Schema: http://localhost:38850/ui/vayager
+Schema: http://localhost:38851/ui/vayager
 
-API: http://localhost:38850/graphql
+API: http://localhost:38851/graphql
 
 ```
 {

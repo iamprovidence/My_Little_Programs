@@ -14,7 +14,8 @@ namespace Server.Endpoints.gRPC.Infrastructure
         {
             var options = new BoundedChannelOptions(capacity: 4)
             {
-                FullMode = BoundedChannelFullMode.Wait
+                // events are read only while someone is subscribed, so waiting here would block AddPlatform forever
+                FullMode = BoundedChannelFullMode.DropOldest
             };
             _queue = Channel.CreateBounded<EventArgs>(options);
         }

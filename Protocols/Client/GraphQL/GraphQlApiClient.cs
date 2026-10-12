@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -17,11 +18,17 @@ namespace Client.GraphQL
 {
     internal class GraphQlApiClient : IApiClient
     {
-        private static readonly HttpClient _httpClient = new HttpClient()
+        // server accepts only HTTP/2 (see Kestrel:EndpointDefaults:Protocols), so over plain http we have to force h2c
+        private static readonly HttpClient _httpClient = new HttpClient(new Http2Handler())
         {
             BaseAddress = new Uri("http://localhost:38850/graphql/"),
+            DefaultRequestVersion = HttpVersion.Version20,
+            DefaultVersionPolicy = HttpVersionPolicy.RequestVersionExact,
         };
-        private static readonly GraphQLHttpClient _graphQLClient = new GraphQLHttpClient("http://localhost:38850/graphql/", new NewtonsoftJsonSerializer());
+        private static readonly GraphQLHttpClient _graphQLClient = new GraphQLHttpClient(
+            new GraphQLHttpClientOptions { EndPoint = new Uri("http://localhost:38850/graphql/") },
+            new NewtonsoftJsonSerializer(),
+            _httpClient);
 
         public async Task<IReadOnlyCollection<PlatformViewModel>> GetPlatforms()
         {
@@ -114,6 +121,23 @@ namespace Client.GraphQL
             {
                 action(data.Data.OnPlatformAdded);
             });
+        }
+
+        // GraphQLHttpClient builds its own HttpRequestMessage (HTTP/1.1 by default) and ignores HttpClient.DefaultRequestVersion
+        private class Http2Handler : DelegatingHandler
+        {
+            public Http2Handler()
+                : base(new HttpClientHandler())
+            {
+            }
+
+            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                request.Version = HttpVersion.Version20;
+                request.VersionPolicy = HttpVersionPolicy.RequestVersionExact;
+
+                return base.SendAsync(request, cancellationToken);
+            }
         }
     }
 }

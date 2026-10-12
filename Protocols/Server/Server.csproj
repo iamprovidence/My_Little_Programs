@@ -1,21 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="6.4.0" />
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.5" />
+		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.45.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.11" />
 		<PackageReference Include="GraphQL.Server.Ui.Voyager" Version="6.1.0" />
 		<PackageReference Include="HotChocolate.AspNetCore" Version="12.9.0" />
 		<PackageReference Include="HotChocolate.Data.Entityframework" Version="12.9.0" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.45.0" />
+		<PackageReference Include="ModelContextProtocol.AspNetCore" Version="2.2.0" />
+		<PackageReference Include="Scalar.AspNetCore" Version="2.17.14" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Protobuf Include="Endpoints\gRPC\Platforms.proto" GrpcServices="Server" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="Endpoints\MCP\Ui\mcp-ui.html" />
+		<EmbeddedResource Include="Endpoints\MCP\Ui\mcp-ui.html" LogicalName="mcp-ui.html" />
+		<Content Remove="Endpoints\gRPC\Ui\grpc-ui.html" />
+		<EmbeddedResource Include="Endpoints\gRPC\Ui\grpc-ui.html" LogicalName="grpc-ui.html" />
+		<EmbeddedResource Include="Endpoints\gRPC\Platforms.proto" LogicalName="Platforms.proto" />
 	</ItemGroup>
 	
 </Project>

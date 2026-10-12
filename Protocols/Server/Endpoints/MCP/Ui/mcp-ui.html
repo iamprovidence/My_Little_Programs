@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCP Explorer</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --panel: #ffffff;
+    --text: #1c1e21;
+    --muted: #65676b;
+    --border: #dfe1e5;
+    --accent: #3b5bdb;
+    --accent-weak: #e7ecff;
+    --code-bg: #f1f3f5;
+    --error: #c92a2a;
+    --error-weak: #fff0f0;
+    --ok: #2b8a3e;
+    --warn: #b35c00;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141518;
+      --panel: #1d1f23;
+      --text: #e4e6eb;
+      --muted: #9a9ea6;
+      --border: #33363c;
+      --accent: #7b93ff;
+      --accent-weak: #262d47;
+      --code-bg: #25282d;
+      --error: #ff8787;
+      --error-weak: #3a2224;
+      --ok: #69db7c;
+      --warn: #ffc078;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  code, pre, .mono { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 12.5px; }
+  header {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px;
+    padding: 12px 16px; background: var(--panel); border-bottom: 1px solid var(--border);
+  }
+  header h1 { margin: 0; font-size: 16px; }
+  .status { display: flex; align-items: center; gap: 6px; color: var(--muted); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .dot.ok { background: var(--ok); }
+  .dot.error { background: var(--error); }
+  .spacer { flex: 1; }
+  nav { display: flex; gap: 4px; padding: 0 16px; background: var(--panel); border-bottom: 1px solid var(--border); overflow-x: auto; }
+  nav button {
+    border: 0; background: none; color: var(--muted); padding: 10px 12px; cursor: pointer;
+    border-bottom: 2px solid transparent; font: inherit; white-space: nowrap;
+  }
+  nav button.active { color: var(--text); border-bottom-color: var(--accent); }
+  .count { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 4px; border-radius: 9px; background: var(--code-bg); font-size: 11px; text-align: center; }
+  main { display: grid; grid-template-columns: minmax(220px, 300px) 1fr; gap: 16px; padding: 16px; max-width: 1400px; margin: 0 auto; }
+  @media (max-width: 760px) { main { grid-template-columns: 1fr; } }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; min-width: 0; }
+  .list { padding: 6px; align-self: start; }
+  .list h3 { margin: 10px 8px 4px; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  .item { display: block; width: 100%; text-align: left; border: 0; background: none; color: inherit; padding: 8px 10px; border-radius: 6px; cursor: pointer; font: inherit; }
+  .item:hover { background: var(--code-bg); }
+  .item.active { background: var(--accent-weak); }
+  .item .name { font-weight: 600; word-break: break-all; }
+  .item .sub { color: var(--muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .detail { padding: 16px 20px; }
+  .detail h2 { margin: 0 0 4px; font-size: 18px; word-break: break-all; }
+  .muted { color: var(--muted); }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--code-bg); color: var(--muted); }
+  .badge.accent { background: var(--accent-weak); color: var(--accent); }
+  .badge.warn { color: var(--warn); }
+  .badge.error { background: var(--error-weak); color: var(--error); }
+  form { margin: 16px 0; display: grid; gap: 12px; }
+  .field label { display: block; font-weight: 600; margin-bottom: 4px; }
+  .field label .type { font-weight: 400; color: var(--muted); margin-left: 6px; font-size: 12px; }
+  .field .hint { color: var(--muted); font-size: 12px; margin-top: 3px; }
+  input, select, textarea {
+    width: 100%; padding: 7px 9px; border: 1px solid var(--border); border-radius: 6px;
+    background: var(--bg); color: var(--text); font: inherit;
+  }
+  textarea { min-height: 80px; font-family: ui-monospace, Consolas, monospace; font-size: 12.5px; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .btn {
+    justify-self: start; border: 0; border-radius: 6px; padding: 8px 16px; cursor: pointer;
+    background: var(--accent); color: #fff; font: inherit; font-weight: 600;
+  }
+  .btn.secondary { background: var(--code-bg); color: var(--text); font-weight: 400; }
+  .btn:disabled { opacity: .6; cursor: default; }
+  .output h4 { margin: 18px 0 6px; font-size: 13px; }
+  pre { margin: 0; padding: 10px 12px; background: var(--code-bg); border-radius: 6px; overflow: auto; max-height: 480px; white-space: pre-wrap; word-break: break-word; }
+  .error-box { padding: 10px 12px; border-radius: 6px; background: var(--error-weak); color: var(--error); white-space: pre-wrap; }
+  .message { border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; margin-bottom: 8px; }
+  .message .role { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); margin-bottom: 4px; }
+  details { margin-top: 12px; }
+  summary { cursor: pointer; color: var(--muted); }
+  details pre { margin-top: 6px; }
+  .empty { padding: 24px; color: var(--muted); text-align: center; }
+  .log-entry { border-bottom: 1px solid var(--border); padding: 8px 0; }
+  .log-entry:last-child { border-bottom: 0; }
+  .log-entry summary { color: var(--text); }
+  .log-entry .meta { color: var(--muted); font-size: 12px; margin-left: 8px; }
+  .full { grid-column: 1 / -1; }
+  img { max-width: 100%; border-radius: 6px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>MCP Explorer</h1>
+  <span class="status"><span id="status-dot" class="dot"></span><span id="status-text">Connecting…</span></span>
+  <span class="spacer"></span>
+  <span class="muted mono" id="endpoint"></span>
+  <button class="btn secondary" id="reconnect" type="button">Reconnect</button>
+</header>
+<nav id="tabs"></nav>
+<main id="main"></main>
+
+<script>
+(() => {
+  'use strict';
+
+  const ENDPOINT = new URL('/mcp', location.origin).toString();
+  const CLIENT_PROTOCOL_VERSION = '2025-06-18';
+
+  const state = {
+    sessionId: null,
+    protocolVersion: null,
+    nextId: 1,
+    server: null,
+    tab: 'tools',
+    selected: {},
+    tools: [],
+    prompts: [],
+    resources: [],
+    templates: [],
+    log: [],
+  };
+
+  // ---------- DOM helpers ----------
+
+  function el(tag, attrs, ...children) {
+    const node = document.createElement(tag);
+    for (const [key, value] of Object.entries(attrs || {})) {
+      if (value === undefined || value === null || value === false) continue;
+      if (key === 'class') node.className = value;
+      else if (key.startsWith('on')) node.addEventListener(key.slice(2), value);
+      else node.setAttribute(key, value === true ? '' : value);
+    }
+    for (const child of children.flat(Infinity)) {
+      if (child === undefined || child === null || child === false) continue;
+      node.append(child instanceof Node ? child : document.createTextNode(String(child)));
+    }
+    return node;
+  }
+
+  function pretty(value) {
+    return JSON.stringify(value, null, 2);
+  }
+
+  // text that happens to be JSON is shown formatted
+  function prettyText(text) {
+    try { return pretty(JSON.parse(text)); } catch { return text; }
+  }
+
+  // ---------- MCP over Streamable HTTP ----------
+
+  async function post(body) {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json, text/event-stream',
+    };
+    if (state.protocolVersion) headers['MCP-Protocol-Version'] = state.protocolVersion;
+    if (state.sessionId) headers['Mcp-Session-Id'] = state.sessionId;
+
+    const response = await fetch(ENDPOINT, { method: 'POST', headers, body: JSON.stringify(body) });
+
+    const sessionId = response.headers.get('Mcp-Session-Id');
+    if (sessionId) state.sessionId = sessionId;
+
+    if (response.status === 202) return [];
+
+    const text = await response.text();
+    const type = response.headers.get('Content-Type') || '';
+
+    if (type.includes('text/event-stream')) return parseSse(text);
+    if (!text) {
+      if (!response.ok) throw new Error(`HTTP ${response.status} ${response.statusText}`);
+      return [];
+    }
+    try {
+      const data = JSON.parse(text);
+      return Array.isArray(data) ? data : [data];
+    } catch {
+      throw new Error(`HTTP ${response.status}: ${text}`);
+    }
+  }
+
+  function parseSse(text) {
+    const messages = [];
+    for (const block of text.split(/\r?\n\r?\n/)) {
+      const data = block
+        .split(/\r?\n/)
+        .filter(line => line.startsWith('data:'))
+        .map(line => line.slice(5).trimStart())
+        .join('\n');
+      if (!data) continue;
+      try { messages.push(JSON.parse(data)); } catch { /* not JSON, ignore */ }
+    }
+    return messages;
+  }
+
+  async function rpc(method, params) {
+    const request = { jsonrpc: '2.0', id: state.nextId++, method };
+    if (params !== undefined) request.params = params;
+
+    const entry = { method, request, messages: [], startedAt: performance.now(), ms: 0, error: null };
+    state.log.unshift(entry);
+
+    try {
+      entry.messages = await post(request);
+    } catch (error) {
+      entry.error = error.message;
+      throw Object.assign(error, { entry });
+    } finally {
+      entry.ms = Math.round(performance.now() - entry.startedAt);
+      updateCounts();
+      if (state.tab === 'log') render();
+    }
+
+    const response = entry.messages.find(m => m.id === request.id);
+    if (!response) {
+      entry.error = 'No response for this request id';
+      throw Object.assign(new Error(entry.error), { entry });
+    }
+    if (response.error) {
+      entry.error = response.error.message;
+      const error = new Error(`${response.error.message} (code ${response.error.code})`);
+      throw Object.assign(error, { entry });
+    }
+    return { result: response.result, entry };
+  }
+
+  async function notify(method, params) {
+    const message = { jsonrpc: '2.0', method };
+    if (params !== undefined) message.params = params;
+    state.log.unshift({ method, request: message, messages: [], ms: 0, error: null, notification: true });
+    await post(message);
+  }
+
+  async function listAll(method, key) {
+    const items = [];
+    let cursor;
+    do {
+      const { result } = await rpc(method, cursor ? { cursor } : {});
+      items.push(...(result[key] || []));
+      cursor = result.nextCursor;
+    } while (cursor);
+    return items;
+  }
+
+  async function connect() {
+    Object.assign(state, {
+      sessionId: null, protocolVersion: null, server: null,
+      tools: [], prompts: [], resources: [], templates: [],
+    });
+    setStatus('', 'Connecting…');
+    render();
+
+    try {
+      const { result } = await rpc('initialize', {
+        protocolVersion: CLIENT_PROTOCOL_VERSION,
+        capabilities: {},
+        clientInfo: { name: 'mcp-explorer', version: '1.0.0' },
+      });
+      state.server = result;
+      state.protocolVersion = result.protocolVersion;
+      await notify('notifications/initialized');
+
+      const capabilities = result.capabilities || {};
+      const [tools, prompts, resources, templates] = await Promise.all([
+        capabilities.tools ? listAll('tools/list', 'tools') : [],
+        capabilities.prompts ? listAll('prompts/list', 'prompts') : [],
+        capabilities.resources ? listAll('resources/list', 'resources') : [],
+        capabilities.resources ? listAll('resources/templates/list', 'resourceTemplates') : [],
+      ]);
+      Object.assign(state, { tools, prompts, resources, templates });
+
+      const info = result.serverInfo || {};
+      setStatus('ok', `${info.name || 'server'} ${info.version || ''} · protocol ${result.protocolVersion}`);
+    } catch (error) {
+      setStatus('error', `Failed: ${error.message}`);
+    }
+    render();
+  }
+
+  // ---------- layout ----------
+
+  const TABS = [
+    { id: 'tools', title: 'Tools', count: () => state.tools.length },
+    { id: 'prompts', title: 'Prompts', count: () => state.prompts.length },
+    { id: 'resources', title: 'Resources', count: () => state.resources.length + state.templates.length },
+    { id: 'log', title: 'JSON-RPC log', count: () => state.log.length },
+  ];
+
+  function setStatus(kind, text) {
+    document.getElementById('status-dot').className = `dot ${kind}`;
+    document.getElementById('status-text').textContent = text;
+  }
+
+  function renderTabs() {
+    const nav = document.getElementById('tabs');
+    nav.replaceChildren(...TABS.map(tab => el('button', {
+      type: 'button',
+      class: tab.id === state.tab ? 'active' : '',
+      'data-tab': tab.id,
+      onclick: () => { state.tab = tab.id; render(); },
+    }, tab.title, el('span', { class: 'count' }, tab.count()))));
+  }
+
+  function updateCounts() {
+    for (const tab of TABS) {
+      const count = document.querySelector(`nav [data-tab="${tab.id}"] .count`);
+      if (count) count.textContent = tab.count();
+    }
+  }
+
+  function render() {
+    renderTabs();
+    const main = document.getElementById('main');
+    if (state.tab === 'log') {
+      main.replaceChildren(renderLog());
+      return;
+    }
+
+    const groups = listGroups();
+    const items = groups.flatMap(g => g.items);
+    let selected = items.find(i => i.key === state.selected[state.tab]);
+    if (!selected && items.length) {
+      selected = items[0];
+      state.selected[state.tab] = selected.key;
+    }
+
+    const list = el('div', { class: 'panel list' },
+      items.length ? null : el('div', { class: 'empty' }, state.server ? 'Nothing here' : 'Not connected'),
+      groups.filter(g => g.items.length).map(group => [
+        group.title ? el('h3', null, group.title) : null,
+        group.items.map(item => el('button', {
+          type: 'button',
+          class: `item ${item === selected ? 'active' : ''}`,
+          onclick: () => { state.selected[state.tab] = item.key; render(); },
+        }, el('div', { class: 'name' }, item.name), item.sub ? el('div', { class: 'sub' }, item.sub) : null)),
+      ]));
+
+    const detail = el('div', { class: 'panel detail' },
+      selected ? selected.render() : el('div', { class: 'empty' }, 'Select an item'));
+
+    main.replaceChildren(list, detail);
+  }
+
+  function listGroups() {
+    switch (state.tab) {
+      case 'tools':
+        return [{ items: state.tools.map(tool => ({
+          key: tool.name, name: tool.name, sub: tool.description, render: () => renderTool(tool),
+        })) }];
+      case 'prompts':
+        return [{ items: state.prompts.map(prompt => ({
+          key: prompt.name, name: prompt.name, sub: prompt.description, render: () => renderPrompt(prompt),
+        })) }];
+      case 'resources':
+        return [
+          { title: 'Resources', items: state.resources.map(resource => ({
+            key: `r:${resource.uri}`, name: resource.name, sub: resource.uri, render: () => renderResource(resource),
+          })) },
+          { title: 'Templates', items: state.templates.map(template => ({
+            key: `t:${template.uriTemplate}`, name: template.name, sub: template.uriTemplate, render: () => renderTemplate(template),
+          })) },
+        ];
+      default:
+        return [];
+    }
+  }
+
+  // ---------- forms ----------
+
+  // one input per JSON Schema property; read() returns the typed value or undefined when left empty
+  function schemaField(name, schema, required) {
+    const types = [].concat(schema.type || 'string');
+    const type = types.find(t => t !== 'null') || 'string';
+    const id = `f-${name}`;
+    let input;
+    let read;
+
+    if (schema.enum) {
+      input = el('select', { id },
+        required ? null : el('option', { value: '' }, '—'),
+        schema.enum.map(v => el('option', { value: JSON.stringify(v) }, String(v))));
+      read = () => input.value === '' ? undefined : JSON.parse(input.value);
+    } else if (type === 'boolean') {
+      input = el('select', { id },
+        required ? null : el('option', { value: '' }, '—'),
+        el('option', { value: 'true' }, 'true'),
+        el('option', { value: 'false' }, 'false'));
+      read = () => input.value === '' ? undefined : input.value === 'true';
+    } else if (type === 'integer' || type === 'number') {
+      input = el('input', { id, type: 'number', step: type === 'integer' ? '1' : 'any', placeholder: schema.default ?? '' });
+      read = () => {
+        if (input.value === '') return undefined;
+        const value = Number(input.value);
+        if (type === 'integer' && !Number.isInteger(value)) throw new Error(`${name} must be an integer`);
+        return value;
+      };
+    } else if (type === 'object' || type === 'array') {
+      input = el('textarea', { id, placeholder: type === 'array' ? '[]' : '{}' });
+      read = () => {
+        if (input.value.trim() === '') return undefined;
+        try { return JSON.parse(input.value); } catch { throw new Error(`${name} must be valid JSON`); }
+      };
+    } else {
+      input = el('input', { id, type: 'text', placeholder: schema.default ?? '' });
+      read = () => input.value === '' ? undefined : input.value;
+    }
+
+    const node = el('div', { class: 'field' },
+      el('label', { for: id }, name, required ? ' *' : '', el('span', { class: 'type' }, types.join(' | '))),
+      input,
+      schema.description ? el('div', { class: 'hint' }, schema.description) : null);
+
+    return {
+      node,
+      read: () => {
+        const value = read();
+        if (value === undefined && required) throw new Error(`${name} is required`);
+        return value;
+      },
+    };
+  }
+
+  function collect(fields) {
+    const values = {};
+    for (const [name, field] of Object.entries(fields)) {
+      const value = field.read();
+      if (value !== undefined) values[name] = value;
+    }
+    return values;
+  }
+
+  // form + submit button + output area; run(values) returns { result, entry } from rpc()
+  function actionForm(fields, buttonText, run, renderResult) {
+    const output = el('div', { class: 'output' });
+    const button = el('button', { class: 'btn', type: 'submit' }, buttonText);
+
+    const form = el('form', {
+      onsubmit: async event => {
+        event.preventDefault();
+        let values;
+        try {
+          values = collect(fields);
+        } catch (error) {
+          output.replaceChildren(el('div', { class: 'error-box' }, error.message));
+          return;
+        }
+
+        button.disabled = true;
+        output.replaceChildren(el('div', { class: 'muted' }, 'Running…'));
+        try {
+          const { result, entry } = await run(values);
+          output.replaceChildren(el('h4', null, `Result · ${entry.ms} ms`), renderResult(result), rawDetails(entry));
+        } catch (error) {
+          output.replaceChildren(el('h4', null, 'Error'), el('div', { class: 'error-box' }, error.message), error.entry ? rawDetails(error.entry) : null);
+        } finally {
+          button.disabled = false;
+        }
+      },
+    }, Object.values(fields).map(f => f.node), button);
+
+    return [form, output];
+  }
+
+  function rawDetails(entry) {
+    return el('details', null,
+      el('summary', null, 'JSON-RPC request / response'),
+      el('h4', null, 'Request'), el('pre', null, pretty(entry.request)),
+      el('h4', null, entry.messages.length > 1 ? `Response (${entry.messages.length} messages)` : 'Response'),
+      el('pre', null, entry.messages.length ? entry.messages.map(pretty).join('\n\n') : entry.error || '(empty)'));
+  }
+
+  // ---------- tools ----------
+
+  function renderTool(tool) {
+    const schema = tool.inputSchema || {};
+    const required = new Set(schema.required || []);
+    const fields = {};
+    for (const [name, prop] of Object.entries(schema.properties || {})) {
+      fields[name] = schemaField(name, prop, required.has(name));
+    }
+
+    const a = tool.annotations || {};
+    const badges = [
+      a.readOnlyHint ? el('span', { class: 'badge accent' }, 'read-only') : null,
+      a.destructiveHint === true ? el('span', { class: 'badge error' }, 'destructive') : null,
+      a.destructiveHint === false ? el('span', { class: 'badge' }, 'non-destructive') : null,
+      a.idempotentHint === true ? el('span', { class: 'badge' }, 'idempotent') : null,
+      a.idempotentHint === false ? el('span', { class: 'badge warn' }, 'not idempotent') : null,
+      a.openWorldHint ? el('span', { class: 'badge' }, 'open world') : null,
+    ].filter(Boolean);
+
+    return [
+      el('h2', null, tool.title || a.title || tool.name),
+      tool.title ? el('div', { class: 'muted mono' }, tool.name) : null,
+      badges.length ? el('div', { class: 'badges' }, badges) : null,
+      tool.description ? el('p', null, tool.description) : null,
+      Object.keys(fields).length ? null : el('p', { class: 'muted' }, 'No arguments.'),
+      actionForm(fields, 'Call tool',
+        values => rpc('tools/call', { name: tool.name, arguments: values }),
+        result => el('div', null,
+          result.isError ? el('div', { class: 'badges' }, el('span', { class: 'badge error' }, 'isError')) : null,
+          (result.content || []).map(renderContent),
+          result.structuredContent ? [el('h4', null, 'Structured content'), el('pre', null, pretty(result.structuredContent))] : null)),
+      el('details', null, el('summary', null, 'Input schema'), el('pre', null, pretty(schema))),
+    ];
+  }
+
+  function renderContent(content) {
+    switch (content.type) {
+      case 'text':
+        return el('pre', null, prettyText(content.text));
+      case 'image':
+        return el('img', { src: `data:${content.mimeType};base64,${content.data}`, alt: 'image content' });
+      case 'audio':
+        return el('audio', { controls: true, src: `data:${content.mimeType};base64,${content.data}` });
+      case 'resource':
+        return renderResourceContents(content.resource);
+      case 'resource_link':
+        return el('div', { class: 'message' }, el('div', { class: 'role' }, 'resource link'), el('span', { class: 'mono' }, content.uri));
+      default:
+        return el('pre', null, pretty(content));
+    }
+  }
+
+  // ---------- prompts ----------
+
+  function renderPrompt(prompt) {
+    const fields = {};
+    for (const argument of prompt.arguments || []) {
+      // prompt arguments are always strings in MCP
+      fields[argument.name] = schemaField(argument.name, { type: 'string', description: argument.description }, !!argument.required);
+    }
+
+    return [
+      el('h2', null, prompt.title || prompt.name),
+      prompt.title ? el('div', { class: 'muted mono' }, prompt.name) : null,
+      prompt.description ? el('p', null, prompt.description) : null,
+      Object.keys(fields).length ? null : el('p', { class: 'muted' }, 'No arguments.'),
+      actionForm(fields, 'Get prompt',
+        values => rpc('prompts/get', { name: prompt.name, arguments: values }),
+        result => el('div', null,
+          result.description ? el('p', { class: 'muted' }, result.description) : null,
+          (result.messages || []).map(message => el('div', { class: 'message' },
+            el('div', { class: 'role' }, message.role),
+            renderContent(message.content))))),
+    ];
+  }
+
+  // ---------- resources ----------
+
+  function renderResource(resource) {
+    return [
+      el('h2', null, resource.title || resource.name),
+      el('div', { class: 'muted mono' }, resource.uri),
+      resource.mimeType ? el('div', { class: 'badges' }, el('span', { class: 'badge' }, resource.mimeType)) : null,
+      resource.description ? el('p', null, resource.description) : null,
+      actionForm({}, 'Read resource',
+        () => rpc('resources/read', { uri: resource.uri }),
+        renderReadResult),
+    ];
+  }
+
+  function renderTemplate(template) {
+    const variables = [...new Set([...template.uriTemplate.matchAll(/\{([^}]+)\}/g)].map(m => m[1]))];
+    const fields = {};
+    for (const variable of variables) {
+      fields[variable] = schemaField(variable, { type: 'string' }, true);
+    }
+
+    return [
+      el('h2', null, template.title || template.name),
+      el('div', { class: 'muted mono' }, template.uriTemplate),
+      template.mimeType ? el('div', { class: 'badges' }, el('span', { class: 'badge' }, template.mimeType)) : null,
+      template.description ? el('p', null, template.description) : null,
+      actionForm(fields, 'Read resource',
+        values => rpc('resources/read', {
+          uri: template.uriTemplate.replace(/\{([^}]+)\}/g, (_, name) => encodeURIComponent(values[name])),
+        }),
+        renderReadResult),
+    ];
+  }
+
+  function renderReadResult(result) {
+    return el('div', null, (result.contents || []).map(renderResourceContents));
+  }
+
+  function renderResourceContents(contents) {
+    return el('div', { class: 'message' },
+      el('div', { class: 'muted mono' }, contents.uri, contents.mimeType ? ` · ${contents.mimeType}` : ''),
+      contents.text !== undefined
+        ? el('pre', null, prettyText(contents.text))
+        : el('div', { class: 'muted' }, `binary content, ${Math.round((contents.blob || '').length * 3 / 4)} bytes`));
+  }
+
+  // ---------- log ----------
+
+  function renderLog() {
+    if (!state.log.length) return el('div', { class: 'panel detail full' }, el('div', { class: 'empty' }, 'No traffic yet'));
+
+    return el('div', { class: 'panel detail full' },
+      el('button', {
+        class: 'btn secondary', type: 'button',
+        onclick: () => { state.log = []; render(); },
+      }, 'Clear'),
+      state.log.map(entry => el('details', { class: 'log-entry' },
+        el('summary', null,
+          el('span', { class: 'mono' }, entry.method),
+          el('span', { class: 'meta' },
+            entry.notification ? 'notification' : `id ${entry.request.id} · ${entry.ms} ms`,
+            entry.error ? ` · error: ${entry.error}` : '')),
+        el('h4', null, 'Request'), el('pre', null, pretty(entry.request)),
+        entry.notification ? null : [
+          el('h4', null, 'Response'),
+          el('pre', null, entry.messages.length ? entry.messages.map(pretty).join('\n\n') : entry.error || '(empty)'),
+        ])));
+  }
+
+  // ---------- start ----------
+
+  document.getElementById('endpoint').textContent = ENDPOINT;
+  document.getElementById('reconnect').addEventListener('click', connect);
+  connect();
+})();
+</script>
+</body>
+</html>

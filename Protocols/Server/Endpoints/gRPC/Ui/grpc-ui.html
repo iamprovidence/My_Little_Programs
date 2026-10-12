@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gRPC Guide</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --panel: #ffffff;
+    --text: #1c1e21;
+    --muted: #65676b;
+    --border: #dfe1e5;
+    --accent: #3b5bdb;
+    --accent-weak: #e7ecff;
+    --code-bg: #f1f3f5;
+    --warn: #b35c00;
+    --warn-weak: #fff4e6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141518;
+      --panel: #1d1f23;
+      --text: #e4e6eb;
+      --muted: #9a9ea6;
+      --border: #33363c;
+      --accent: #7b93ff;
+      --accent-weak: #262d47;
+      --code-bg: #25282d;
+      --warn: #ffc078;
+      --warn-weak: #3a2e1f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  code, pre { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 13px; }
+  :not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--code-bg); }
+  header { padding: 12px 16px; background: var(--panel); border-bottom: 1px solid var(--border); }
+  header h1 { margin: 0; font-size: 16px; }
+  main { max-width: 860px; margin: 0 auto; padding: 24px 16px 48px; }
+  h2 { margin: 32px 0 8px; font-size: 18px; }
+  h3 { margin: 0 0 4px; font-size: 15px; }
+  p { margin: 8px 0; }
+  .muted { color: var(--muted); }
+  .notice {
+    padding: 14px 16px; border-radius: 8px; border: 1px solid var(--warn);
+    background: var(--warn-weak);
+  }
+  .notice strong { color: var(--warn); }
+  .address {
+    display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 16px;
+    padding: 12px 16px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+  }
+  .address div { min-width: 0; }
+  .address .label { font-size: 12px; color: var(--muted); }
+  .address code { font-size: 15px; background: none; padding: 0; }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  th { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .table-wrap { overflow-x: auto; }
+  .card { margin-top: 12px; padding: 16px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; }
+  .card .tag { float: right; font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--accent-weak); color: var(--accent); }
+  ol { margin: 8px 0; padding-left: 22px; }
+  li { margin: 3px 0; }
+  .code { position: relative; margin: 8px 0; }
+  pre { margin: 0; padding: 10px 12px; padding-right: 64px; background: var(--code-bg); border-radius: 6px; overflow-x: auto; }
+  .copy {
+    position: absolute; top: 6px; right: 6px; border: 1px solid var(--border); border-radius: 5px;
+    background: var(--panel); color: var(--muted); font: 12px system-ui, sans-serif; padding: 3px 8px; cursor: pointer;
+  }
+  .copy:hover { color: var(--text); }
+  details summary { cursor: pointer; color: var(--muted); }
+  details pre { margin-top: 8px; max-height: 480px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<header><h1>gRPC Guide</h1></header>
+<main>
+  <div class="notice">
+    <strong>gRPC can't be called from a browser page.</strong>
+    gRPC runs on HTTP/2 and relies on parts of it (binary frames, trailers) that browser JavaScript can't control.
+    On top of that this server speaks HTTP/2 without TLS (h2c), which browsers don't support at all.
+    So there is no "try it" page like Scalar or Banana Cake Pop: use one of the clients below instead.
+  </div>
+
+  <div class="address">
+    <div><div class="label">Server address</div><code>{{ADDRESS}}</code></div>
+    <div><div class="label">Transport</div><code>HTTP/2, plaintext</code></div>
+    <div><div class="label">Server reflection</div><code>enabled in Development</code></div>
+  </div>
+
+  <h2>Service <code>PlatformGrpc</code></h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Method</th><th>Request</th><th>Response</th></tr>
+      <tr><td><code>GetPlatforms</code></td><td><code>{}</code></td><td>all platforms</td></tr>
+      <tr><td><code>GetCommands</code></td><td><code>{}</code></td><td>all commands</td></tr>
+      <tr><td><code>AddPlatform</code></td><td><code>{"Name": "Docker"}</code></td><td>created platform</td></tr>
+      <tr><td><code>SubscribeToAddPlatform</code></td><td><code>{}</code></td><td>server stream of added platforms</td></tr>
+    </table>
+  </div>
+  <details class="card">
+    <summary>Platforms.proto</summary>
+    <div class="code"><pre>{{PROTO}}</pre></div>
+  </details>
+
+  <h2>How to call it</h2>
+
+  <div class="card">
+    <span class="tag">GUI</span>
+    <h3>Postman</h3>
+    <p class="muted">Nothing to set up on the server: Postman reads the services through reflection.</p>
+    <ol>
+      <li><b>New</b> → <b>gRPC</b>.</li>
+      <li>Enter the URL <code>{{ADDRESS}}</code>. Keep TLS off (the lock icon).</li>
+      <li>In <b>Service definition</b> pick <b>Using server reflection</b>.</li>
+      <li>Select a method, for example <code>PlatformGrpc / AddPlatform</code>, fill the message and press <b>Invoke</b>.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <span class="tag">CLI</span>
+    <h3>grpcurl</h3>
+    <p>Install it once:</p>
+    <div class="code"><pre>winget install fullstorydev.grpcurl</pre></div>
+    <p>List services and call methods:</p>
+    <div class="code"><pre>grpcurl -plaintext {{ADDRESS}} list PlatformGrpc</pre></div>
+    <div class="code"><pre>grpcurl -plaintext {{ADDRESS}} PlatformGrpc/GetPlatforms</pre></div>
+    <div class="code"><pre>grpcurl -plaintext -d '{"Name": "Docker"}' {{ADDRESS}} PlatformGrpc/AddPlatform</pre></div>
+    <p class="muted">Subscribe to the stream: it waits until a platform is added from another client and prints it.</p>
+    <div class="code"><pre>grpcurl -plaintext {{ADDRESS}} PlatformGrpc/SubscribeToAddPlatform</pre></div>
+  </div>
+
+  <div class="card">
+    <span class="tag">Web UI</span>
+    <h3>grpcui</h3>
+    <p>
+      The closest thing to Swagger for gRPC: it starts a local web page and makes the gRPC calls for the browser.
+      Download it from <a href="https://github.com/fullstorydev/grpcui/releases" target="_blank" rel="noopener">GitHub releases</a>
+      (or <code>go install github.com/fullstorydev/grpcui/cmd/grpcui@latest</code>), then:
+    </p>
+    <div class="code"><pre>grpcui -plaintext {{ADDRESS}}</pre></div>
+  </div>
+
+  <div class="card">
+    <span class="tag">Code</span>
+    <h3>Client project</h3>
+    <p>The <code>Client</code> console app in this repository calls every method through <code>GrpcApiClient</code>:</p>
+    <div class="code"><pre>dotnet run --project Client</pre></div>
+  </div>
+</main>
+
+<script>
+  for (const block of document.querySelectorAll('.code')) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'copy';
+    button.textContent = 'Copy';
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(block.querySelector('pre').textContent);
+        button.textContent = 'Copied';
+      } catch {
+        button.textContent = 'Failed';
+      }
+      setTimeout(() => { button.textContent = 'Copy'; }, 1500);
+    });
+    block.append(button);
+  }
+</script>
+</body>
+</html>

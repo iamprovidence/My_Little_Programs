@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 using Client.Contracts;
 using Client.Contracts.ViewModels;
 using Client.Contracts.ViewModels.AddPlatform;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Client.Http
 {
     internal class HttpApiClient : IApiClient
     {
-        public static readonly HttpClient _httpClient = new HttpClient()
+        // server accepts only HTTP/2 (see Kestrel:EndpointDefaults:Protocols), so over plain http we have to force h2c
+        private static readonly HttpClient _httpClient = new HttpClient()
         {
             BaseAddress = new Uri("http://localhost:38850/api/platforms/"),
+            DefaultRequestVersion = HttpVersion.Version20,
+            DefaultVersionPolicy = HttpVersionPolicy.RequestVersionExact,
         };
 
         public async Task<IReadOnlyCollection<PlatformViewModel>> GetPlatforms()
@@ -31,31 +33,24 @@ namespace Client.Http
 
         public async Task<AddPlatformResponse> AddPlatform(AddPlatformRequest request, CancellationToken cancellationToken)
         {
-            var json = JsonSerializer.Serialize(request);
+            using var message = await _httpClient.PostAsJsonAsync(requestUri: string.Empty, request, cancellationToken);
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            message.EnsureSuccessStatusCode();
 
-            var message = await _httpClient.PostAsync(requestUri: string.Empty, content, cancellationToken);
-
-            var response = await message.Content.ReadAsStringAsync(cancellationToken);
-
-            return JsonSerializer.Deserialize<AddPlatformResponse>(response, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            });
+            return await message.Content.ReadFromJsonAsync<AddPlatformResponse>(cancellationToken: cancellationToken);
         }
 
-        public class NullDisposable : IDisposable
+        public IDisposable SubscribeToAddPlatformStream(Action<PlatformAddedEvent> action, CancellationToken cancellationToken)
+        {
+            // plain HTTP has no push, so subscription is not supported
+            return new NullDisposable();
+        }
+
+        private class NullDisposable : IDisposable
         {
             public void Dispose()
             {
             }
-        }
-        public IDisposable SubscribeToAddPlatformStream(Action<PlatformAddedEvent> action, CancellationToken cancellationToken)
-        {
-            // throw new NotSupportedException();
-
-            return new NullDisposable();
         }
     }
 }
