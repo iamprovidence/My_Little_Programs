@@ -1,0 +1,23 @@
+{
+	"UserConfig": {
+		"Namespaces": [
+			{
+				"Name": "sbemulatorns",
+				"Queues": [
+					{ "Name": "EmailSender_Queue" }
+				],
+				"Topics": [
+					{
+						"Name": "SendEmail_Topic",
+						"Subscriptions": [
+							{ "Name": "EmailSender_Subscription" }
+						]
+					}
+				]
+			}
+		],
+		"Logging": {
+			"Type": "Console"
+		}
+	}
+}

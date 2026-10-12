@@ -15,8 +15,31 @@ services:
         image: rabbitmq:3.8.9-management
         volumes:
             - ./data:/var/lib/rabbitmq:rw
-            - ./definitions.json:/opt/definitions.json:ro
-            - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+            - ./rabbitmq/definitions.json:/opt/definitions.json:ro
+            - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
         ports:
             - "15672:15672"
             - "5672:5672"
+
+    servicebus:
+        image: mcr.microsoft.com/azure-messaging/servicebus-emulator:latest
+        container_name: servicebus
+        volumes:
+            - ./servicebus/config.json:/ServiceBus_Emulator/ConfigFiles/Config.json:ro
+        ports:
+            - "5673:5672" # 5672 is taken by rabbitmq
+            - "5300:5300"
+        environment:
+            SQL_SERVER: mssql
+            MSSQL_SA_PASSWORD: "Admin_Pa55word!"
+            ACCEPT_EULA: "Y"
+            SQL_WAIT_INTERVAL: 15
+        depends_on:
+            - mssql
+
+    mssql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        container_name: mssql
+        environment:
+            MSSQL_SA_PASSWORD: "Admin_Pa55word!"
+            ACCEPT_EULA: "Y"
