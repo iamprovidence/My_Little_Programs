@@ -1,5 +1,5 @@
-﻿using FlowStage.Interfaces;
-using FlowStage.Models;
+﻿using FlowStage.Commands;
+using FlowStage.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using ShopWizard.Application.CreateOrder;
 using ShopWizard.Application.CreateOrder.Stages.ContactDetails;
@@ -20,10 +20,15 @@ namespace ShopWizard.Controllers
 {
 	public class CreateOrderController : FlowControllerBase<CreateOrderFlowContext>
 	{
-		protected override FlowStageIdentifier InitialStage => FlowStageIdentifier.From<ProductSelectionFlowStage>();
-
 		public CreateOrderController(IFlowStageOrchestrator flowOrchestrator, IFlowStagePresenterOrchestrator presenterOrchestrator)
 			: base(flowOrchestrator, presenterOrchestrator) { }
+
+		[HttpPost]
+		[Route(nameof(GoBackCommand))]
+		public Task<IActionResult> GoBack()
+		{
+			return ProcessCommand(new GoBackCommand());
+		}
 
 		#region Product selection
 		[HttpGet]
@@ -50,13 +55,6 @@ namespace ShopWizard.Controllers
 		}
 
 		[HttpPost]
-		[Route(nameof(GoToProductSelectionCommand))]
-		public Task<IActionResult> GoToProductSelection()
-		{
-			return ProcessCommand(new GoToProductSelectionCommand());
-		}
-
-		[HttpPost]
 		[Route(nameof(SubmitContactDetailsCommand))]
 		public Task<IActionResult> SubmitContactDetails(SubmitContactDetailsCommand command)
 		{
@@ -70,13 +68,6 @@ namespace ShopWizard.Controllers
 		public Task<IActionResult> ShowPaymentDetails()
 		{
 			return ShowView<PaymentDetailsViewModel>();
-		}
-
-		[HttpPost]
-		[Route(nameof(GoToContactDetailsCommand))]
-		public Task<IActionResult> GoToContactDetails()
-		{
-			return ProcessCommand(new GoToContactDetailsCommand());
 		}
 
 		[HttpPost]

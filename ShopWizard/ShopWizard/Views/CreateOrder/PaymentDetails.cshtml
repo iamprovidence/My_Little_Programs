@@ -8,5 +8,8 @@
 <br />
 <br />
 
-<button onclick="submitCommand('@nameof(GoToContactDetailsCommand)');">Back</button>
+@if (Model.FlowContext.CanGoBack)
+{
+	<button onclick="submitCommand('@nameof(GoBackCommand)');">Back</button>
+}
 <button onclick="submitCommand('@nameof(SubmitPaymentDetailsCommand)');">Complete</button>

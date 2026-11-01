@@ -6,5 +6,8 @@
 <input type="email" asp-for="Email" value="@Model.Email" />
 <br /><br />
 
-<button onclick="submitCommand('@nameof(GoToProductSelectionCommand)');">Back</button>
+@if (Model.FlowContext.CanGoBack)
+{
+	<button onclick="submitCommand('@nameof(GoBackCommand)');">Back</button>
+}
 <button onclick="submitCommand('@nameof(SubmitContactDetailsCommand)');">Next</button>

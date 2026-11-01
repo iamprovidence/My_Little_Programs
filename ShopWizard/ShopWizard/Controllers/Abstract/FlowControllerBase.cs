@@ -16,8 +16,6 @@ namespace ShopWizard.Controllers.Abstract
 		private readonly IFlowStageOrchestrator _flowOrchestrator;
 		private readonly IFlowStagePresenterOrchestrator _presenterOrchestrator;
 
-		protected abstract FlowStageIdentifier InitialStage { get; }
-
 		public FlowControllerBase(IFlowStageOrchestrator flowOrchestrator, IFlowStagePresenterOrchestrator presenterOrchestrator)
 		{
 			_flowOrchestrator = flowOrchestrator;
@@ -27,16 +25,23 @@ namespace ShopWizard.Controllers.Abstract
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-			ResetFlowContext();
+			var context = new TContext();
 
-			var stageActionName = GetViewActionName(InitialStage);
+			await _flowOrchestrator.StartFlow(context);
+
+			SaveFlowContext(context);
+
+			var stageActionName = GetViewActionName(context.CurrentStage);
 
 			return RedirectToAction(stageActionName);
 		}
 
 		public async Task<IActionResult> ProcessCommand(IFlowCommand command)
 		{
-			var context = GetFlowContext();
+			if (!TryGetFlowContext(out var context))
+			{
+				return RedirectToAction(nameof(Index));
+			}
 
 			await _flowOrchestrator.ProcessCommand(context, command);
 
@@ -49,7 +54,10 @@ namespace ShopWizard.Controllers.Abstract
 
 		public async Task<IActionResult> ShowView<TViewModel>()
 		{
-			var context = GetFlowContext();
+			if (!TryGetFlowContext(out var context))
+			{
+				return RedirectToAction(nameof(Index));
+			}
 
 			var viewName = context.CurrentStage.ToString().Replace("FlowStage", string.Empty);
 			var viewModel = await _presenterOrchestrator.ShowView<TContext, TViewModel>(context);
@@ -76,28 +84,21 @@ namespace ShopWizard.Controllers.Abstract
 		}
 
 		#region FlowContext
-		protected void ResetFlowContext()
-		{
-			HttpContext
-				.Response
-				.Cookies
-				.Delete(GetFlowContextKey());
-		}
-
-		private TContext GetFlowContext()
+		private bool TryGetFlowContext(out TContext context)
 		{
 			var flowStateFromCoockie = HttpContext.Request.Cookies[GetFlowContextKey()];
 
+			// The flow has not been started, only Index knows where it begins
 			if (string.IsNullOrWhiteSpace(flowStateFromCoockie))
 			{
-				var context = new TContext();
+				context = default;
 
-				context.SetCurrentStage(InitialStage);
-
-				return context;
+				return false;
 			}
 
-			return DeserializeContext(flowStateFromCoockie);
+			context = DeserializeContext(flowStateFromCoockie);
+
+			return true;
 		}
 
 		private void SaveFlowContext(TContext context)
