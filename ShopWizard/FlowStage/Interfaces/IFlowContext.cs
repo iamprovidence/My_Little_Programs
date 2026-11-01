@@ -6,6 +6,10 @@ namespace FlowStage.Interfaces
 	{
 		FlowStageIdentifier CurrentStage { get; }
 
+		FlowStageIdentifier PreviousStage { get; }
+
+		bool CanGoBack { get; }
+
 		string ErrorMessage { get; set; }
 	}
 

@@ -1,5 +1,4 @@
 ﻿using FlowStage.Interfaces;
-using FlowStage.Models;
 using Microsoft.AspNetCore.Mvc;
 using ShopWizard.Application.CancelOrder;
 using ShopWizard.Application.CancelOrder.Stages.CancelOrderComplete;
@@ -17,8 +16,6 @@ namespace ShopWizard.Controllers
 {
 	public class CancelOrderController : FlowControllerBase<CancelOrderFlowContext>
 	{
-		protected override FlowStageIdentifier InitialStage => FlowStageIdentifier.From<EnterOrderCodeFlowStage>();
-
 		public CancelOrderController(IFlowStageOrchestrator flowOrchestrator, IFlowStagePresenterOrchestrator presenterOrchestrator)
 			: base(flowOrchestrator, presenterOrchestrator) { }
 

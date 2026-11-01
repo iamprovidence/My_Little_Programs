@@ -1,11 +1,11 @@
 ﻿using FlowStage.Interfaces;
-using System;
 using System.Runtime.Serialization;
 
 namespace FlowStage.Models
 {
+	// Not positional, so From<TFlowStage>() stays the only way to create one
 	[DataContract]
-	public class FlowStageIdentifier : IEquatable<FlowStageIdentifier>
+	public sealed record FlowStageIdentifier
 	{
 		[DataMember]
 		private readonly string _identifier;
@@ -23,26 +23,6 @@ namespace FlowStage.Models
 			return new FlowStageIdentifier(typeof(TFlowStage).Name);
 		}
 
-		public static bool operator ==(FlowStageIdentifier i1, FlowStageIdentifier i2)
-		{
-			return i1.Equals(i2);
-		}
-
-		public static bool operator !=(FlowStageIdentifier i1, FlowStageIdentifier i2)
-		{
-			return !i1.Equals(i2);
-		}
-
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as FlowStageIdentifier);
-		}
-
-		public bool Equals(FlowStageIdentifier other)
-		{
-			return _identifier == other._identifier;
-		}
-
 		public override string ToString()
 		{
 			return _identifier;
@@ -50,7 +30,7 @@ namespace FlowStage.Models
 
 		public static implicit operator string(FlowStageIdentifier flowStageIdentifier)
 		{
-			return flowStageIdentifier.ToString();
+			return flowStageIdentifier?.ToString();
 		}
 	}
 }

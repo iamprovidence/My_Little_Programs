@@ -1,7 +1,7 @@
-﻿using FlowStage.Exceptions;
+﻿using FlowStage.Commands;
+using FlowStage.Exceptions;
 using FlowStage.Interfaces;
 using FlowStage.Models;
-using ShopWizard.Application.CreateOrder.Stages.ContactDetails;
 using ShopWizard.Application.CreateOrder.Stages.PaymentDetails.Commands;
 using ShopWizard.Application.CreateOrder.Stages.Summary;
 using System.Threading.Tasks;
@@ -17,7 +17,7 @@ namespace ShopWizard.Application.CreateOrder.Stages.PaymentDetails
 			return command switch
 			{
 				SubmitPaymentDetailsCommand submitCommand => DoProcessing(context, submitCommand),
-				GoToContactDetailsCommand goToContactCommand => DoProcessing(context, goToContactCommand),
+				GoBackCommand goBackCommand => DoProcessing(context, goBackCommand),
 
 				_ => throw new UnsupportedCommandException(),
 			};
@@ -45,10 +45,15 @@ namespace ShopWizard.Application.CreateOrder.Stages.PaymentDetails
 			return FlowStageIdentifier.From<SummaryFlowStage>();
 		}
 
-		private async Task<FlowStageIdentifier> DoProcessing(CreateOrderFlowContext context, GoToContactDetailsCommand command)
+		private Task<FlowStageIdentifier> DoProcessing(CreateOrderFlowContext context, GoBackCommand command)
 		{
-			// Switch to previous stage 
-			return FlowStageIdentifier.From<ContactDetailsFlowStage>();
+			// Switch to previous stage
+			if (!context.CanGoBack)
+			{
+				throw new UnsupportedCommandException();
+			}
+
+			return Task.FromResult(context.PreviousStage);
 		}
 
 		private bool IsCommandValid(SubmitPaymentDetailsCommand command)
